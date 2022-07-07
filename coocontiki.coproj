@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<Project version="2G - 2.0.1" name="stwifitiki">
+  <Target name="coocontiki" isCurrent="1">
+    <Device manufacturerId="9" manufacturerName="ST" chipId="846" chipName="STM32F091CC" boardId="" boardName=""/>
+    <BuildOption>
+      <Compile>
+        <Option name="OptimizationLevel" value="4"/>
+        <Option name="UseFPU" value="0"/>
+        <Option name="UserEditCompiler" value="-ffunction-sections; -fdata-sections;"/>
+        <Option name="SupportCPlusplus" value="0"/>
+        <Option name="FPU" value="0"/>
+        <Option name="DEBUG" value="2"/>
+        <Option name="WARNING" value="1"/>
+        <Includepaths>
+          <Includepath path="."/>
+        </Includepaths>
+        <DefinedSymbols/>
+      </Compile>
+      <Link useDefault="0">
+        <Option name="DiscardUnusedSection" value="0"/>
+        <Option name="UserEditLinkder" value=""/>
+        <Option name="UseMemoryLayout" value="0"/>
+        <Option name="LTO" value="0"/>
+        <Option name="IsNewStartupCode" value="1"/>
+        <Option name="Library" value="Not use C Library"/>
+        <Option name="UserEditLinker" value="--entry=main; -lm; "/>
+        <Option name="nostartfiles" value="1"/>
+        <LinkedLibraries/>
+        <MemoryAreas debugInFlashNotRAM="1">
+          <Memory name="IROM1" type="ReadOnly" size="0x00040000" startValue="0x08000000"/>
+          <Memory name="IRAM1" type="ReadWrite" size="0x00008000" startValue="0x20000000"/>
+          <Memory name="IROM2" type="ReadOnly" size="" startValue=""/>
+          <Memory name="IRAM2" type="ReadWrite" size="" startValue=""/>
+        </MemoryAreas>
+        <LocateLinkFile path="./link.ld" type="0"/>
+      </Link>
+      <Output>
+        <Option name="OutputFileType" value="0"/>
+        <Option name="Path" value="./"/>
+        <Option name="Name" value="coocontiki"/>
+        <Option name="HEX" value="1"/>
+        <Option name="BIN" value="1"/>
+      </Output>
+      <User>
+        <UserRun name="Run#1" type="Before" checked="0" value=""/>
+        <UserRun name="Run#1" type="After" checked="0" value="&quot;${project.path}/makeasm.bat&quot;"/>
+        <UserRun name="Run#2" type="After" checked="0" value="&quot;r:/terneo ecrypt/make.bat&quot;"/>
+      </User>
+    </BuildOption>
+    <DebugOption>
+      <Option name="org.coocox.codebugger.gdbjtag.core.adapter" value="ST-Link"/>
+      <Option name="org.coocox.codebugger.gdbjtag.core.debugMode" value="SWD"/>
+      <Option name="org.coocox.codebugger.gdbjtag.core.clockDiv" value="2M"/>
+      <Option name="org.coocox.codebugger.gdbjtag.corerunToMain" value="1"/>
+      <Option name="org.coocox.codebugger.gdbjtag.core.jlinkgdbserver" value=""/>
+      <Option name="org.coocox.codebugger.gdbjtag.core.userDefineGDBScript" value=""/>
+      <Option name="org.coocox.codebugger.gdbjtag.core.targetEndianess" value="0"/>
+      <Option name="org.coocox.codebugger.gdbjtag.core.jlinkResetMode" value="Type 0: Normal"/>
+      <Option name="org.coocox.codebugger.gdbjtag.core.resetMode" value="SYSRESETREQ"/>
+      <Option name="org.coocox.codebugger.gdbjtag.core.ifSemihost" value="0"/>
+      <Option name="org.coocox.codebugger.gdbjtag.core.ifCacheRom" value="0"/>
+      <Option name="org.coocox.codebugger.gdbjtag.core.ipAddress" value="127.0.0.1"/>
+      <Option name="org.coocox.codebugger.gdbjtag.core.portNumber" value="2009"/>
+      <Option name="org.coocox.codebugger.gdbjtag.core.autoDownload" value="1"/>
+      <Option name="org.coocox.codebugger.gdbjtag.core.verify" value="0"/>
+      <Option name="org.coocox.codebugger.gdbjtag.core.downloadFuction" value="Erase Effected"/>
+      <Option name="org.coocox.codebugger.gdbjtag.core.defaultAlgorithm" value="STM32F09x_256.elf"/>
+      <Option name="org.coocox.codebugger.gdbjtag.coredebugInRamInitCommands" value="cd D:/data/svnData/soft/st wi-fi/trunk/coocontiki/Debug/bin restore coocontiki.elf set {unsigned int*}0xE000ED08 = 0x20000000 set $sp = {unsigned int*}0x20000000 set $pc = {unsigned int*}0x20000004 "/>
+    </DebugOption>
+    <ExcludeFile/>
+  </Target>
+  <Components path="./"/>
+  <Files>
+    <File name="src/core/sys/autostart.h" path="src/core/sys/autostart.h" type="1"/>
+    <File name="src/core/sys/pt.h" path="src/core/sys/pt.h" type="1"/>
+    <File name="src/core/lib/random.h" path="src/core/lib/random.h" type="1"/>
+    <File name="src/core" path="" type="2"/>
+    <File name="src/core/sys/clock.c" path="src/core/sys/clock.c" type="1"/>
+    <File name="cmsis_boot/system_stm32f0xx_temp.c" path="cmsis_boot/system_stm32f0xx_temp.c" type="1"/>
+    <File name="cmsis_boot" path="" type="2"/>
+    <File name="src" path="" type="2"/>
+    <File name="src/debug/debug.c" path="src/debug/debug.c" type="1"/>
+    <File name="src/core/lib" path="" type="2"/>
+    <File name="cmsis_boot/startup" path="" type="2"/>
+    <File name="cmsis/core_cmFunc.h" path="cmsis/core_cmFunc.h" type="1"/>
+    <File name="src/core/sys/rtimer.h" path="src/core/sys/rtimer.h" type="1"/>
+    <File name="src/core/sys/dsc.h" path="src/core/sys/dsc.h" type="1"/>
+    <File name="src/base/steer.c" path="src/base/steer.c" type="1"/>
+    <File name="src/core/lib/memb.h" path="src/core/lib/memb.h" type="1"/>
+    <File name="src/core/contiki.h" path="src/core/contiki.h" type="1"/>
+    <File name="src/core/sys/timer.h" path="src/core/sys/timer.h" type="1"/>
+    <File name="cmsis/core_cm0.h" path="cmsis/core_cm0.h" type="1"/>
+    <File name="cmsis_boot/stm32f0xx.h" path="cmsis_boot/stm32f0xx.h" type="1"/>
+    <File name="src/core/sys/clock.h" path="src/core/sys/clock.h" type="1"/>
+    <File name="syscalls/syscalls.c" path="syscalls/syscalls.c" type="1"/>
+    <File name="src/debug/mini-printf.h" path="src/debug/mini-printf.h" type="1"/>
+    <File name="src/debug/debug.h" path="src/debug/debug.h" type="1"/>
+    <File name="src/core/sys/ctimer.c" path="src/core/sys/ctimer.c" type="1"/>
+    <File name="src/core/sys/stimer.c" path="src/core/sys/stimer.c" type="1"/>
+    <File name="src/debug/debug-uart.c" path="src/debug/debug-uart.c" type="1"/>
+    <File name="src/base/main.c" path="src/base/main.c" type="1"/>
+    <File name="src/debug" path="" type="2"/>
+    <File name="src/contiki-conf.h" path="src/contiki-conf.h" type="1"/>
+    <File name="src/base/can.h" path="src/base/can.h" type="1"/>
+    <File name="src/core/sys/pt-sem.h" path="src/core/sys/pt-sem.h" type="1"/>
+    <File name="src/core/sys/lc-switch.h" path="src/core/sys/lc-switch.h" type="1"/>
+    <File name="src/core/contiki-lib.h" path="src/core/contiki-lib.h" type="1"/>
+    <File name="src/core/sys/timer.c" path="src/core/sys/timer.c" type="1"/>
+    <File name="src/base/main.h" path="src/base/main.h" type="1"/>
+    <File name="src/core/lib/list.c" path="src/core/lib/list.c" type="1"/>
+    <File name="cmsis_boot/startup/startup_stm32f0xx.s" path="cmsis_boot/startup/startup_stm32f0xx.s" type="1"/>
+    <File name="cmsis_boot/stm32f0xx_conf.h" path="cmsis_boot/stm32f0xx_conf.h" type="1"/>
+    <File name="src/core/sys/stimer.h" path="src/core/sys/stimer.h" type="1"/>
+    <File name="cmsis/core_cmInstr.h" path="cmsis/core_cmInstr.h" type="1"/>
+    <File name="src/core/sys/ctimer.h" path="src/core/sys/ctimer.h" type="1"/>
+    <File name="src/debug/mini-printf.c" path="src/debug/mini-printf.c" type="1"/>
+    <File name="src/core/lib/memb.c" path="src/core/lib/memb.c" type="1"/>
+    <File name="src/core/sys/procinit.h" path="src/core/sys/procinit.h" type="1"/>
+    <File name="src/core/sys/etimer.h" path="src/core/sys/etimer.h" type="1"/>
+    <File name="src/core/sys/process.h" path="src/core/sys/process.h" type="1"/>
+    <File name="src/base" path="" type="2"/>
+    <File name="src/core/sys/cc.h" path="src/core/sys/cc.h" type="1"/>
+    <File name="src/debug/debug-uart.h" path="src/debug/debug-uart.h" type="1"/>
+    <File name="src/core/rtimer-arch.h" path="src/core/rtimer-arch.h" type="1"/>
+    <File name="src/core/contiki-net.h" path="src/core/contiki-net.h" type="1"/>
+    <File name="cmsis" path="" type="2"/>
+    <File name="src/core/sys/procinit.c" path="src/core/sys/procinit.c" type="1"/>
+    <File name="src/core/contiki-version.h" path="src/core/contiki-version.h" type="1"/>
+    <File name="src/base/can.c" path="src/base/can.c" type="1"/>
+    <File name="src/core/lib/list.h" path="src/core/lib/list.h" type="1"/>
+    <File name="src/core/contiki-main.c" path="src/core/contiki-main.c" type="1"/>
+    <File name="src/core/sys/rtimer.c" path="src/core/sys/rtimer.c" type="1"/>
+    <File name="syscalls" path="" type="2"/>
+    <File name="src/core/sys/process.c" path="src/core/sys/process.c" type="1"/>
+    <File name="src/base/steer.h" path="src/base/steer.h" type="1"/>
+    <File name="src/core/sys/lc.h" path="src/core/sys/lc.h" type="1"/>
+    <File name="cmsis_boot/system_stm32f0xx.h" path="cmsis_boot/system_stm32f0xx.h" type="1"/>
+    <File name="src/core/sys/lc-addrlabels.h" path="src/core/sys/lc-addrlabels.h" type="1"/>
+    <File name="src/core/lib/random.c" path="src/core/lib/random.c" type="1"/>
+    <File name="src/core/sys" path="" type="2"/>
+    <File name="src/core/sys/log.h" path="src/core/sys/log.h" type="1"/>
+    <File name="src/core/sys/autostart.c" path="src/core/sys/autostart.c" type="1"/>
+    <File name="src/core/sys/etimer.c" path="src/core/sys/etimer.c" type="1"/>
+  </Files>
+</Project>

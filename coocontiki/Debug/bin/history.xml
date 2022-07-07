@@ -1,0 +1,29 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<history>
+   <processor signature="7.2.1 -mcpu=cortex-m0 -mthumb -g -nostartfiles -Map=coocontiki.map -Os --gc-sections -lm -LC:/Users/starosta/Documents/work/soft/baleno/can/AX based -TC:/Users/starosta/Documents/work/soft/baleno/can/AX based/link.ld -g">
+      <target file="coocontiki.elf" lastModified="181d6ff3776">
+         <source file="..\obj\timer.o" lastModified="181be815a13"/>
+         <source file="..\obj\mini-printf.o" lastModified="181be815ad9"/>
+         <source file="..\obj\contiki-main.o" lastModified="181be815b5f"/>
+         <source file="..\obj\steer.o" lastModified="181d6ff349c"/>
+         <source file="..\obj\main.o" lastModified="181bfab58c8"/>
+         <source file="..\obj\procinit.o" lastModified="181be815d45"/>
+         <source file="..\obj\startup_stm32f0xx.o" lastModified="181be815d5e"/>
+         <source file="..\obj\etimer.o" lastModified="181be815ded"/>
+         <source file="..\obj\can.o" lastModified="181bfab597f"/>
+         <source file="..\obj\rtimer.o" lastModified="181be815eee"/>
+         <source file="..\obj\system_stm32f0xx_temp.o" lastModified="181be815f6b"/>
+         <source file="..\obj\memb.o" lastModified="181be815ffd"/>
+         <source file="..\obj\process.o" lastModified="181be8160c2"/>
+         <source file="..\obj\list.o" lastModified="181be816138"/>
+         <source file="..\obj\syscalls.o" lastModified="181be8161b7"/>
+         <source file="..\obj\debug-uart.o" lastModified="181be816275"/>
+         <source file="..\obj\debug.o" lastModified="181be8162e1"/>
+         <source file="..\obj\random.o" lastModified="181be816348"/>
+         <source file="..\obj\ctimer.o" lastModified="181be8163cb"/>
+         <source file="..\obj\autostart.o" lastModified="181be816429"/>
+         <source file="..\obj\stimer.o" lastModified="181be81648c"/>
+         <source file="..\obj\clock.o" lastModified="181be816501"/>
+      </target>
+   </processor>
+</history>
