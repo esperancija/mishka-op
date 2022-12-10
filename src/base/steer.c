@@ -11,11 +11,18 @@ uint8_t debugMsg[500];
 process_event_t calc_data_event;
 int16_t momentAdd;
 
-#define KALMAN_KOEF 10000
-#define KALMAN(z, x) ((KALMAN_KOEF*z+(32768-KALMAN_KOEF)*x)/32768)
+uint16_t mDiffLimit = MOMENT_DIFF_LIMIT;
 
-#define KALMAN_S_KOEF 27000
-#define KALMAN_S(z, x) ((KALMAN_S_KOEF*z+(32768-KALMAN_S_KOEF)*x)/32768)
+static int32_t sum, P, I, D, res;
+
+#define MAX_K_KF		32768
+
+#define KALMAN_KOEF 10000
+#define KALMAN(z, x) ((KALMAN_KOEF*z+(MAX_K_KF-KALMAN_KOEF)*x)/MAX_K_KF)
+
+
+#define KALMAN_S_KOEF 	27000 //20000//26000 //27000
+#define KALMAN_S(z, x) ((KALMAN_S_KOEF*z+(MAX_K_KF-KALMAN_S_KOEF)*x)/MAX_K_KF)
 
 int16_t limitMoment(int16_t moment, int16_t value){
 	if (moment >= value)
@@ -187,40 +194,53 @@ int16_t correctMoment(int16_t m, int16_t angle, uint16_t* x, uint16_t* y){
 	return m;
 }
 
-#define PID_P	800//900//750//500//
+
+
+int16_t filter(int16_t sample){
+
+}
+
+
+#define PID_P 	800//700 //800//600//500//800//900//750//500//
 uint16_t pidPAngle[] = {0,   7, 15, 30, 70}; //in degree
-uint16_t pidPData[] =  {60, 35, 30,  25, 25};  //in 1/10
+uint16_t pidPData[] =  {70, 40, 30,  25, 20};
+//uint16_t pidPData[] =  {60, 40, 30,  30, 30};  //in 1/10
 //uint16_t pidPData[] =  {40, 25, 10,  5, 3};  //in 1/10
 //uint16_t pidPData[] =  {60, 25, 20,  5, 3};  //in 1/10
 
-#define PID_I	75//65//50//45//50//15//10//50
+#define PID_I	35//75//55 //60 //55//42//60//75//65//50//45//50//15//10//50
 uint16_t pidIAngle[] = {0,   7, 15, 30, 70}; //in degree
-uint16_t pidIData[] =  {10, 10, 7,  5, 3};  //in 1/10
+//uint16_t pidIData[] =  {7, 7, 5,  5, 5};  //in 1/10
+uint16_t pidIData[] =  {20, 7, 1,  1, 1};  //in 1/10
 
-#define PID_D	9000//10000//1500//10//2000//500//
+//uint16_t pidIData[] =  {10, 10, 7,  5, 3};  //in 1/10
+//uint16_t pidIData[] =  {15, 12, 10,  10, 10};  //in 1/10
+
+#define PID_D	9000//11000//15000 //9000//10000//12000//9000//10000//1500//10//2000//500//
 //uint16_t pidDAngle[] = {0,  45, 60, 70, 90}; //in degree
 //uint16_t pidDData[] =  {15, 10,   6,  6,  6};  //in 1/10
 
 uint16_t pidDAngle[] = {0,   7, 15, 30, 70}; //in degree
-uint16_t pidDData[] =  {15, 8, 7,  6, 6};  //in 1/10
+uint16_t pidDData[] =  {15, 15, 13,  12, 10};  //in 1/10
 
 
-#define PID_NF			80//20//10//5//10//14 //negative feedback to limit steering speed
+#define PID_NF			1//15//10 //30//80//20//10//5//10//14 //negative feedback to limit steering speed
 //uint16_t pidNFAngle[] = {0,  20, 45, 60, 90}; //in degree
 //uint16_t pidNFData[] =  {15, 9,   3,  3,  3};  //in 1/10
-uint16_t pidNFAngle[] = {0, 10, 20, 45, 90}; //in degree
-uint16_t pidNFData[] =  {15, 12,  4,  1};  //in 1/10
+uint16_t pidNFAngle[] = {0, 5, 10, 20, 90}; //in degree
+uint16_t pidNFData[] =  {50, 200,  160,  10, 10};  //in 1/10
 
 
-#define PID_I_DROP_ADD	300 //to prevent increase I component moment at driver action
-#define MOMENT_DIFF_LIMIT	150 //150 //limit moment change per step
+#define PID_I_DROP_ADD	400//300 //to prevent increase I component moment at driver action
+#define LIMIT_NFB		200
 
+#define DIFF_AVRG	3
 
 int16_t makePID(int16_t diff, uint8_t isReset){
-static int32_t sum, P, I, D, res, Padd;
-static int16_t prevData, prevMoment;
 
-uint16_t pidP;
+static int16_t prevData, prevMoment, dArr[8], diffArr[DIFF_AVRG];
+static uint8_t dIndex, diffIndex;
+uint16_t pidP, i;
 
 
 if (isReset == resetPid){
@@ -229,11 +249,15 @@ if (isReset == resetPid){
 	return 0;
 }
 
-
-Padd =  0;//50/murchik.steerPosition;
+//make some averaging
+diffArr[(diffIndex++)%DIFF_AVRG] = diff;
+diff = 0;
+for (i=0;i<DIFF_AVRG;i++)
+	diff += diffArr[i];
+diff /= DIFF_AVRG;
 
 if (abs(murchik.steerWheelMoment) < PID_I_DROP_ADD)
-	sum += diff + Padd;
+	sum += diff;
 
 //limit sum
 if (sum >= 100*MAX_MOMENT/PID_I)
@@ -252,27 +276,31 @@ pidP = correctMoment(PID_P, murchik.steerPosition/2, pidPAngle, pidPData);
 P = (pidP)*diff/100;
 
 
-//I = PID_I*sum/100;
-I = correctMoment(PID_I, murchik.steerPosition/2, pidIAngle, pidIData)*sum/100;
+I = PID_I*sum/100;
+//I = correctMoment(PID_I, murchik.steerPosition/2, pidIAngle, pidIData)*sum/100;
 
 //D = PID_D*(diff-prevData)/100;
 D = correctMoment(PID_D, murchik.steerPosition/2, pidDAngle, pidDData)*(diff-prevData)/100;
 
-res = P+I+D;
+dArr[(dIndex++) % 8] = D;
+D=0;
+for (i=0;i<8;i++)
+	D+=dArr[i];
+
+res = P+I+D/8;
+
+
+//res += res*murchik.speed/30000;
+
+//res = iir(res);
 
 //limit moment change
-if (abs(res - prevMoment) > MOMENT_DIFF_LIMIT){
+if (abs(res - prevMoment) > mDiffLimit){
 	if ((res - prevMoment) > 0)
-		res = prevMoment + MOMENT_DIFF_LIMIT;
+		res = prevMoment + mDiffLimit;
 	else
-		res = prevMoment - MOMENT_DIFF_LIMIT;
+		res = prevMoment - mDiffLimit;
 }
-
-dbg_send_bytes(debugMsg,
-		snprintf((char*)debugMsg, sizeof(debugMsg),
-			"P = %d I = %d D = %d res=%d < %d sum = %d real=%d\r\n",
-			P, I, D, res, MAX_MOMENT, sum, murchik.steerPosition
-		));
 
 if (res >= MAX_MOMENT)
 	res = MAX_MOMENT;
@@ -293,6 +321,11 @@ static uint32_t steerActionTimer = 0;
 PROCESS_THREAD(steer_process, ev, data) {
 
 static struct etimer timer;
+static int16_t newMoment, prevMoment, prevAngle, newDiffAngle;
+//static uint16_t kalmanKoefs = KALMAN_S_KOEF;
+static uint8_t direction, delayCnt;
+
+static uint16_t momentDelayCnt;
 
 	PROCESS_BEGIN();
 
@@ -359,31 +392,82 @@ static struct etimer timer;
 				murchik.opData &= ~opActive;
 
 		}
+
+#define KALMAN_AD_KOEF 20000
+#define KALMAN_AD2_KOEF 32700
+
 #if (CONTROL_MODE == ANGLE_CONTROL)
 		else if (ev == calc_data_event){ //got new steer position value ~100Hz
 			if (etimer_expired(&timer))
 				etimer_set(&timer, CLOCK_SECOND/50);
-			if ((murchik.currentState == controlState) && (murchik.speed > 500)){
 
-				int16_t newMoment = makePID((murchik.steerPosition - murchik.steerTargetAngle), normalPid);
-						//murchik.steerTargetMoment =
-						//		makePID((murchik.steerPosition - murchik.steerTargetAngle), normalPid);
-								//makePID((murchik.steerPosition - murchik.testData), normalPid);
-//				if (murchik.steerPosition/2 > 45)
-//					murchik.steerTargetMoment += PID_NF*(murchik.steerSensor1 - murchik.steerSensor2)/100/2;
-//				else
-//					murchik.steerTargetMoment += PID_NF*(murchik.steerSensor1 - murchik.steerSensor2)/100;
+			if (abs(murchik.steerPosition - murchik.steerTargetAngle) > 50){
+				momentDelayCnt = 100;
+			}else{
+				if (momentDelayCnt > 0)
+					momentDelayCnt--;
+			}
 
-				int16_t pidNF = correctMoment(PID_NF, murchik.steerPosition/2, pidNFAngle, pidNFData);
-						newMoment += pidNF*(murchik.steerSensor1 - murchik.steerSensor2)/100;
+			if ((murchik.currentState == controlState) &&
+					((murchik.speed > 700) || (IS_BUT_PRESS)) //){
+						&& (abs(murchik.steerWheelMoment) < 2000) ){
+						//&& (momentDelayCnt == 0)){
+						//&& (abs(murchik.steerPosition - murchik.steerTargetAngle) < 50)){
 
-						//newMoment += PID_NF*(murchik.steerSensor1 - murchik.steerSensor2)/100;
+				newMoment = makePID((murchik.steerPosition - murchik.steerTargetAngle), normalPid);
 
-						murchik.steerTargetMoment = KALMAN_S(murchik.steerTargetMoment, newMoment);
+//				if (murchik.steerPosition/2 < 20){
+//					newDiffAngle = ((KALMAN_AD_KOEF*(murchik.steerPosition - murchik.steerTargetAngle)+
+//							(MAX_K_KF-KALMAN_AD_KOEF)*newDiffAngle)/MAX_K_KF);
+//				}else {
+//					newDiffAngle = ((KALMAN_AD2_KOEF*(murchik.steerPosition - murchik.steerTargetAngle)+
+//							(MAX_K_KF-KALMAN_AD2_KOEF)*newDiffAngle)/MAX_K_KF);
+//				}
+//				newMoment = makePID(newDiffAngle, normalPid);
+
+				int16_t tempMom = correctMoment(PID_NF, murchik.steerPosition/2, pidNFAngle, pidNFData)*
+						(murchik.steerSensor1 - murchik.steerSensor2)/100;
+
+				newMoment += (tempMom > LIMIT_NFB)?LIMIT_NFB:tempMom;
+
+			//to make moment at wheel more smoothly
+				murchik.steerTargetMoment = ((KALMAN_S_KOEF*murchik.steerTargetMoment+
+													(MAX_K_KF-KALMAN_S_KOEF)*newMoment)/MAX_K_KF);
+
+				if ((mDiffLimit < MOMENT_DIFF_LIMIT) && ((delayCnt++) % 2))
+					mDiffLimit++;
+
+				direction <<= 1;
+				direction |= (murchik.steerTargetMoment > prevMoment)?1:0;
+
+				dbg_send_bytes(debugMsg,
+						snprintf((char*)debugMsg, sizeof(debugMsg),
+							"P %d I %d D %d sum %d res %d flt %d str %d angle %d %d dir %d \r\n",
+							P, I, D, sum, res, murchik.steerTargetMoment,(murchik.steerSensor1 - murchik.steerSensor2),
+							murchik.steerPosition, murchik.steerTargetAngle, direction
+						));
+
+//				//if find change direction of moment make steer tighter
+//				if (((direction == 0xf0) || (direction == 0x0f)) && (murchik.steerPosition/2 > 25)){
+//					if (mDiffLimit > 50)
+//						mDiffLimit -= 50;
+//				}
+
+//				if (mDiffLimit > abs(murchik.steerPosition - prevAngle)){
+//					mDiffLimit -= abs(murchik.steerPosition - prevAngle);
+//				}
+
+				//limit value
+				if (mDiffLimit > MOMENT_DIFF_LIMIT)
+					mDiffLimit = MOMENT_DIFF_LIMIT;
+
+				prevMoment = murchik.steerTargetMoment;
+
 			}else{
 				makePID(0, resetPid);//reset internal variables
 				murchik.steerTargetMoment = 0;
 			}
+			prevAngle = murchik.steerPosition;
 		}
 #endif
 	}

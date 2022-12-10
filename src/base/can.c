@@ -38,19 +38,14 @@ if (cId == STEERING_WHEEL_POS_ID){
 }else if (cId == STEER_CONTROL_ID){
 	murchik.opActiveTimer = OP_ACTIVE_TIMEOUT;
 
-	murchik.opData = ((CAN->sFIFOMailBox[0].RDHR) & 0xff);
+	//murchik.opData = ((CAN->sFIFOMailBox[0].RDHR) & 0xff);
+	murchik.opData = ((CAN->sFIFOMailBox[0].RDLR >> 11) & 0x1f);
 
 	murchik.steerTargetAngle = ((CAN->sFIFOMailBox[0].RDLR >> 16) & 0x7ff) - 1024;
 #if (CONTROL_MODE == MOMENT_CONTROL)
 	murchik.steerTargetMoment = ((CAN->sFIFOMailBox[0].RDLR) & 0x7ff) - 1024;
 #endif
 
-	dbg_send_bytes(debugMsg,
-					snprintf((char*)debugMsg, sizeof(debugMsg), "id=0x%x moment=%d, angle=%d, from 0x%x \r\n",
-							CAN->sFIFOMailBox[0].RIR >> 21,
-							murchik.steerTargetMoment, murchik.steerTargetAngle,
-							CAN->sFIFOMailBox[0].RDLR
-							));
 }
 
 CAN->RF0R |= CAN_RF0R_RFOM0; /* release FIFO */

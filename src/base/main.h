@@ -91,6 +91,10 @@ enum OPState {
 };
 
 extern Car murchik;
+//
+//#include "stdint.h"
+//#define __int16 int16_t
+//#define __int32 int32_t
 
 #endif
 

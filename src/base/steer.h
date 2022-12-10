@@ -7,7 +7,7 @@
 PROCESS_NAME(steer_process);
 
 #define TARGET_LEVEL		3115 //in adc to get 2.5V MUST be > 2048
-#define MAX_MOMENT			(8*(4095-TARGET_LEVEL)/10)
+#define MAX_MOMENT			(9*(4095-TARGET_LEVEL)/10)//(8*(4095-TARGET_LEVEL)/10)
 
 #define FS_RELAY_SETUP 	do {GPIOA->MODER &= ~GPIO_MODER_MODER8;\
 									GPIOA->MODER |= GPIO_MODER_MODER8_0;} while (0)
@@ -22,6 +22,8 @@ PROCESS_NAME(steer_process);
 #define IS_BUT_PRESS 		(GPIOB->IDR & GPIO_IDR_14)
 
 #define OP_ACTIVE_TIMEOUT	20 //in 1/50 sec
+
+#define MOMENT_DIFF_LIMIT	100//155//105//150 //150 //limit moment change per step
 
 process_event_t calc_data_event;
 

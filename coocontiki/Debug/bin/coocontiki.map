@@ -48,7 +48,12 @@ Discarded input sections
  .bss           0x00000000        0x0 ..\obj\steer.o
  .text.limitMoment
                 0x00000000       0x12 ..\obj\steer.o
+ .text.filter   0x00000000        0x2 ..\obj\steer.o
  .text.makePID  0x00000000       0x20 ..\obj\steer.o
+ .data.pidIAngle
+                0x00000000        0xa ..\obj\steer.o
+ .data.pidIData
+                0x00000000        0xa ..\obj\steer.o
  .text          0x00000000        0x0 ..\obj\main.o
  .data          0x00000000        0x0 ..\obj\main.o
  .bss           0x00000000        0x0 ..\obj\main.o
@@ -292,6 +297,24 @@ Discarded input sections
  .debug_frame   0x00000000       0x98 ..\obj\stimer.o
  .ARM.attributes
                 0x00000000       0x31 ..\obj\stimer.o
+ .text          0x00000000        0x0 ..\obj\filter.o
+ .data          0x00000000        0x0 ..\obj\filter.o
+ .bss           0x00000000        0x0 ..\obj\filter.o
+ .text.iir      0x00000000       0x60 ..\obj\filter.o
+ .bss.x.4152    0x00000000        0x6 ..\obj\filter.o
+ .bss.y.4151    0x00000000        0xc ..\obj\filter.o
+ .debug_info    0x00000000      0x11e ..\obj\filter.o
+ .debug_abbrev  0x00000000       0xa6 ..\obj\filter.o
+ .debug_loc     0x00000000       0x4e ..\obj\filter.o
+ .debug_aranges
+                0x00000000       0x20 ..\obj\filter.o
+ .debug_ranges  0x00000000       0x10 ..\obj\filter.o
+ .debug_line    0x00000000      0x171 ..\obj\filter.o
+ .debug_str     0x00000000      0x1e5 ..\obj\filter.o
+ .comment       0x00000000       0x80 ..\obj\filter.o
+ .debug_frame   0x00000000       0x30 ..\obj\filter.o
+ .ARM.attributes
+                0x00000000       0x31 ..\obj\filter.o
  .text          0x00000000        0x0 ..\obj\clock.o
  .data          0x00000000        0x0 ..\obj\clock.o
  .bss           0x00000000        0x0 ..\obj\clock.o
@@ -353,7 +376,7 @@ Linker script and memory map
 
                 0x20008000                _eram = 0x20008000
 
-.text           0x08000000     0x1b65
+.text           0x08000000     0x1c5b
  *(.isr_vector)
  .isr_vector    0x08000000       0xc4 ..\obj\startup_stm32f0xx.o
                 0x08000000                g_pfnVectors
@@ -395,176 +418,176 @@ Linker script and memory map
                 0x0800053c       0x64 ..\obj\steer.o
                 0x0800053c                correctMoment
  .text.makePID.part.0
-                0x080005a0      0x16c ..\obj\steer.o
+                0x080005a0      0x1a0 ..\obj\steer.o
  .text.process_thread_steer_process
-                0x0800070c      0x22c ..\obj\steer.o
+                0x08000740      0x338 ..\obj\steer.o
  .text.process_thread_menu_process
-                0x08000938       0xd0 ..\obj\main.o
+                0x08000a78       0xd0 ..\obj\main.o
  .text.Reset_Handler
-                0x08000a08       0x4c ..\obj\startup_stm32f0xx.o
-                0x08000a08                Reset_Handler
+                0x08000b48       0x4c ..\obj\startup_stm32f0xx.o
+                0x08000b48                Reset_Handler
  .text.Default_Handler
-                0x08000a54        0x2 ..\obj\startup_stm32f0xx.o
-                0x08000a54                TIM1_CC_IRQHandler
-                0x08000a54                HardFault_Handler
-                0x08000a54                ADC1_COMP_IRQHandler
-                0x08000a54                PVD_IRQHandler
-                0x08000a54                PendSV_Handler
-                0x08000a54                NMI_Handler
-                0x08000a54                I2C1_IRQHandler
-                0x08000a54                SPI1_IRQHandler
-                0x08000a54                TIM6_DAC_IRQHandler
-                0x08000a54                EXTI2_3_IRQHandler
-                0x08000a54                I2C2_IRQHandler
-                0x08000a54                TIM17_IRQHandler
-                0x08000a54                RTC_IRQHandler
-                0x08000a54                TIM16_IRQHandler
-                0x08000a54                TIM3_IRQHandler
-                0x08000a54                EXTI4_15_IRQHandler
-                0x08000a54                RCC_IRQHandler
-                0x08000a54                Default_Handler
-                0x08000a54                TIM14_IRQHandler
-                0x08000a54                TIM7_IRQHandler
-                0x08000a54                TIM15_IRQHandler
-                0x08000a54                EXTI0_1_IRQHandler
-                0x08000a54                SPI2_IRQHandler
-                0x08000a54                SVC_Handler
-                0x08000a54                TS_IRQHandler
-                0x08000a54                WWDG_IRQHandler
-                0x08000a54                TIM2_IRQHandler
-                0x08000a54                DMA1_Channel2_3_IRQHandler
-                0x08000a54                USART2_IRQHandler
-                0x08000a54                FLASH_IRQHandler
-                0x08000a54                USART1_IRQHandler
-                0x08000a54                TIM1_BRK_UP_TRG_COM_IRQHandler
- *fill*         0x08000a56        0x2 
+                0x08000b94        0x2 ..\obj\startup_stm32f0xx.o
+                0x08000b94                TIM1_CC_IRQHandler
+                0x08000b94                HardFault_Handler
+                0x08000b94                ADC1_COMP_IRQHandler
+                0x08000b94                PVD_IRQHandler
+                0x08000b94                PendSV_Handler
+                0x08000b94                NMI_Handler
+                0x08000b94                I2C1_IRQHandler
+                0x08000b94                SPI1_IRQHandler
+                0x08000b94                TIM6_DAC_IRQHandler
+                0x08000b94                EXTI2_3_IRQHandler
+                0x08000b94                I2C2_IRQHandler
+                0x08000b94                TIM17_IRQHandler
+                0x08000b94                RTC_IRQHandler
+                0x08000b94                TIM16_IRQHandler
+                0x08000b94                TIM3_IRQHandler
+                0x08000b94                EXTI4_15_IRQHandler
+                0x08000b94                RCC_IRQHandler
+                0x08000b94                Default_Handler
+                0x08000b94                TIM14_IRQHandler
+                0x08000b94                TIM7_IRQHandler
+                0x08000b94                TIM15_IRQHandler
+                0x08000b94                EXTI0_1_IRQHandler
+                0x08000b94                SPI2_IRQHandler
+                0x08000b94                SVC_Handler
+                0x08000b94                TS_IRQHandler
+                0x08000b94                WWDG_IRQHandler
+                0x08000b94                TIM2_IRQHandler
+                0x08000b94                DMA1_Channel2_3_IRQHandler
+                0x08000b94                USART2_IRQHandler
+                0x08000b94                FLASH_IRQHandler
+                0x08000b94                USART1_IRQHandler
+                0x08000b94                TIM1_BRK_UP_TRG_COM_IRQHandler
+ *fill*         0x08000b96        0x2 
  .text.update_time
-                0x08000a58       0x44 ..\obj\etimer.o
+                0x08000b98       0x44 ..\obj\etimer.o
  .text.etimer_request_poll
-                0x08000a9c       0x10 ..\obj\etimer.o
-                0x08000a9c                etimer_request_poll
+                0x08000bdc       0x10 ..\obj\etimer.o
+                0x08000bdc                etimer_request_poll
  .text.process_thread_etimer_process
-                0x08000aac       0xb0 ..\obj\etimer.o
+                0x08000bec       0xb0 ..\obj\etimer.o
  .text.add_timer
-                0x08000b5c       0x40 ..\obj\etimer.o
+                0x08000c9c       0x40 ..\obj\etimer.o
  .text.etimer_set
-                0x08000b9c       0x10 ..\obj\etimer.o
-                0x08000b9c                etimer_set
+                0x08000cdc       0x10 ..\obj\etimer.o
+                0x08000cdc                etimer_set
  .text.etimer_expired
-                0x08000bac        0x8 ..\obj\etimer.o
-                0x08000bac                etimer_expired
+                0x08000cec        0x8 ..\obj\etimer.o
+                0x08000cec                etimer_expired
  .text.etimer_pending
-                0x08000bb4       0x10 ..\obj\etimer.o
-                0x08000bb4                etimer_pending
+                0x08000cf4       0x10 ..\obj\etimer.o
+                0x08000cf4                etimer_pending
  .text.etimer_next_expiration_time
-                0x08000bc4       0x18 ..\obj\etimer.o
-                0x08000bc4                etimer_next_expiration_time
+                0x08000d04       0x18 ..\obj\etimer.o
+                0x08000d04                etimer_next_expiration_time
  .text.CEC_IRQHandler
-                0x08000bdc      0x15c ..\obj\can.o
-                0x08000bdc                CEC_IRQHandler
+                0x08000d1c      0x130 ..\obj\can.o
+                0x08000d1c                CEC_IRQHandler
  .text.initCanBus
-                0x08000d38       0xfc ..\obj\can.o
-                0x08000d38                initCanBus
+                0x08000e4c       0xfc ..\obj\can.o
+                0x08000e4c                initCanBus
  .text.SetSysClock1
-                0x08000e34       0x58 ..\obj\system_stm32f0xx_temp.o
-                0x08000e34                SetSysClock
+                0x08000f48       0x58 ..\obj\system_stm32f0xx_temp.o
+                0x08000f48                SetSysClock
  .text.SystemInit1
-                0x08000e8c       0x64 ..\obj\system_stm32f0xx_temp.o
-                0x08000e8c                SystemInit
-                0x08000e8c                SystemInit1
+                0x08000fa0       0x64 ..\obj\system_stm32f0xx_temp.o
+                0x08000fa0                SystemInit
+                0x08000fa0                SystemInit1
  .text.call_process.part.0
-                0x08000ef0       0x38 ..\obj\process.o
+                0x08001004       0x38 ..\obj\process.o
  .text.call_process
-                0x08000f28        0xe ..\obj\process.o
- *fill*         0x08000f36        0x2 
+                0x0800103c        0xe ..\obj\process.o
+ *fill*         0x0800104a        0x2 
  .text.exit_process
-                0x08000f38       0x84 ..\obj\process.o
- .text.do_poll  0x08000fbc       0x34 ..\obj\process.o
+                0x0800104c       0x84 ..\obj\process.o
+ .text.do_poll  0x080010d0       0x34 ..\obj\process.o
  .text.process_alloc_event
-                0x08000ff0       0x10 ..\obj\process.o
-                0x08000ff0                process_alloc_event
+                0x08001104       0x10 ..\obj\process.o
+                0x08001104                process_alloc_event
  .text.process_init
-                0x08001000       0x30 ..\obj\process.o
-                0x08001000                process_init
+                0x08001114       0x30 ..\obj\process.o
+                0x08001114                process_init
  .text.process_run
-                0x08001030       0xa8 ..\obj\process.o
-                0x08001030                process_run
+                0x08001144       0xa8 ..\obj\process.o
+                0x08001144                process_run
  .text.process_post
-                0x080010d8       0x3c ..\obj\process.o
-                0x080010d8                process_post
+                0x080011ec       0x3c ..\obj\process.o
+                0x080011ec                process_post
  .text.process_post_synch
-                0x08001114       0x14 ..\obj\process.o
-                0x08001114                process_post_synch
+                0x08001228       0x14 ..\obj\process.o
+                0x08001228                process_post_synch
  .text.process_start
-                0x08001128       0x30 ..\obj\process.o
-                0x08001128                process_start
+                0x0800123c       0x30 ..\obj\process.o
+                0x0800123c                process_start
  .text.process_poll
-                0x08001158       0x1c ..\obj\process.o
-                0x08001158                process_poll
+                0x0800126c       0x1c ..\obj\process.o
+                0x0800126c                process_poll
  .text.list_init
-                0x08001174        0x6 ..\obj\list.o
-                0x08001174                list_init
+                0x08001288        0x6 ..\obj\list.o
+                0x08001288                list_init
  .text.list_head
-                0x0800117a        0x4 ..\obj\list.o
-                0x0800117a                list_head
+                0x0800128e        0x4 ..\obj\list.o
+                0x0800128e                list_head
  .text.list_remove
-                0x0800117e       0x2a ..\obj\list.o
-                0x0800117e                list_remove
+                0x08001292       0x2a ..\obj\list.o
+                0x08001292                list_remove
  .text.update_dma
-                0x080011a8       0x64 ..\obj\debug-uart.o
+                0x080012bc       0x64 ..\obj\debug-uart.o
  .text.initDebug
-                0x0800120c       0x9c ..\obj\debug-uart.o
-                0x0800120c                initDebug
+                0x08001320       0x9c ..\obj\debug-uart.o
+                0x08001320                initDebug
  .text.DMA1_Channel4_5_IRQHandler
-                0x080012a8       0x40 ..\obj\debug-uart.o
-                0x080012a8                DMA1_Channel4_5_IRQHandler
+                0x080013bc       0x40 ..\obj\debug-uart.o
+                0x080013bc                DMA1_Channel4_5_IRQHandler
  .text.dbg_send_bytes
-                0x080012e8       0xa0 ..\obj\debug-uart.o
-                0x080012e8                dbg_send_bytes
+                0x080013fc       0xa0 ..\obj\debug-uart.o
+                0x080013fc                dbg_send_bytes
  .text.dbg_drain
-                0x08001388       0x24 ..\obj\debug-uart.o
-                0x08001388                dbg_drain
+                0x0800149c       0x24 ..\obj\debug-uart.o
+                0x0800149c                dbg_drain
  .text.debug_usart
-                0x080013ac       0x4c ..\obj\debug-uart.o
-                0x080013ac                debug_usart
+                0x080014c0       0x4c ..\obj\debug-uart.o
+                0x080014c0                debug_usart
  .text.wifi_debug_print_msg
-                0x080013f8       0x60 ..\obj\debug-uart.o
-                0x080013f8                wifi_debug_print_msg
+                0x0800150c       0x60 ..\obj\debug-uart.o
+                0x0800150c                wifi_debug_print_msg
  .text.debug_fmt
-                0x08001458       0x2c ..\obj\debug.o
-                0x08001458                debug_fmt
+                0x0800156c       0x2c ..\obj\debug.o
+                0x0800156c                debug_fmt
  .text.process_thread_ctimer_process
-                0x08001484       0x88 ..\obj\ctimer.o
+                0x08001598       0x88 ..\obj\ctimer.o
  .text.ctimer_init
-                0x0800150c       0x24 ..\obj\ctimer.o
-                0x0800150c                ctimer_init
+                0x08001620       0x24 ..\obj\ctimer.o
+                0x08001620                ctimer_init
  .text.autostart_start
-                0x08001530       0x18 ..\obj\autostart.o
-                0x08001530                autostart_start
+                0x08001644       0x18 ..\obj\autostart.o
+                0x08001644                autostart_start
  .text.SysTick_Handler
-                0x08001548       0x5c ..\obj\clock.o
-                0x08001548                SysTick_Handler
+                0x0800165c       0x5c ..\obj\clock.o
+                0x0800165c                SysTick_Handler
  .text.clock_init
-                0x080015a4       0x30 ..\obj\clock.o
-                0x080015a4                clock_init
+                0x080016b8       0x30 ..\obj\clock.o
+                0x080016b8                clock_init
  .text.clock_time
-                0x080015d4        0xc ..\obj\clock.o
-                0x080015d4                clock_time
- .text          0x080015e0      0x114 c:/program files (x86)/gnu tools arm embedded/7 2018-q2-update/bin/../lib/gcc/arm-none-eabi/7.3.1/thumb/v6-m\libgcc.a(_udivsi3.o)
-                0x080015e0                __aeabi_uidiv
-                0x080015e0                __udivsi3
-                0x080016ec                __aeabi_uidivmod
- .text          0x080016f4      0x1d4 c:/program files (x86)/gnu tools arm embedded/7 2018-q2-update/bin/../lib/gcc/arm-none-eabi/7.3.1/thumb/v6-m\libgcc.a(_divsi3.o)
-                0x080016f4                __divsi3
-                0x080016f4                __aeabi_idiv
-                0x080018c0                __aeabi_idivmod
- .text          0x080018c8        0x4 c:/program files (x86)/gnu tools arm embedded/7 2018-q2-update/bin/../lib/gcc/arm-none-eabi/7.3.1/thumb/v6-m\libgcc.a(_dvmd_tls.o)
-                0x080018c8                __aeabi_idiv0
-                0x080018c8                __aeabi_ldiv0
- .text.memcpy   0x080018cc       0x88 c:/program files (x86)/gnu tools arm embedded/7 2018-q2-update/bin/../lib/gcc/arm-none-eabi/7.3.1/../../../../arm-none-eabi/lib/thumb/v6-m\libg.a(lib_a-memcpy-stub.o)
-                0x080018cc                memcpy
- .text.strlen   0x08001954       0x64 c:/program files (x86)/gnu tools arm embedded/7 2018-q2-update/bin/../lib/gcc/arm-none-eabi/7.3.1/../../../../arm-none-eabi/lib/thumb/v6-m\libg.a(lib_a-strlen-stub.o)
-                0x08001954                strlen
+                0x080016e8        0xc ..\obj\clock.o
+                0x080016e8                clock_time
+ .text          0x080016f4      0x114 c:/program files (x86)/gnu tools arm embedded/7 2018-q2-update/bin/../lib/gcc/arm-none-eabi/7.3.1/thumb/v6-m\libgcc.a(_udivsi3.o)
+                0x080016f4                __aeabi_uidiv
+                0x080016f4                __udivsi3
+                0x08001800                __aeabi_uidivmod
+ .text          0x08001808      0x1d4 c:/program files (x86)/gnu tools arm embedded/7 2018-q2-update/bin/../lib/gcc/arm-none-eabi/7.3.1/thumb/v6-m\libgcc.a(_divsi3.o)
+                0x08001808                __divsi3
+                0x08001808                __aeabi_idiv
+                0x080019d4                __aeabi_idivmod
+ .text          0x080019dc        0x4 c:/program files (x86)/gnu tools arm embedded/7 2018-q2-update/bin/../lib/gcc/arm-none-eabi/7.3.1/thumb/v6-m\libgcc.a(_dvmd_tls.o)
+                0x080019dc                __aeabi_idiv0
+                0x080019dc                __aeabi_ldiv0
+ .text.memcpy   0x080019e0       0x88 c:/program files (x86)/gnu tools arm embedded/7 2018-q2-update/bin/../lib/gcc/arm-none-eabi/7.3.1/../../../../arm-none-eabi/lib/thumb/v6-m\libg.a(lib_a-memcpy-stub.o)
+                0x080019e0                memcpy
+ .text.strlen   0x08001a68       0x64 c:/program files (x86)/gnu tools arm embedded/7 2018-q2-update/bin/../lib/gcc/arm-none-eabi/7.3.1/../../../../arm-none-eabi/lib/thumb/v6-m\libg.a(lib_a-strlen-stub.o)
+                0x08001a68                strlen
  *(.init)
  *(.fini)
  *crtbegin.o(.ctors)
@@ -578,224 +601,236 @@ Linker script and memory map
  *(SORT_BY_NAME(.dtors.*))
  *(.dtors)
  *(.rodata*)
- .rodata.makePID.part.0.str1.1
-                0x080019b8       0x34 ..\obj\steer.o
  .rodata.process_thread_steer_process.str1.1
-                0x080019ec       0x5f ..\obj\steer.o
+                0x08001acc       0xa0 ..\obj\steer.o
  .rodata.str1.1
-                0x08001a4b        0xe ..\obj\steer.o
- *fill*         0x08001a59        0x3 
+                0x08001b6c        0xe ..\obj\steer.o
+ *fill*         0x08001b7a        0x2 
  .rodata.autostart_processes
-                0x08001a5c        0xc ..\obj\main.o
-                0x08001a5c                autostart_processes
+                0x08001b7c        0xc ..\obj\main.o
+                0x08001b7c                autostart_processes
  .rodata.process_thread_menu_process.str1.1
-                0x08001a68       0x97 ..\obj\main.o
+                0x08001b88       0x97 ..\obj\main.o
  .rodata.str1.1
-                0x08001aff        0xd ..\obj\main.o
+                0x08001c1f        0xd ..\obj\main.o
  .rodata.str1.1
-                0x08001b0c        0xc ..\obj\etimer.o
- .rodata.CEC_IRQHandler.str1.1
-                0x08001b18       0x2a ..\obj\can.o
+                0x08001c2c        0xc ..\obj\etimer.o
  .rodata.my_debug.str1.1
-                0x08001b42       0x2a ..\obj\debug-uart.o
+                0x08001c38        0xc ..\obj\debug-uart.o
                                   0x3 (size before relaxing)
  .rodata.wifi_debug_print_msg.str1.1
-                0x08001b42       0x14 ..\obj\debug-uart.o
+                0x08001c38       0x14 ..\obj\debug-uart.o
  .rodata.str1.1
-                0x08001b56        0xf ..\obj\ctimer.o
+                0x08001c4c        0xf ..\obj\ctimer.o
  *(.eh_fram e*)
 
-.glue_7         0x08001b68        0x0
- .glue_7        0x08001b68        0x0 linker stubs
+.glue_7         0x08001c5c        0x0
+ .glue_7        0x08001c5c        0x0 linker stubs
 
-.glue_7t        0x08001b68        0x0
- .glue_7t       0x08001b68        0x0 linker stubs
+.glue_7t        0x08001c5c        0x0
+ .glue_7t       0x08001c5c        0x0 linker stubs
 
-.vfp11_veneer   0x08001b68        0x0
- .vfp11_veneer  0x08001b68        0x0 linker stubs
+.vfp11_veneer   0x08001c5c        0x0
+ .vfp11_veneer  0x08001c5c        0x0 linker stubs
 
-.v4_bx          0x08001b68        0x0
- .v4_bx         0x08001b68        0x0 linker stubs
+.v4_bx          0x08001c5c        0x0
+ .v4_bx         0x08001c5c        0x0 linker stubs
 
-.iplt           0x08001b68        0x0
- .iplt          0x08001b68        0x0 ..\obj\timer.o
+.iplt           0x08001c5c        0x0
+ .iplt          0x08001c5c        0x0 ..\obj\timer.o
 
-.rel.dyn        0x08001b68        0x0
- .rel.iplt      0x08001b68        0x0 ..\obj\timer.o
-                0x08001b68                . = ALIGN (0x4)
+.rel.dyn        0x08001c5c        0x0
+ .rel.iplt      0x08001c5c        0x0 ..\obj\timer.o
+                0x08001c5c                . = ALIGN (0x4)
 
 .ARM.extab
  *(.ARM.extab* .gnu.linkonce.armextab.*)
-                0x08001b68                . = ALIGN (0x4)
-                0x08001b68                __exidx_start = .
+                0x08001c5c                . = ALIGN (0x4)
+                0x08001c5c                __exidx_start = .
 
 .ARM.exidx
  *(.ARM.exidx* .gnu.linkonce.armexidx.*)
-                0x08001b68                __exidx_end = .
-                0x08001b68                __etext = .
-                0x08001b68                . = ALIGN (0x4)
-                0x08001b68                _sidata = __etext
-                0x08001b68                . = ALIGN (0x4)
+                0x08001c5c                __exidx_end = .
+                0x08001c5c                __etext = .
+                0x08001c5c                . = ALIGN (0x4)
+                0x08001c5c                _sidata = __etext
+                0x08001c5c                . = ALIGN (0x4)
 
-.data           0x20000000       0x9c load address 0x08001b68
+.data           0x20000000       0x8c load address 0x08001c5c
                 0x20000000                __data_start__ = .
                 0x20000000                _sdata = __data_start__
  *(vtable)
  *(.data*)
+ .data.mDiffLimit
+                0x20000000        0x2 ..\obj\steer.o
+                0x20000000                mDiffLimit
  .data.pidDAngle
-                0x20000000        0xa ..\obj\steer.o
-                0x20000000                pidDAngle
+                0x20000002        0xa ..\obj\steer.o
+                0x20000002                pidDAngle
  .data.pidDData
-                0x2000000a        0xa ..\obj\steer.o
-                0x2000000a                pidDData
- .data.pidIAngle
-                0x20000014        0xa ..\obj\steer.o
-                0x20000014                pidIAngle
- .data.pidIData
-                0x2000001e        0xa ..\obj\steer.o
-                0x2000001e                pidIData
+                0x2000000c        0xa ..\obj\steer.o
+                0x2000000c                pidDData
  .data.pidNFAngle
-                0x20000028        0xa ..\obj\steer.o
-                0x20000028                pidNFAngle
+                0x20000016        0xa ..\obj\steer.o
+                0x20000016                pidNFAngle
  .data.pidNFData
-                0x20000032        0x8 ..\obj\steer.o
-                0x20000032                pidNFData
+                0x20000020        0xa ..\obj\steer.o
+                0x20000020                pidNFData
  .data.pidPAngle
-                0x2000003a        0xa ..\obj\steer.o
-                0x2000003a                pidPAngle
+                0x2000002a        0xa ..\obj\steer.o
+                0x2000002a                pidPAngle
  .data.pidPData
-                0x20000044        0xa ..\obj\steer.o
-                0x20000044                pidPData
- *fill*         0x2000004e        0x2 
+                0x20000034        0xa ..\obj\steer.o
+                0x20000034                pidPData
+ *fill*         0x2000003e        0x2 
  .data.steer_process
-                0x20000050       0x10 ..\obj\steer.o
-                0x20000050                steer_process
+                0x20000040       0x10 ..\obj\steer.o
+                0x20000040                steer_process
  .data.menu_process
-                0x20000060       0x10 ..\obj\main.o
-                0x20000060                menu_process
+                0x20000050       0x10 ..\obj\main.o
+                0x20000050                menu_process
  .data.etimer_process
-                0x20000070       0x10 ..\obj\etimer.o
-                0x20000070                etimer_process
+                0x20000060       0x10 ..\obj\etimer.o
+                0x20000060                etimer_process
  .data.xmit_buffer_head
-                0x20000080        0x4 ..\obj\debug-uart.o
+                0x20000070        0x4 ..\obj\debug-uart.o
  .data.xmit_buffer_tail
-                0x20000084        0x4 ..\obj\debug-uart.o
+                0x20000074        0x4 ..\obj\debug-uart.o
  .data.ctimer_process
-                0x20000088       0x10 ..\obj\ctimer.o
-                0x20000088                ctimer_process
+                0x20000078       0x10 ..\obj\ctimer.o
+                0x20000078                ctimer_process
  .data.second_countdown
-                0x20000098        0x4 ..\obj\clock.o
-                0x2000009c                . = ALIGN (0x4)
+                0x20000088        0x4 ..\obj\clock.o
+                0x2000008c                . = ALIGN (0x4)
                 [!provide]                PROVIDE (__preinit_array_start = .)
  *(.preinit_array)
                 [!provide]                PROVIDE (__preinit_array_end = .)
-                0x2000009c                . = ALIGN (0x4)
+                0x2000008c                . = ALIGN (0x4)
                 [!provide]                PROVIDE (__init_array_start = .)
  *(SORT_BY_NAME(.init_array.*))
  *(.init_array)
                 [!provide]                PROVIDE (__init_array_end = .)
-                0x2000009c                . = ALIGN (0x4)
+                0x2000008c                . = ALIGN (0x4)
                 [!provide]                PROVIDE (__fini_array_start = .)
  *(SORT_BY_NAME(.fini_array.*))
  *(.fini_array)
                 [!provide]                PROVIDE (__fini_array_end = .)
  *(.jcr*)
-                0x2000009c                . = ALIGN (0x4)
-                0x2000009c                __data_end__ = .
-                0x2000009c                _edata = __data_end__
+                0x2000008c                . = ALIGN (0x4)
+                0x2000008c                __data_end__ = .
+                0x2000008c                _edata = __data_end__
 
-.igot.plt       0x2000009c        0x0 load address 0x08001c04
- .igot.plt      0x2000009c        0x0 ..\obj\timer.o
+.igot.plt       0x2000008c        0x0 load address 0x08001ce8
+ .igot.plt      0x2000008c        0x0 ..\obj\timer.o
 
-.bss            0x2000009c     0x1130 load address 0x08001c04
-                0x2000009c                . = ALIGN (0x4)
-                0x2000009c                __bss_start__ = .
-                0x2000009c                _sbss = __bss_start__
+.bss            0x2000008c     0x115c load address 0x08001ce8
+                0x2000008c                . = ALIGN (0x4)
+                0x2000008c                __bss_start__ = .
+                0x2000008c                _sbss = __bss_start__
  *(.bss*)
  .bss.idle_count
-                0x2000009c        0x4 ..\obj\contiki-main.o
-                0x2000009c                idle_count
- .bss.prevData.5948
-                0x200000a0        0x2 ..\obj\steer.o
- .bss.prevMoment.5949
-                0x200000a2        0x2 ..\obj\steer.o
- .bss.res.5946  0x200000a4        0x4 ..\obj\steer.o
+                0x2000008c        0x4 ..\obj\contiki-main.o
+                0x2000008c                idle_count
+ .bss.D         0x20000090        0x4 ..\obj\steer.o
+ .bss.I         0x20000094        0x4 ..\obj\steer.o
+ .bss.P         0x20000098        0x4 ..\obj\steer.o
+ .bss.dArr.5953
+                0x2000009c       0x10 ..\obj\steer.o
+ .bss.dIndex.5955
+                0x200000ac        0x1 ..\obj\steer.o
+ .bss.delayCnt.5977
+                0x200000ad        0x1 ..\obj\steer.o
+ .bss.diffArr.5954
+                0x200000ae        0x6 ..\obj\steer.o
+ .bss.diffIndex.5956
+                0x200000b4        0x1 ..\obj\steer.o
+ .bss.direction.5976
+                0x200000b5        0x1 ..\obj\steer.o
+ .bss.momentDelayCnt.5978
+                0x200000b6        0x2 ..\obj\steer.o
+ .bss.prevData.5951
+                0x200000b8        0x2 ..\obj\steer.o
+ .bss.prevMoment.5952
+                0x200000ba        0x2 ..\obj\steer.o
+ .bss.prevMoment.5973
+                0x200000bc        0x2 ..\obj\steer.o
+ *fill*         0x200000be        0x2 
+ .bss.res       0x200000c0        0x4 ..\obj\steer.o
  .bss.steerActionTimer
-                0x200000a8        0x4 ..\obj\steer.o
- .bss.sum.5942  0x200000ac        0x4 ..\obj\steer.o
- .bss.timer.5957
-                0x200000b0       0x10 ..\obj\steer.o
- .bss.murchik   0x200000c0       0x50 ..\obj\main.o
-                0x200000c0                murchik
+                0x200000c4        0x4 ..\obj\steer.o
+ .bss.sum       0x200000c8        0x4 ..\obj\steer.o
+ .bss.timer.5971
+                0x200000cc       0x10 ..\obj\steer.o
+ .bss.murchik   0x200000dc       0x50 ..\obj\main.o
+                0x200000dc                murchik
  .bss.timer.5481
-                0x20000110       0x10 ..\obj\main.o
+                0x2000012c       0x10 ..\obj\main.o
  .bss.next_expiration
-                0x20000120        0x4 ..\obj\etimer.o
+                0x2000013c        0x4 ..\obj\etimer.o
  .bss.timerlist
-                0x20000124        0x4 ..\obj\etimer.o
+                0x20000140        0x4 ..\obj\etimer.o
  .bss.data.5282
-                0x20000128        0x4 ..\obj\process.o
- .bss.ev.5281   0x2000012c        0x1 ..\obj\process.o
- *fill*         0x2000012d        0x3 
- .bss.events    0x20000130       0xc0 ..\obj\process.o
- .bss.fevent    0x200001f0        0x1 ..\obj\process.o
+                0x20000144        0x4 ..\obj\process.o
+ .bss.ev.5281   0x20000148        0x1 ..\obj\process.o
+ *fill*         0x20000149        0x3 
+ .bss.events    0x2000014c       0xc0 ..\obj\process.o
+ .bss.fevent    0x2000020c        0x1 ..\obj\process.o
  .bss.lastevent
-                0x200001f1        0x1 ..\obj\process.o
- .bss.nevents   0x200001f2        0x1 ..\obj\process.o
- *fill*         0x200001f3        0x1 
- .bss.p.5284    0x200001f4        0x4 ..\obj\process.o
+                0x2000020d        0x1 ..\obj\process.o
+ .bss.nevents   0x2000020e        0x1 ..\obj\process.o
+ *fill*         0x2000020f        0x1 
+ .bss.p.5284    0x20000210        0x4 ..\obj\process.o
  .bss.poll_requested
-                0x200001f8        0x1 ..\obj\process.o
- *fill*         0x200001f9        0x3 
+                0x20000214        0x1 ..\obj\process.o
+ *fill*         0x20000215        0x3 
  .bss.process_current
-                0x200001fc        0x4 ..\obj\process.o
-                0x200001fc                process_current
+                0x20000218        0x4 ..\obj\process.o
+                0x20000218                process_current
  .bss.process_list
-                0x20000200        0x4 ..\obj\process.o
-                0x20000200                process_list
- .bss.dma_end   0x20000204        0x4 ..\obj\debug-uart.o
+                0x2000021c        0x4 ..\obj\process.o
+                0x2000021c                process_list
+ .bss.dma_end   0x20000220        0x4 ..\obj\debug-uart.o
  .bss.dma_running
-                0x20000208        0x1 ..\obj\debug-uart.o
-                0x20000208                dma_running
+                0x20000224        0x1 ..\obj\debug-uart.o
+                0x20000224                dma_running
  .bss.uart_buffer
-                0x20000209      0x100 ..\obj\debug-uart.o
-                0x20000209                uart_buffer
+                0x20000225      0x100 ..\obj\debug-uart.o
+                0x20000225                uart_buffer
  .bss.xmit_buffer
-                0x20000309      0xbb8 ..\obj\debug-uart.o
- .bss.str.5077  0x20000ec1      0x100 ..\obj\debug.o
- *fill*         0x20000fc1        0x3 
+                0x20000325      0xbb8 ..\obj\debug-uart.o
+ .bss.str.5077  0x20000edd      0x100 ..\obj\debug.o
+ *fill*         0x20000fdd        0x3 
  .bss.ctimer_list_list
-                0x20000fc4        0x4 ..\obj\ctimer.o
+                0x20000fe0        0x4 ..\obj\ctimer.o
  .bss.initialized
-                0x20000fc8        0x1 ..\obj\ctimer.o
- *fill*         0x20000fc9        0x3 
+                0x20000fe4        0x1 ..\obj\ctimer.o
+ *fill*         0x20000fe5        0x3 
  .bss.current_clock
-                0x20000fcc        0x4 ..\obj\clock.o
+                0x20000fe8        0x4 ..\obj\clock.o
  .bss.current_seconds
-                0x20000fd0        0x4 ..\obj\clock.o
+                0x20000fec        0x4 ..\obj\clock.o
  *(COMMON)
- COMMON         0x20000fd4      0x1f7 ..\obj\steer.o
-                0x20000fd4                debugMsg
-                0x200011c8                momentAdd
-                0x200011ca                calc_data_event
-                0x200011cc                . = ALIGN (0x4)
- *fill*         0x200011cb        0x1 
-                0x200011cc                __bss_end__ = .
-                0x200011cc                _ebss = __bss_end__
+ COMMON         0x20000ff0      0x1f7 ..\obj\steer.o
+                0x20000ff0                debugMsg
+                0x200011e4                momentAdd
+                0x200011e6                calc_data_event
+                0x200011e8                . = ALIGN (0x4)
+ *fill*         0x200011e7        0x1 
+                0x200011e8                __bss_end__ = .
+                0x200011e8                _ebss = __bss_end__
 
-.heap           0x200011cc        0x0
-                0x200011cc                __end__ = .
-                0x200011cc                _end = __end__
-                0x200011cc                end = __end__
+.heap           0x200011e8        0x0
+                0x200011e8                __end__ = .
+                0x200011e8                _end = __end__
+                0x200011e8                end = __end__
  *(.heap*)
-                0x200011cc                __HeapLimit = .
+                0x200011e8                __HeapLimit = .
 
-.co_stack       0x200011cc        0x4 load address 0x08002d34
-                0x200011d0                . = ALIGN (0x8)
- *fill*         0x200011cc        0x4 
+.co_stack       0x200011e8        0x0
+                0x200011e8                . = ALIGN (0x8)
  *(.co_stack .co_stack.*)
                 0x20008000                __StackTop = (ORIGIN (ram) + LENGTH (ram))
-                0x20007ffc                __StackLimit = (__StackTop - SIZEOF (.co_stack))
+                0x20008000                __StackLimit = (__StackTop - SIZEOF (.co_stack))
                 [!provide]                PROVIDE (__stack = __StackTop)
                 0x00000001                ASSERT ((__StackLimit >= __HeapLimit), region ram  overflowed with stack)
 LOAD ..\obj\timer.o
@@ -819,6 +854,7 @@ LOAD ..\obj\random.o
 LOAD ..\obj\ctimer.o
 LOAD ..\obj\autostart.o
 LOAD ..\obj\stimer.o
+LOAD ..\obj\filter.o
 LOAD ..\obj\clock.o
 LOAD c:/program files (x86)/gnu tools arm embedded/7 2018-q2-update/bin/../lib/gcc/arm-none-eabi/7.3.1/../../../../arm-none-eabi/lib/thumb/v6-m\libm.a
 START GROUP
@@ -828,58 +864,58 @@ LOAD c:/program files (x86)/gnu tools arm embedded/7 2018-q2-update/bin/../lib/g
 END GROUP
 OUTPUT(coocontiki.elf elf32-littlearm)
 
-.debug_info     0x00000000     0x9f1e
+.debug_info     0x00000000     0x9fb0
  .debug_info    0x00000000      0x1a4 ..\obj\timer.o
  .debug_info    0x000001a4      0xd1c ..\obj\mini-printf.o
  .debug_info    0x00000ec0      0x502 ..\obj\contiki-main.o
- .debug_info    0x000013c2     0x1bdb ..\obj\steer.o
- .debug_info    0x00002f9d      0xfa8 ..\obj\main.o
- .debug_info    0x00003f45       0x22 ..\obj\startup_stm32f0xx.o
- .debug_info    0x00003f67      0x650 ..\obj\etimer.o
- .debug_info    0x000045b7     0x1409 ..\obj\can.o
- .debug_info    0x000059c0      0x2b8 ..\obj\system_stm32f0xx_temp.o
- .debug_info    0x00005c78      0xe8f ..\obj\process.o
- .debug_info    0x00006b07      0x34c ..\obj\list.o
- .debug_info    0x00006e53     0x1908 ..\obj\debug-uart.o
- .debug_info    0x0000875b      0x9af ..\obj\debug.o
- .debug_info    0x0000910a      0x67b ..\obj\ctimer.o
- .debug_info    0x00009785      0x208 ..\obj\autostart.o
- .debug_info    0x0000998d      0x591 ..\obj\clock.o
+ .debug_info    0x000013c2     0x1cc1 ..\obj\steer.o
+ .debug_info    0x00003083      0xfa8 ..\obj\main.o
+ .debug_info    0x0000402b       0x22 ..\obj\startup_stm32f0xx.o
+ .debug_info    0x0000404d      0x650 ..\obj\etimer.o
+ .debug_info    0x0000469d     0x13b5 ..\obj\can.o
+ .debug_info    0x00005a52      0x2b8 ..\obj\system_stm32f0xx_temp.o
+ .debug_info    0x00005d0a      0xe8f ..\obj\process.o
+ .debug_info    0x00006b99      0x34c ..\obj\list.o
+ .debug_info    0x00006ee5     0x1908 ..\obj\debug-uart.o
+ .debug_info    0x000087ed      0x9af ..\obj\debug.o
+ .debug_info    0x0000919c      0x67b ..\obj\ctimer.o
+ .debug_info    0x00009817      0x208 ..\obj\autostart.o
+ .debug_info    0x00009a1f      0x591 ..\obj\clock.o
 
-.debug_abbrev   0x00000000     0x258e
+.debug_abbrev   0x00000000     0x254d
  .debug_abbrev  0x00000000       0xec ..\obj\timer.o
  .debug_abbrev  0x000000ec      0x33d ..\obj\mini-printf.o
  .debug_abbrev  0x00000429      0x19f ..\obj\contiki-main.o
- .debug_abbrev  0x000005c8      0x4b6 ..\obj\steer.o
- .debug_abbrev  0x00000a7e      0x281 ..\obj\main.o
- .debug_abbrev  0x00000cff       0x12 ..\obj\startup_stm32f0xx.o
- .debug_abbrev  0x00000d11      0x2b9 ..\obj\etimer.o
- .debug_abbrev  0x00000fca      0x300 ..\obj\can.o
- .debug_abbrev  0x000012ca      0x12d ..\obj\system_stm32f0xx_temp.o
- .debug_abbrev  0x000013f7      0x415 ..\obj\process.o
- .debug_abbrev  0x0000180c      0x17a ..\obj\list.o
- .debug_abbrev  0x00001986      0x473 ..\obj\debug-uart.o
- .debug_abbrev  0x00001df9      0x239 ..\obj\debug.o
- .debug_abbrev  0x00002032      0x213 ..\obj\ctimer.o
- .debug_abbrev  0x00002245      0x144 ..\obj\autostart.o
- .debug_abbrev  0x00002389      0x205 ..\obj\clock.o
+ .debug_abbrev  0x000005c8      0x495 ..\obj\steer.o
+ .debug_abbrev  0x00000a5d      0x281 ..\obj\main.o
+ .debug_abbrev  0x00000cde       0x12 ..\obj\startup_stm32f0xx.o
+ .debug_abbrev  0x00000cf0      0x2b9 ..\obj\etimer.o
+ .debug_abbrev  0x00000fa9      0x2e0 ..\obj\can.o
+ .debug_abbrev  0x00001289      0x12d ..\obj\system_stm32f0xx_temp.o
+ .debug_abbrev  0x000013b6      0x415 ..\obj\process.o
+ .debug_abbrev  0x000017cb      0x17a ..\obj\list.o
+ .debug_abbrev  0x00001945      0x473 ..\obj\debug-uart.o
+ .debug_abbrev  0x00001db8      0x239 ..\obj\debug.o
+ .debug_abbrev  0x00001ff1      0x213 ..\obj\ctimer.o
+ .debug_abbrev  0x00002204      0x144 ..\obj\autostart.o
+ .debug_abbrev  0x00002348      0x205 ..\obj\clock.o
 
-.debug_loc      0x00000000     0x1fe3
+.debug_loc      0x00000000     0x20db
  .debug_loc     0x00000000       0xec ..\obj\timer.o
  .debug_loc     0x000000ec      0x5c9 ..\obj\mini-printf.o
- .debug_loc     0x000006b5      0x410 ..\obj\steer.o
- .debug_loc     0x00000ac5      0x11a ..\obj\main.o
- .debug_loc     0x00000bdf      0x3ee ..\obj\etimer.o
- .debug_loc     0x00000fcd       0xa7 ..\obj\can.o
- .debug_loc     0x00001074       0xee ..\obj\system_stm32f0xx_temp.o
- .debug_loc     0x00001162      0x3a2 ..\obj\process.o
- .debug_loc     0x00001504      0x2aa ..\obj\list.o
- .debug_loc     0x000017ae      0x43f ..\obj\debug-uart.o
- .debug_loc     0x00001bed      0x38b ..\obj\ctimer.o
- .debug_loc     0x00001f78       0x42 ..\obj\autostart.o
- .debug_loc     0x00001fba       0x29 ..\obj\clock.o
+ .debug_loc     0x000006b5      0x508 ..\obj\steer.o
+ .debug_loc     0x00000bbd      0x11a ..\obj\main.o
+ .debug_loc     0x00000cd7      0x3ee ..\obj\etimer.o
+ .debug_loc     0x000010c5       0xa7 ..\obj\can.o
+ .debug_loc     0x0000116c       0xee ..\obj\system_stm32f0xx_temp.o
+ .debug_loc     0x0000125a      0x3a2 ..\obj\process.o
+ .debug_loc     0x000015fc      0x2aa ..\obj\list.o
+ .debug_loc     0x000018a6      0x43f ..\obj\debug-uart.o
+ .debug_loc     0x00001ce5      0x38b ..\obj\ctimer.o
+ .debug_loc     0x00002070       0x42 ..\obj\autostart.o
+ .debug_loc     0x000020b2       0x29 ..\obj\clock.o
 
-.debug_aranges  0x00000000      0x480
+.debug_aranges  0x00000000      0x488
  .debug_aranges
                 0x00000000       0x40 ..\obj\timer.o
  .debug_aranges
@@ -887,100 +923,100 @@ OUTPUT(coocontiki.elf elf32-littlearm)
  .debug_aranges
                 0x00000080       0x20 ..\obj\contiki-main.o
  .debug_aranges
-                0x000000a0       0x60 ..\obj\steer.o
+                0x000000a0       0x68 ..\obj\steer.o
  .debug_aranges
-                0x00000100       0x20 ..\obj\main.o
+                0x00000108       0x20 ..\obj\main.o
  .debug_aranges
-                0x00000120       0x28 ..\obj\startup_stm32f0xx.o
+                0x00000128       0x28 ..\obj\startup_stm32f0xx.o
  .debug_aranges
-                0x00000148       0x88 ..\obj\etimer.o
+                0x00000150       0x88 ..\obj\etimer.o
  .debug_aranges
-                0x000001d0       0x28 ..\obj\can.o
+                0x000001d8       0x28 ..\obj\can.o
  .debug_aranges
-                0x000001f8       0x30 ..\obj\system_stm32f0xx_temp.o
+                0x00000200       0x30 ..\obj\system_stm32f0xx_temp.o
  .debug_aranges
-                0x00000228       0x88 ..\obj\process.o
+                0x00000230       0x88 ..\obj\process.o
  .debug_aranges
-                0x000002b0       0x78 ..\obj\list.o
+                0x000002b8       0x78 ..\obj\list.o
  .debug_aranges
-                0x00000328       0x78 ..\obj\debug-uart.o
+                0x00000330       0x78 ..\obj\debug-uart.o
  .debug_aranges
-                0x000003a0       0x30 ..\obj\debug.o
+                0x000003a8       0x30 ..\obj\debug.o
  .debug_aranges
-                0x000003d0       0x50 ..\obj\ctimer.o
+                0x000003d8       0x50 ..\obj\ctimer.o
  .debug_aranges
-                0x00000420       0x28 ..\obj\autostart.o
+                0x00000428       0x28 ..\obj\autostart.o
  .debug_aranges
-                0x00000448       0x38 ..\obj\clock.o
+                0x00000450       0x38 ..\obj\clock.o
 
-.debug_ranges   0x00000000      0x5a8
+.debug_ranges   0x00000000      0x5c8
  .debug_ranges  0x00000000       0x30 ..\obj\timer.o
  .debug_ranges  0x00000030       0x98 ..\obj\mini-printf.o
  .debug_ranges  0x000000c8       0x10 ..\obj\contiki-main.o
- .debug_ranges  0x000000d8       0xa8 ..\obj\steer.o
- .debug_ranges  0x00000180       0x30 ..\obj\main.o
- .debug_ranges  0x000001b0       0x20 ..\obj\startup_stm32f0xx.o
- .debug_ranges  0x000001d0       0xe0 ..\obj\etimer.o
- .debug_ranges  0x000002b0       0x30 ..\obj\can.o
- .debug_ranges  0x000002e0       0x20 ..\obj\system_stm32f0xx_temp.o
- .debug_ranges  0x00000300       0x90 ..\obj\process.o
- .debug_ranges  0x00000390       0x68 ..\obj\list.o
- .debug_ranges  0x000003f8       0xd8 ..\obj\debug-uart.o
- .debug_ranges  0x000004d0       0x20 ..\obj\debug.o
- .debug_ranges  0x000004f0       0x60 ..\obj\ctimer.o
- .debug_ranges  0x00000550       0x18 ..\obj\autostart.o
- .debug_ranges  0x00000568       0x40 ..\obj\clock.o
+ .debug_ranges  0x000000d8       0xc8 ..\obj\steer.o
+ .debug_ranges  0x000001a0       0x30 ..\obj\main.o
+ .debug_ranges  0x000001d0       0x20 ..\obj\startup_stm32f0xx.o
+ .debug_ranges  0x000001f0       0xe0 ..\obj\etimer.o
+ .debug_ranges  0x000002d0       0x30 ..\obj\can.o
+ .debug_ranges  0x00000300       0x20 ..\obj\system_stm32f0xx_temp.o
+ .debug_ranges  0x00000320       0x90 ..\obj\process.o
+ .debug_ranges  0x000003b0       0x68 ..\obj\list.o
+ .debug_ranges  0x00000418       0xd8 ..\obj\debug-uart.o
+ .debug_ranges  0x000004f0       0x20 ..\obj\debug.o
+ .debug_ranges  0x00000510       0x60 ..\obj\ctimer.o
+ .debug_ranges  0x00000570       0x18 ..\obj\autostart.o
+ .debug_ranges  0x00000588       0x40 ..\obj\clock.o
 
-.debug_line     0x00000000     0x2cf0
+.debug_line     0x00000000     0x2cdc
  .debug_line    0x00000000      0x140 ..\obj\timer.o
  .debug_line    0x00000140      0x239 ..\obj\mini-printf.o
  .debug_line    0x00000379      0x2c1 ..\obj\contiki-main.o
- .debug_line    0x0000063a      0x67a ..\obj\steer.o
- .debug_line    0x00000cb4      0x3c2 ..\obj\main.o
- .debug_line    0x00001076       0xc2 ..\obj\startup_stm32f0xx.o
- .debug_line    0x00001138      0x292 ..\obj\etimer.o
- .debug_line    0x000013ca      0x41e ..\obj\can.o
- .debug_line    0x000017e8      0x1f5 ..\obj\system_stm32f0xx_temp.o
- .debug_line    0x000019dd      0x365 ..\obj\process.o
- .debug_line    0x00001d42      0x1aa ..\obj\list.o
- .debug_line    0x00001eec      0x5a4 ..\obj\debug-uart.o
- .debug_line    0x00002490      0x21d ..\obj\debug.o
- .debug_line    0x000026ad      0x25a ..\obj\ctimer.o
- .debug_line    0x00002907       0xda ..\obj\autostart.o
- .debug_line    0x000029e1      0x30f ..\obj\clock.o
+ .debug_line    0x0000063a      0x6d0 ..\obj\steer.o
+ .debug_line    0x00000d0a      0x3c2 ..\obj\main.o
+ .debug_line    0x000010cc       0xc2 ..\obj\startup_stm32f0xx.o
+ .debug_line    0x0000118e      0x292 ..\obj\etimer.o
+ .debug_line    0x00001420      0x3b4 ..\obj\can.o
+ .debug_line    0x000017d4      0x1f5 ..\obj\system_stm32f0xx_temp.o
+ .debug_line    0x000019c9      0x365 ..\obj\process.o
+ .debug_line    0x00001d2e      0x1aa ..\obj\list.o
+ .debug_line    0x00001ed8      0x5a4 ..\obj\debug-uart.o
+ .debug_line    0x0000247c      0x21d ..\obj\debug.o
+ .debug_line    0x00002699      0x25a ..\obj\ctimer.o
+ .debug_line    0x000028f3       0xda ..\obj\autostart.o
+ .debug_line    0x000029cd      0x30f ..\obj\clock.o
 
-.debug_str      0x00000000     0x1aaf
+.debug_str      0x00000000     0x1b1c
  .debug_str     0x00000000      0x1ab ..\obj\timer.o
                                 0x222 (size before relaxing)
  .debug_str     0x000001ab      0x4a8 ..\obj\mini-printf.o
                                 0x64b (size before relaxing)
  .debug_str     0x00000653      0x2d3 ..\obj\contiki-main.o
                                 0x482 (size before relaxing)
- .debug_str     0x00000926      0x6ec ..\obj\steer.o
-                                0xef5 (size before relaxing)
- .debug_str     0x00001012       0x70 ..\obj\main.o
+ .debug_str     0x00000926      0x759 ..\obj\steer.o
+                                0xf62 (size before relaxing)
+ .debug_str     0x0000107f       0x70 ..\obj\main.o
                                 0x961 (size before relaxing)
- .debug_str     0x00001082       0x6f ..\obj\startup_stm32f0xx.o
+ .debug_str     0x000010ef       0x6f ..\obj\startup_stm32f0xx.o
                                  0xbe (size before relaxing)
- .debug_str     0x000010f1      0x16b ..\obj\etimer.o
+ .debug_str     0x0000115e      0x16b ..\obj\etimer.o
                                 0x3e6 (size before relaxing)
- .debug_str     0x0000125c      0x114 ..\obj\can.o
-                                0xc23 (size before relaxing)
- .debug_str     0x00001370       0xd6 ..\obj\system_stm32f0xx_temp.o
+ .debug_str     0x000012c9      0x114 ..\obj\can.o
+                                0xc06 (size before relaxing)
+ .debug_str     0x000013dd       0xd6 ..\obj\system_stm32f0xx_temp.o
                                 0x2cc (size before relaxing)
- .debug_str     0x00001446      0x12c ..\obj\process.o
+ .debug_str     0x000014b3      0x12c ..\obj\process.o
                                 0x74b (size before relaxing)
- .debug_str     0x00001572       0xec ..\obj\list.o
+ .debug_str     0x000015df       0xec ..\obj\list.o
                                 0x1d6 (size before relaxing)
- .debug_str     0x0000165e      0x19f ..\obj\debug-uart.o
+ .debug_str     0x000016cb      0x19f ..\obj\debug-uart.o
                                 0xd22 (size before relaxing)
- .debug_str     0x000017fd       0x9e ..\obj\debug.o
+ .debug_str     0x0000186a       0x9e ..\obj\debug.o
                                 0x646 (size before relaxing)
- .debug_str     0x0000189b       0xec ..\obj\ctimer.o
+ .debug_str     0x00001908       0xec ..\obj\ctimer.o
                                 0x3bf (size before relaxing)
- .debug_str     0x00001987       0x62 ..\obj\autostart.o
+ .debug_str     0x000019f4       0x62 ..\obj\autostart.o
                                 0x279 (size before relaxing)
- .debug_str     0x000019e9       0xc6 ..\obj\clock.o
+ .debug_str     0x00001a56       0xc6 ..\obj\clock.o
                                 0x591 (size before relaxing)
 
 .comment        0x00000000       0x7f
@@ -1050,10 +1086,10 @@ OUTPUT(coocontiki.elf elf32-littlearm)
  .debug_frame   0x00000000       0x80 ..\obj\timer.o
  .debug_frame   0x00000080       0xac ..\obj\mini-printf.o
  .debug_frame   0x0000012c       0x2c ..\obj\contiki-main.o
- .debug_frame   0x00000158       0xf8 ..\obj\steer.o
- .debug_frame   0x00000250       0x30 ..\obj\main.o
- .debug_frame   0x00000280      0x140 ..\obj\etimer.o
- .debug_frame   0x000003c0       0x54 ..\obj\can.o
+ .debug_frame   0x00000158      0x104 ..\obj\steer.o
+ .debug_frame   0x0000025c       0x30 ..\obj\main.o
+ .debug_frame   0x0000028c      0x140 ..\obj\etimer.o
+ .debug_frame   0x000003cc       0x48 ..\obj\can.o
  .debug_frame   0x00000414       0x54 ..\obj\system_stm32f0xx_temp.o
  .debug_frame   0x00000468      0x164 ..\obj\process.o
  .debug_frame   0x000005cc       0xf8 ..\obj\list.o

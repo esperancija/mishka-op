@@ -82,11 +82,11 @@
     <File name="src/debug/debug.c" path="src/debug/debug.c" type="1"/>
     <File name="src/core/lib" path="" type="2"/>
     <File name="cmsis_boot/startup" path="" type="2"/>
-    <File name="cmsis/core_cmFunc.h" path="cmsis/core_cmFunc.h" type="1"/>
     <File name="src/core/sys/rtimer.h" path="src/core/sys/rtimer.h" type="1"/>
-    <File name="src/core/sys/dsc.h" path="src/core/sys/dsc.h" type="1"/>
-    <File name="src/base/steer.c" path="src/base/steer.c" type="1"/>
+    <File name="cmsis/core_cmFunc.h" path="cmsis/core_cmFunc.h" type="1"/>
     <File name="src/core/lib/memb.h" path="src/core/lib/memb.h" type="1"/>
+    <File name="src/base/steer.c" path="src/base/steer.c" type="1"/>
+    <File name="src/core/sys/dsc.h" path="src/core/sys/dsc.h" type="1"/>
     <File name="src/core/contiki.h" path="src/core/contiki.h" type="1"/>
     <File name="src/core/sys/timer.h" path="src/core/sys/timer.h" type="1"/>
     <File name="cmsis/core_cm0.h" path="cmsis/core_cm0.h" type="1"/>
@@ -105,16 +105,17 @@
     <File name="src/core/sys/pt-sem.h" path="src/core/sys/pt-sem.h" type="1"/>
     <File name="src/core/sys/lc-switch.h" path="src/core/sys/lc-switch.h" type="1"/>
     <File name="src/core/contiki-lib.h" path="src/core/contiki-lib.h" type="1"/>
+    <File name="src/base/filter.c" path="src/base/filter.c" type="1"/>
     <File name="src/core/sys/timer.c" path="src/core/sys/timer.c" type="1"/>
     <File name="src/base/main.h" path="src/base/main.h" type="1"/>
     <File name="src/core/lib/list.c" path="src/core/lib/list.c" type="1"/>
+    <File name="src/core/sys/stimer.h" path="src/core/sys/stimer.h" type="1"/>
     <File name="cmsis_boot/startup/startup_stm32f0xx.s" path="cmsis_boot/startup/startup_stm32f0xx.s" type="1"/>
     <File name="cmsis_boot/stm32f0xx_conf.h" path="cmsis_boot/stm32f0xx_conf.h" type="1"/>
-    <File name="src/core/sys/stimer.h" path="src/core/sys/stimer.h" type="1"/>
     <File name="cmsis/core_cmInstr.h" path="cmsis/core_cmInstr.h" type="1"/>
     <File name="src/core/sys/ctimer.h" path="src/core/sys/ctimer.h" type="1"/>
-    <File name="src/debug/mini-printf.c" path="src/debug/mini-printf.c" type="1"/>
     <File name="src/core/lib/memb.c" path="src/core/lib/memb.c" type="1"/>
+    <File name="src/debug/mini-printf.c" path="src/debug/mini-printf.c" type="1"/>
     <File name="src/core/sys/procinit.h" path="src/core/sys/procinit.h" type="1"/>
     <File name="src/core/sys/etimer.h" path="src/core/sys/etimer.h" type="1"/>
     <File name="src/core/sys/process.h" path="src/core/sys/process.h" type="1"/>
@@ -122,18 +123,18 @@
     <File name="src/core/sys/cc.h" path="src/core/sys/cc.h" type="1"/>
     <File name="src/debug/debug-uart.h" path="src/debug/debug-uart.h" type="1"/>
     <File name="src/core/rtimer-arch.h" path="src/core/rtimer-arch.h" type="1"/>
-    <File name="src/core/contiki-net.h" path="src/core/contiki-net.h" type="1"/>
-    <File name="cmsis" path="" type="2"/>
     <File name="src/core/sys/procinit.c" path="src/core/sys/procinit.c" type="1"/>
+    <File name="cmsis" path="" type="2"/>
+    <File name="src/core/contiki-net.h" path="src/core/contiki-net.h" type="1"/>
     <File name="src/core/contiki-version.h" path="src/core/contiki-version.h" type="1"/>
     <File name="src/base/can.c" path="src/base/can.c" type="1"/>
-    <File name="src/core/lib/list.h" path="src/core/lib/list.h" type="1"/>
     <File name="src/core/contiki-main.c" path="src/core/contiki-main.c" type="1"/>
+    <File name="src/core/lib/list.h" path="src/core/lib/list.h" type="1"/>
     <File name="src/core/sys/rtimer.c" path="src/core/sys/rtimer.c" type="1"/>
-    <File name="syscalls" path="" type="2"/>
     <File name="src/core/sys/process.c" path="src/core/sys/process.c" type="1"/>
-    <File name="src/base/steer.h" path="src/base/steer.h" type="1"/>
+    <File name="syscalls" path="" type="2"/>
     <File name="src/core/sys/lc.h" path="src/core/sys/lc.h" type="1"/>
+    <File name="src/base/steer.h" path="src/base/steer.h" type="1"/>
     <File name="cmsis_boot/system_stm32f0xx.h" path="cmsis_boot/system_stm32f0xx.h" type="1"/>
     <File name="src/core/sys/lc-addrlabels.h" path="src/core/sys/lc-addrlabels.h" type="1"/>
     <File name="src/core/lib/random.c" path="src/core/lib/random.c" type="1"/>
