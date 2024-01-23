@@ -1,30 +1,40 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <history>
-   <processor signature="7.2.1 -mcpu=cortex-m0 -mthumb -g -nostartfiles -Map=coocontiki.map -Os --gc-sections -lm -LC:/Users/starosta/Documents/work/soft/baleno/can/AX based -TC:/Users/starosta/Documents/work/soft/baleno/can/AX based/link.ld -g">
-      <target file="coocontiki.elf" lastModified="184f2426f61">
-         <source file="..\obj\timer.o" lastModified="184e36b00bd"/>
-         <source file="..\obj\mini-printf.o" lastModified="184e36b0165"/>
-         <source file="..\obj\contiki-main.o" lastModified="184e36e1d21"/>
-         <source file="..\obj\steer.o" lastModified="184f2426d07"/>
-         <source file="..\obj\main.o" lastModified="184ee0ccc7e"/>
-         <source file="..\obj\procinit.o" lastModified="184e36b04e2"/>
-         <source file="..\obj\startup_stm32f0xx.o" lastModified="184e36b0501"/>
-         <source file="..\obj\etimer.o" lastModified="184e36b0593"/>
-         <source file="..\obj\can.o" lastModified="184ee0ccd54"/>
-         <source file="..\obj\rtimer.o" lastModified="184e36b06a6"/>
-         <source file="..\obj\system_stm32f0xx_temp.o" lastModified="184e36b0724"/>
-         <source file="..\obj\memb.o" lastModified="184e36b07aa"/>
-         <source file="..\obj\process.o" lastModified="184e36b0864"/>
-         <source file="..\obj\list.o" lastModified="184e36b08d7"/>
-         <source file="..\obj\syscalls.o" lastModified="184e36b095e"/>
-         <source file="..\obj\debug-uart.o" lastModified="184e36e21b6"/>
-         <source file="..\obj\debug.o" lastModified="184e36b0a88"/>
-         <source file="..\obj\random.o" lastModified="184e36b0aed"/>
-         <source file="..\obj\ctimer.o" lastModified="184e36b0b73"/>
-         <source file="..\obj\autostart.o" lastModified="184e36b0bdf"/>
-         <source file="..\obj\stimer.o" lastModified="184e36b0c49"/>
-         <source file="..\obj\filter.o" lastModified="184e3a0cd4d"/>
-         <source file="..\obj\clock.o" lastModified="184e36b0cc5"/>
+   <processor signature="arm-none-eabi-gcc -mcpu=cortex-m0 -mthumb -g -nostartfiles -Map=coocontiki.map -Os --gc-sections -lm -LF:/data/soft/baleno/can/MishkaOP/trunk -TF:/data/soft/baleno/can/MishkaOP/trunk/link.ld -g">
+      <target file="coocontiki.elf" lastModified="18d2afbee7b">
+         <source file="..\obj\delay.o" lastModified="18d2afbe3f0"/>
+         <source file="..\obj\opMenu.o" lastModified="18d2afbe436"/>
+         <source file="..\obj\core.o" lastModified="18d2afbe471"/>
+         <source file="..\obj\flash.o" lastModified="18d2afbe4bb"/>
+         <source file="..\obj\timer.o" lastModified="18d2afbe4e4"/>
+         <source file="..\obj\mini-printf.o" lastModified="18d2afbe528"/>
+         <source file="..\obj\contiki-main.o" lastModified="18d2afbe559"/>
+         <source file="..\obj\steer.o" lastModified="18d2afbe602"/>
+         <source file="..\obj\main.o" lastModified="18d2afbe64b"/>
+         <source file="..\obj\procinit.o" lastModified="18d2afbe681"/>
+         <source file="..\obj\startup_stm32f0xx.o" lastModified="18d2afbe690"/>
+         <source file="..\obj\normalMenu.o" lastModified="18d2afbe6c6"/>
+         <source file="..\obj\etimer.o" lastModified="18d2afbe705"/>
+         <source file="..\obj\can.o" lastModified="18d2afbe75b"/>
+         <source file="..\obj\iconc.o" lastModified="18d2afbe787"/>
+         <source file="..\obj\graph.o" lastModified="18d2afbe7ed"/>
+         <source file="..\obj\rtimer.o" lastModified="18d2afbe818"/>
+         <source file="..\obj\system_stm32f0xx_temp.o" lastModified="18d2afbe84a"/>
+         <source file="..\obj\text.o" lastModified="18d2afbe8c4"/>
+         <source file="..\obj\memb.o" lastModified="18d2afbe8fb"/>
+         <source file="..\obj\process.o" lastModified="18d2afbe948"/>
+         <source file="..\obj\list.o" lastModified="18d2afbe97a"/>
+         <source file="..\obj\syscalls.o" lastModified="18d2afbe9b0"/>
+         <source file="..\obj\debug-uart.o" lastModified="18d2afbea04"/>
+         <source file="..\obj\debug.o" lastModified="18d2afbea32"/>
+         <source file="..\obj\random.o" lastModified="18d2afbea64"/>
+         <source file="..\obj\accControl.o" lastModified="18d2afbea9a"/>
+         <source file="..\obj\ctimer.o" lastModified="18d2afbead3"/>
+         <source file="..\obj\autostart.o" lastModified="18d2afbeafc"/>
+         <source file="..\obj\stimer.o" lastModified="18d2afbeb27"/>
+         <source file="..\obj\filter.o" lastModified="18d2afbeb4f"/>
+         <source file="..\obj\dma.o" lastModified="18d2afbeb94"/>
+         <source file="..\obj\clock.o" lastModified="18d2afbebc7"/>
       </target>
    </processor>
 </history>

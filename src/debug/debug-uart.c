@@ -60,8 +60,8 @@ void initDebug(void){
 	//remap DMA request
 	  DMA1_CSELR->CSELR |= 0xA000;//ch 4 => 0x0A (USART3_tx)
 
-	  //DBG_UART->BRR = MCK/115200/1;//417;//625;//0x1a1;
-	  DBG_UART->BRR = MCK/921600/1;//417;//625;//0x1a1;
+	  DBG_UART->BRR = MCK/115200/1;//417;//625;//0x1a1;
+	  //DBG_UART->BRR = MCK/921600/1;//417;//625;//0x1a1;
 	  DBG_UART->CR1 |= USART_CR1_UE;
 	  DBG_UART->CR3 = USART_CR3_DMAT;
 

@@ -36,7 +36,7 @@ int main()// Reset_Handler
 	IWDG->KR = 0xAAAA; //reset
 	IWDG->KR = 0x5555; //enable access
 	IWDG->RLR = 0xfff; //set reload register to max
-	IWDG->PR = 0x07;// set divider
+	IWDG->PR = 0x03;//0x07;// set divider
 	IWDG->KR = 0xCCCC; //enable
 
 
