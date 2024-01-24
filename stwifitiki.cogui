@@ -57,7 +57,7 @@
 </editor>
 <editor activePart="true" focus="true" id="org.eclipse.cdt.ui.editor.CEditor" name="steer.c" partName="steer.c" path="F:/data/soft/baleno/can/MishkaOP/trunk/src/base/steer.c" title="steer.c" tooltip="F:/data/soft/baleno/can/MishkaOP/trunk/src/base/steer.c" workbook="DefaultEditorWorkbook">
 <input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/stwifitiki/src/base/steer.c"/>
-<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="11500" selectionTopPixel="6871"/>
+<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="1980" selectionTopPixel="480"/>
 </editor>
 </editors>
 <views>
@@ -92,7 +92,6 @@
 </view>
 <view id="org.eclipse.search.ui.views.SearchView" partName="Search">
 <viewState isPinned="false">
-<view IMemento.internal.id="org.eclipse.search.text.FileSearchResultPage" org.eclipse.search.lastActivation="1" org.eclipse.search.resultpage.layout="2" org.eclipse.search.resultpage.limit="1000" org.eclipse.search.resultpage.sorting="2"/>
 <view IMemento.internal.id="" org.eclipse.search.lastActivation="0"/>
 </viewState>
 </view>
@@ -170,7 +169,7 @@
 <page content="org.eclipse.ui.internal.introview" label="LabelNotFound"/>
 </folder>
 </info>
-<info folder="true" part="org.eclipse.ui.internal.ViewStack@16e5aed" ratio="0.70554924" ratioLeft="623" ratioRight="260" relationship="4" relative="org.eclipse.ui.internal.ViewStack@443122">
+<info folder="true" part="org.eclipse.ui.internal.ViewStack@16e5aed" ratio="0.9052864" ratioLeft="822" ratioRight="86" relationship="4" relative="org.eclipse.ui.internal.ViewStack@443122">
 <folder activePageID="org.eclipse.search.ui.views.SearchView" appearance="2" expanded="2">
 <page content="org.eclipse.ui.console.ConsoleView" label="Console"/>
 <page content="org.eclipse.search.ui.views.SearchView" label="Search"/>
