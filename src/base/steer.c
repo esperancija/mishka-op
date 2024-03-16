@@ -29,9 +29,6 @@ static int32_t sum, P, I, D, res;
 #define KALMAN_SBI_KOEF 	32000//20000//17000//11000//10000//27000 //20000//26000 //27000
 #define KALMAN_SBI(z, x) ((KALMAN_SBI_KOEF*z+(MAX_K_KF-KALMAN_SBI_KOEF)*x)/MAX_K_KF)
 
-#define KALMAN_MOFF_KOEF 	32000
-#define KALMAN_MOFF(z, x) ((KALMAN_MOFF_KOEF*z+(MAX_K_KF-KALMAN_MOFF_KOEF)*x)/MAX_K_KF)
-
 int16_t limitMoment(int16_t moment, int16_t value){
 	if (moment >= value)
 		moment = value;
@@ -44,7 +41,8 @@ int16_t limitMoment(int16_t moment, int16_t value){
 void DMA1_Channel1_IRQHandler(void) {
 
 uint16_t value1, value2;
-static int16_t oldVal1, oldVal2, oldState, smoothSwitchCnt;
+static int16_t oldVal1, oldVal2, oldState;
+static uint32_t smoothSwitchCnt;
 
 	//clear pending flag of interrupt
 	DMA1->IFCR |= DMA_IFCR_CGIF1;
@@ -55,20 +53,24 @@ static int16_t oldVal1, oldVal2, oldState, smoothSwitchCnt;
 
 	murchik.accControlAdc = KALMAN_SBI(murchik.accControlAdc, murchik.instantData.rawData[SBI_CH]);
 
+
+#define SWITCH_DURATION 25000 //in 10 uS
 /*******************************************************************************************/
 	if (murchik.currentState != oldState){
-		smoothSwitchCnt = 25;// 250 ms
-	}else if (smoothSwitchCnt)
-		smoothSwitchCnt --;
+		smoothSwitchCnt = 0;//
+	}else if (smoothSwitchCnt < SWITCH_DURATION)
+		smoothSwitchCnt ++;
 
 	if ((murchik.currentState == controlState)){
-		if (smoothSwitchCnt)
-			momentAdd = KALMAN_MOFF(momentAdd, murchik.steerTargetMoment);
+		if (smoothSwitchCnt < SWITCH_DURATION)
+			//momentAdd = KALMAN_MOFF(momentAdd, murchik.steerTargetMoment);
+			momentAdd += smoothSwitchCnt*(murchik.steerTargetMoment - momentAdd)/SWITCH_DURATION;
 		else
 			momentAdd = murchik.steerTargetMoment;
 	}else if (murchik.currentState == offState){
-		if (smoothSwitchCnt)
-			momentAdd = KALMAN_MOFF(momentAdd, 0);
+		if (smoothSwitchCnt < SWITCH_DURATION)
+			//momentAdd = KALMAN_MOFF(momentAdd, 0);
+			momentAdd -= smoothSwitchCnt*momentAdd/SWITCH_DURATION;
 		else
 			momentAdd = 0;
 	}
@@ -388,11 +390,9 @@ static int16_t newMoment, prevSetAngle;
 		if ((IS_BUT_PRESS) || (murchik.opData & opActive)){
 #endif
 			murchik.currentState = controlState;
-			GREEN_ON;
 			FS_RELAY_ON;
 		}else{
 			murchik.currentState = activeState;
-			GREEN_OFF;
 		}
 
 		if (ev == PROCESS_EVENT_TIMER){
