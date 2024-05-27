@@ -25,6 +25,9 @@ uint8_t getAccKey(void);
 #define BTN_NOKEY_LVL	2980//2300
 #endif
 
+#define ACCS_ON_LVL		7000
+#define ACCS_INC_LVL	350//2675
+#define ACCS_DEC_LVL	1100//1000//2000
 
 //acc 750
 //cancel 1400

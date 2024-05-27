@@ -63,7 +63,20 @@ typedef struct{
 	CanData data;
 }CanPacket;
 
+#define MAX_PID_DATA_LEN	64
+typedef struct{
+	uint8_t len;
+	uint8_t lenWrited;
+	uint8_t pid;
+	uint8_t data[MAX_PID_DATA_LEN];
+}PidData;
+
 void initCanBus(void);
+uint8_t processCanPackets(Car * murchik);
 uint8_t sendPacket(uint16_t pid, uint32_t data0, uint32_t data1);
+uint16_t getPacketNumber(volatile CanPacket ** pPackets);
+void setPacketNumber(uint16_t p);
+void parseTPMSData(uint32_t data0, uint32_t data1);
+
 
 #endif

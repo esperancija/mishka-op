@@ -51,6 +51,16 @@ int main()// Reset_Handler
 	    } while(process_run() > 0);
 	    idle_count++;
 
+//		switch(murchik.showState){
+//			case showNormalMenuState:
+//				showNormalMenu();
+//				break;
+//			case showOPMenu1State:
+//			case showOPMenu2State:
+//				showOPMenu(murchik.showState);
+//				break;
+//		}
+
 	//reset IWDG
 	   IWDG->KR = 0xAAAA;
 	    /* Idle! */

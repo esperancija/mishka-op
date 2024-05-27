@@ -19,6 +19,10 @@
 
 #include "accControl.h"
 
+#include "normalMenu.h"
+#include "opMenu.h"
+
+#include "graph.h"
 
 /*---------------------------------------------------------------------------*/
 PROCESS(menu_process, "Menu process");
@@ -33,6 +37,27 @@ AUTOSTART_PROCESSES(
 		,&steer_process
 );
 
+uint8_t* getKeyName(uint8_t key){
+	static uint8_t name[16];
+	switch(key){
+	case noKey:
+		return "noKey";
+	case lkasOnKey:
+		return "lkasKey";
+	case cancelKey:
+		return "cancelKey";
+	case accOnKey:
+		return "accOnKey";
+	case upKey:
+		return "upKey";
+	case downKey:
+		return "downKey";
+	case mishkaKey:
+		return "mishkaKey";
+
+	}
+}
+
 /* Implementation of the display process */
 PROCESS_THREAD(menu_process, ev, data) {
 
@@ -44,9 +69,13 @@ static uint8_t oldSteerKey;
 	   uint8_t steerKey;
 static uint16_t bntPressCnt;
 
+static uint16_t i;
+//uint8_t debugMsg[500];
+static uint32_t px;
+
 #ifdef USE_LCD
 static uint8_t oldShowState = 0xff;
-uint8_t buf[200];
+//uint8_t buf[200];
 #endif
 
 	PROCESS_BEGIN();
@@ -88,15 +117,18 @@ uint8_t buf[200];
 			}
 
 			if ((++statusCnt % 1) == 0){
-				DEBUG_MSG(CDL,(COL_YELLOW"SBI=%d(%d) %d/%d RELAY=%d BUTTON=%d steer=%d DAC=%d/%d targetMoment=%d,"
+				DEBUG_MSG(CDL,(COL_YELLOW"SBI=%d(%s) %d/%d RELAY=%d BUTTON=%d steer=%d DAC=%d/%d targetMoment=%d,"
 						" state=%d koefs=%d-%d speed=%d, opActive=%d bpCnt=%d, showState=%d"COL_END,
-						murchik.accControlAdc, getAccKey(), murchik.steerSensor1, murchik.steerSensor2,
+						murchik.accControlAdc, getKeyName(getAccKey()), murchik.steerSensor1, murchik.steerSensor2,
 						FS_RELAY_STATE, IS_BUT_PRESS, murchik.steerPosition,
 						DAC->DHR12R1, DAC->DHR12R2, murchik.steerTargetMoment, murchik.currentState,
 						murchik.koefs.steerRatio, murchik.koefs.steerActuatorDelay, murchik.speedFL, murchik.opData & opActive,
 						bntPressCnt, murchik.showState));
 			}
-			//setAccCtlLevel(9999);
+			setAccCtlLevel(9999);
+			//setAccCtlLevel(ACCS_ON_LVL);
+			//setAccCtlLevel(ACCS_DEC_LVL);
+
 
 #ifdef SBI_TEST
 			steerKey = (IS_BUT_PRESS)?lkasOnKey:noKey;
@@ -136,7 +168,7 @@ uint8_t buf[200];
 				else
 					GREEN_OFF;
 
-				if ((steerKey == cancelKey) && (bntPressCnt > 50)){
+				if ((steerKey == cancelKey) && (bntPressCnt > 10)){
 					bntPressCnt = 0;
 					murchik.showState = showOPMenu1State;
 				}
@@ -195,6 +227,16 @@ uint8_t buf[200];
 			}
 
 			oldShowState = murchik.showState;
+
+			switch(murchik.showState){
+				case showNormalMenuState:
+					showNormalMenu();
+					break;
+				case showOPMenu1State:
+				case showOPMenu2State:
+					showOPMenu(murchik.showState);
+					break;
+			}
 #endif
 
 			if (isNeedSetKoefs){
@@ -208,17 +250,7 @@ uint8_t buf[200];
 			if (murchik.koefs.steerActuatorDelay == 0)
 				murchik.koefs.steerActuatorDelay = 210;
 
-//			switch(murchik.showState){
-//				case showNormalMenuState:
-//					showNormalMenu();
-//					break;
-//				case showOPMenu1State:
-//				case showOPMenu2State:
-//					showOPMenu(murchik.showState);
-//					break;
-//			}
-
-#if (0) //send TPMS Request
+#if (1) //send TPMS Request
 			px++;
 #define TPMS_REQ_DELAY	100
 			switch (px % TPMS_REQ_DELAY){

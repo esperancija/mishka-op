@@ -233,7 +233,9 @@ int16_t correctMoment(int16_t m, int16_t angle, uint16_t* x, uint16_t* y){
 uint16_t pidPAngle[] = {0,   7, 15, 30, 70}; //in degree
 //uint16_t pidPData[] =  {90, 50, 50,  50, 50};
 
-uint16_t pidPData[] =  {40, 40, 30,  25, 20};
+//uint16_t pidPData[] =  {40, 40, 30,  25, 20};
+uint16_t pidPData[] =  {40, 60, 45,  37, 30};
+
 //uint16_t pidPData[] =  {60, 40, 30,  30, 30};  //in 1/10
 //uint16_t pidPData[] =  {40, 25, 10,  5, 3};  //in 1/10
 //uint16_t pidPData[] =  {60, 25, 20,  5, 3};  //in 1/10

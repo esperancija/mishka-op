@@ -151,68 +151,6 @@ typedef struct
 
 }Car;
 
-
-/////main structure
-//typedef struct
-//{
-/////state of device
-//	uint8_t 		currentState;
-//
-//	uint16_t speed;//from CAN
-//	uint16_t speedFL;//from CAN
-//	uint16_t speedRL;//from CAN
-//	uint16_t speedFR;//from CAN
-//	uint16_t speedRR;//from CAN
-//
-//	uint16_t 	breaking;
-//	uint16_t 	isBrake;
-//	uint8_t		steerButton;
-//
-//	int16_t 	steerPosition;		//from CAN
-//	int16_t 	steerTargetAngle;	//from CAN
-//	uint16_t 	steerSpeed;			//from CAN
-//	int16_t 	steerMoment;		//from CAN
-//	uint8_t 	opData;			//from CAN
-//
-//	int16_t		epsMoment;
-//	int16_t		epsMoment2;
-//
-//	int8_t 		ATTemp;
-//	int8_t 		engTemp;
-//	uint8_t 	gear;
-//	uint16_t 	fuel;
-//	uint32_t 	LPer100;
-//	int16_t 	accel;
-//	int16_t 	accAccel;
-//	int16_t 	accAccel2;
-//	uint16_t	accControlAdc;
-//	uint8_t		isOPActive;
-//	//uint16_t		adcData[3];
-//
-//	uint8_t		accActive;
-//	uint8_t 	isGLock;
-//	uint8_t 	bswState;
-//	uint8_t 	rctaState;
-//	uint8_t		lightState;//02 - low beam, 06 - high beam
-//
-//	uint8_t		accDistance;
-//	uint8_t		accSpeed;
-//	uint8_t 	accSetSpeed;
-//	int8_t		accTest1; //steerActuatorDelay
-//	uint8_t		accTest2;
-//	uint32_t		ahbTest1;
-//	uint32_t		ahbTest2;
-//	uint8_t		accTest5;
-//
-//	TPMSData	tpmsData;
-//	int16_t 	testData;
-//
-//	uint8_t		key;
-//	uint8_t		oldKey;
-//	uint8_t 	showState;
-//	Koefs koefs;
-//}Car;
-
 enum Key			{noKey = 0, lkasOnKey, cancelKey, accOnKey, upKey, downKey, mishkaKey};
 
 enum State {
@@ -227,10 +165,6 @@ enum OPState {
 };
 
 extern Car murchik;
-//
-//#include "stdint.h"
-//#define __int16 int16_t
-//#define __int32 int32_t
 
 #define DS_INIT	GPIOA->MODER |= GPIO_MODER_MODER7_0; GPIOA->BSRR = GPIO_BSRR_BR_7;
 #define DS_ON 	GPIOA->BSRR = GPIO_BSRR_BS_7
@@ -238,11 +172,10 @@ extern Car murchik;
 
 //#define SBI_TEST
 
-//#define STEER_SHAKE
+#define STEER_SHAKE
+#define USE_LCD
 
 Car murchik;
-
-//#define USE_LCD
 
 #endif
 

@@ -22,7 +22,7 @@ if (cId == STEERING_WHEEL_POS_ID){
 	murchik.steerPosition = (((CAN->sFIFOMailBox[0].RDLR & 0xff) << 8) +
 									((CAN->sFIFOMailBox[0].RDLR >> 8) & 0xff)) - 0x1000;//0x0ffd;//0x1000;
 	murchik.steerSpeed = ((CAN->sFIFOMailBox[0].RDLR >> 16) & 0xffff)-0x1000;
-	process_post(&steer_process, calc_data_event, 0);
+	process_post_synch(&steer_process, calc_data_event, 0);
 //}else if (cId == STEER_TEST_ID){
 //	murchik.testData = ((CAN->sFIFOMailBox[0].RDLR) & 0xff) - 127;
 
@@ -200,38 +200,6 @@ void initCanBus(void){
 	NVIC_EnableIRQ(CEC_IRQn);
 }
 
-uint8_t sendPacket(uint16_t pid, uint32_t data0, uint32_t data1){
-
-uint32_t i = 1000000;
-static uint8_t errCnt;
-
-	while (((CAN->TSR & CAN_TSR_TME0) != CAN_TSR_TME0) && (--i));
-
-	if ((CAN->TSR & CAN_TSR_TME0) == CAN_TSR_TME0){ /* (1) */
-		CAN->sTxMailBox[0].TDTR = 8; /* (2) */
-		//CAN->sTxMailBox[0].TDLR = 2 | 0x1A<<8 | 0x90<<16; /* (3) */
-		//09-18-84-00-04-00-04-00
-		CAN->sTxMailBox[0].TDLR = data0; /* (3) */
-		CAN->sTxMailBox[0].TDHR = data1;
-		//CAN->sTxMailBox[0].TDLR = 2 | 0x21<<8 | j<<16; /* (3) */
-		//CAN->sTxMailBox[0].TDLR = 2 | 0x21<<8 | usingPids[j]<<16;
-		//CAN->sTxMailBox[0].TDHR = 0;
-		CAN->sTxMailBox[0].TIR = (uint32_t)(pid << 21
-							  | CAN_TI0R_TXRQ); /* (4) */
-
-		//DEBUG_MSG(2,("send OK CAN status 0x%x", CAN->ESR))
-		//CAN->TSR |= CAN_TSR_TME0;
-
-		errCnt = 0;
-	}else{
-		errCnt ++;
-		DEBUG_MSG(BDL,(COL_RED"send ERROR CAN ESR 0x%x, TSR 0x%x"COL_END, CAN->ESR, CAN->TSR))
-		initCanBus();
-		CAN->TSR |= CAN_TSR_TME0;
-	}
-	return errCnt;
-}
-
 void sendConfirm(uint16_t pid){
 	if ((CAN->TSR & CAN_TSR_TME0) == CAN_TSR_TME0){ /* (1) */
 		CAN->sTxMailBox[0].TDTR = 8; /* (2) */
@@ -249,4 +217,452 @@ void sendConfirm(uint16_t pid){
 //		packets[packetNumber].data.d[1] = 0;
 //		packetNumber++;
 	}
+}
+
+uint8_t sendPacket(uint16_t pid, uint32_t data0, uint32_t data1){
+
+	if ((CAN->TSR & CAN_TSR_TME0) == CAN_TSR_TME0){ /* (1) */
+		CAN->sTxMailBox[0].TDTR = 8; /* (2) */
+		//CAN->sTxMailBox[0].TDLR = 2 | 0x1A<<8 | 0x90<<16; /* (3) */
+		//09-18-84-00-04-00-04-00
+		CAN->sTxMailBox[0].TDLR = data0; /* (3) */
+		CAN->sTxMailBox[0].TDHR = data1;
+		//CAN->sTxMailBox[0].TDLR = 2 | 0x21<<8 | j<<16; /* (3) */
+		//CAN->sTxMailBox[0].TDLR = 2 | 0x21<<8 | usingPids[j]<<16;
+		//CAN->sTxMailBox[0].TDHR = 0;
+		CAN->sTxMailBox[0].TIR = (uint32_t)(pid << 21
+							  | CAN_TI0R_TXRQ); /* (4) */
+
+		//DEBUG_MSG(2,("send OK CAN status 0x%x", CAN->ESR))
+		//CAN->TSR |= CAN_TSR_TME0;
+		return 1;
+	}else{
+		//DEBUG_MSG(2,(COL_BLUE"CAN status 0x%x"COL_END, CAN->ESR))
+		//CAN->TSR |= CAN_TSR_TME0;
+	}
+	return 0;
+}
+
+
+void parseTPMSData(uint32_t data0, uint32_t data1){
+
+
+static PidData tpmsPidData;
+static uint16_t curPid = 0, dataIndex;//, pidNumder;
+
+//convert into byte array
+uint8_t t[8], i;
+for (i=0;i<4;i++){
+	t[i] 	= (data0 >> (8*i)) & 0xff;
+	t[i+4] 	= (data1 >> (8*i)) & 0xff;
+}
+
+
+
+//	if ((packets[i].id == TPMS_REQ_ID) &&
+//		(packets[i].data.t[0] == 2) && //len ==2
+//		(packets[i].data.t[1] == 0x21)){ //first byte of PID
+//
+//		curPid = packets[i].data.t[2];
+//
+//	//			DEBUG_MSG(BDL,("Set new PID %d", curPid))
+//				if (pidData[curPid].len > 0)
+//					curPid = 0;
+//
+//		if (pidData[curPid].len != pidData[curPid].lenWrited)
+//			pidData[curPid].len = 0;
+//		i++;
+//		continue;
+//	}
+
+
+	DEBUG_MSG(BDL,("Start switch  %d len %d/%d pid 0x%x",
+			t[0] >> 4, tpmsPidData.len, tpmsPidData.lenWrited, curPid))
+
+	DEBUG_MSG(BDL,( "%x-%x-%x-%x-%x-%x-%x-%x \r\n",
+			(t[0]) & 0xff,
+			(t[1]) & 0xff,
+			(t[2]) & 0xff,
+			(t[3]) & 0xff,
+			(t[4]) & 0xff,
+			(t[5]) & 0xff,
+			(t[6]) & 0xff,
+			(t[7]) & 0xff))
+
+//	if ((tpmsPidData.len != tpmsPidData.lenWrited) || (tpmsPidData.len == 0)){
+		switch (t[0] >> 4){
+			case 0:
+				DEBUG_MSG(BDL,("case 0 data %d", t[0]))
+				tpmsPidData.len = t[0] & 0x3f;
+				memcpy(tpmsPidData.data, &t[1], tpmsPidData.len);
+				tpmsPidData.lenWrited = tpmsPidData.len;
+				//curPid = 0;
+				break;
+			case 1:
+				tpmsPidData.len = t[1];
+				tpmsPidData.lenWrited = 0;
+				curPid = ((t[2] & 0x3f) << 8) | t[3];
+
+				DEBUG_MSG(BDL,("case 1 pid 0x%x, data 0x%x, len %d",
+						curPid, t[0],t[1]))
+
+				//sendConfirm(TPMS_REQ_ID);
+
+				if (tpmsPidData.len >= 6+7){
+					memcpy(tpmsPidData.data, &t[2], 6);
+					tpmsPidData.lenWrited += 6;
+				}else{
+					memcpy(tpmsPidData.data, &t[2], tpmsPidData.len);
+					tpmsPidData.lenWrited += tpmsPidData.len;
+				}
+				break;
+			case 2:
+//						DEBUG_MSG(BDL,("case 2 pid %d data %x len %d",
+//								curPid, packets[i].data.t[0], pidData[curPid].len))
+				dataIndex = t[0] & 0x0f;
+				if ((dataIndex == 0) || (dataIndex > (MAX_PID_DATA_LEN - 6)/7))
+					break;
+				if (tpmsPidData.len > 0){
+					if ((tpmsPidData.len > 6+7*dataIndex)){
+						memcpy(&tpmsPidData.data[6+7*(dataIndex-1)], &t[1], 7);
+						tpmsPidData.lenWrited += 7;
+					}else{
+						memcpy(&tpmsPidData.data[6+7*(dataIndex-1)], &t[1],
+								tpmsPidData.len - (6+7*(dataIndex - 1)));
+						tpmsPidData.lenWrited += tpmsPidData.len - (6+7*(dataIndex - 1));
+						//curPid = 0;
+					}
+				}
+				break;
+			case 3:
+				DEBUG_MSG(BDL,("case 3 pid %d data %d",t[0]))
+				break;
+		}
+//	}
+
+
+	if (tpmsPidData.len == tpmsPidData.lenWrited){
+		DEBUG_MSG(BDL,(
+						"New data: pid=0x%x len=%02d/%02d \r\n"
+						"%02x %02x %02x %02x | %02x %02x %02x %02x ||"
+						"%02x %02x %02x %02x ||| %02x %02x %02x %02x \r\n"
+						"%02x %02x %02x %02x | %02x %02x %02x %02x ||"
+						"%02x %02x %02x %02x ||| %02x %02x %02x %02x "
+						"\r\n",
+						curPid,
+						tpmsPidData.lenWrited, tpmsPidData.len,
+						tpmsPidData.data[0], tpmsPidData.data[1], tpmsPidData.data[2], tpmsPidData.data[3],
+						tpmsPidData.data[4], tpmsPidData.data[5], tpmsPidData.data[6], tpmsPidData.data[7],
+						tpmsPidData.data[8], tpmsPidData.data[9], tpmsPidData.data[10], tpmsPidData.data[11],
+						tpmsPidData.data[12], tpmsPidData.data[13], tpmsPidData.data[14], tpmsPidData.data[15],
+						tpmsPidData.data[16], tpmsPidData.data[17], tpmsPidData.data[18], tpmsPidData.data[19],
+						tpmsPidData.data[20], tpmsPidData.data[21], tpmsPidData.data[22], tpmsPidData.data[23],
+						tpmsPidData.data[24], tpmsPidData.data[25], tpmsPidData.data[26], tpmsPidData.data[27],
+						tpmsPidData.data[28], tpmsPidData.data[29], tpmsPidData.data[30], tpmsPidData.data[31]
+						  ));
+
+		switch (curPid){
+			case TPMS_FL_PID:
+				murchik.tpmsData.FL.pres = tpmsPidData.data[10]*1379/10133;
+				murchik.tpmsData.FL.temp = tpmsPidData.data[11]-50;
+				break;
+			case TPMS_RL_PID:
+				murchik.tpmsData.RL.pres = tpmsPidData.data[10]*1379/10133;
+				murchik.tpmsData.RL.temp = tpmsPidData.data[11]-50;
+				break;
+			case TPMS_RR_PID:
+				murchik.tpmsData.RR.pres = tpmsPidData.data[10]*1379/10133;
+				murchik.tpmsData.RR.temp = tpmsPidData.data[11]-50;
+				break;
+			case TPMS_FR_PID:
+				murchik.tpmsData.FR.pres = tpmsPidData.data[10]*1379/10133;
+				murchik.tpmsData.FR.temp = tpmsPidData.data[11]-50;
+				break;
+		}
+		curPid = 0;
+	}
+}
+
+
+uint8_t processCanPackets(Car * murchik){
+
+static uint16_t i;
+//static uint8_t j;
+char debugMsg[1000];
+//char* writePointer = debugMsg;
+
+	NVIC_DisableIRQ(CEC_IRQn);
+
+#if (MODE == 0)
+
+		dbg_send_bytes((const unsigned char*)"\033[2J:",5);
+		//up
+		dbg_send_bytes((const unsigned char*)"\033[20A",6);
+		//left
+		dbg_send_bytes((const unsigned char*)"\033[100D",6);
+
+
+#define PID_NUM 256
+PidData pidData[PID_NUM];
+uint16_t curPid = 0, index;//, pidNumder;
+uint16_t savePacketNumber = packetNumber;
+
+
+//process new pid data
+	memset(pidData, 0, sizeof(pidData));
+	//memset(&murchik->ldwData, 0, sizeof(LDWData));
+
+//	if (packetNumber)
+//		STATUS_LOAD_ON_PHY;
+
+	DEBUG_MSG(BDL,("Got new %d packets",packetNumber))
+	//STATUS_LOAD_OFF_PHY;
+	i=0;
+	while (i<packetNumber){
+		DEBUG_MSG(BDL,( "id=0x%x %x-%x-%x-%x-%x-%x-%x-%x \r\n",
+									packets[i].id,
+									(packets[i].data.t[0]) & 0xff,
+									(packets[i].data.t[1]) & 0xff,
+									(packets[i].data.t[2]) & 0xff,
+									(packets[i].data.t[3]) & 0xff,
+									(packets[i].data.t[4]) & 0xff,
+									(packets[i].data.t[5]) & 0xff,
+									(packets[i].data.t[6]) & 0xff,
+									(packets[i].data.t[7]) & 0xff))
+
+//		DEBUG_MSG(BDL,("Start %d %d len %d/%d pid %d",
+//				i, packets[i].data.t[0], packets[i].data.t[0], packets[i].data.t[1], packets[i].id ))
+
+			if ((packets[i].id == TPMS_REQ_ID) &&
+				(packets[i].data.t[0] == 2) && //len ==2
+				(packets[i].data.t[1] == 0x21)){ //first byte of PID
+
+			curPid = packets[i].data.t[2];
+
+//			DEBUG_MSG(BDL,("Set new PID %d", curPid))
+					if (pidData[curPid].len > 0)
+						curPid = 0;
+
+			if (pidData[curPid].len != pidData[curPid].lenWrited)
+				pidData[curPid].len = 0;
+			i++;
+			continue;
+		}
+
+		if (packets[i].id == TPMS_ANSWER_ID){
+//					DEBUG_MSG(BDL,("Start switch  %d len %d/%d pid %d",
+//							packets[i].data.t[0] >> 4, pidData[curPid].len, pidData[curPid].lenWrited, curPid))
+			if ((pidData[curPid].len != pidData[curPid].lenWrited) || (pidData[curPid].len == 0)){
+				switch (packets[i].data.t[0] >> 4){
+					case 0:
+						DEBUG_MSG(BDL,("case 0 pid %d data %d", curPid, packets[i].data.t[0]))
+						pidData[curPid].len = packets[i].data.t[0] & 0x3f;
+						memcpy(pidData[curPid].data, (char*)&packets[i].data.t[1], pidData[curPid].len);
+						pidData[curPid].lenWrited = pidData[curPid].len;
+						//curPid = 0;
+						break;
+					case 1:
+						DEBUG_MSG(BDL,("case 1 pid %d, data %d, len %d", curPid,
+								packets[i].data.t[0],
+								packets[i].data.t[1]))
+						pidData[curPid].len = packets[i].data.t[1];
+						pidData[curPid].lenWrited = 0;
+						if (pidData[curPid].len >= 6+7){
+							memcpy(pidData[curPid].data, (char*)&packets[i].data.t[2], 6);
+							pidData[curPid].lenWrited += 6;
+							//sendConfirm();
+						}else{
+							memcpy(pidData[curPid].data, (char*)&packets[i].data.t[2], pidData[curPid].len);
+							pidData[curPid].lenWrited += pidData[curPid].len;
+							//curPid = 0;
+						}
+						break;
+					case 2:
+//						DEBUG_MSG(BDL,("case 2 pid %d data %x len %d",
+//								curPid, packets[i].data.t[0], pidData[curPid].len))
+						index = packets[i].data.t[0] & 0x0f;
+						if ((index == 0) || (index > (MAX_PID_DATA_LEN - 6)/7))
+							break;
+						if (pidData[curPid].len > 0){
+							if ((pidData[curPid].len > 6+7*index)){
+								memcpy(&pidData[curPid].data[6+7*(index-1)], (char*)&packets[i].data.t[1], 7);
+								pidData[curPid].lenWrited += 7;
+							}else{
+								memcpy(&pidData[curPid].data[6+7*(index-1)], (char*)&packets[i].data.t[1],
+											pidData[curPid].len - (6+7*(index - 1)));
+								pidData[curPid].lenWrited += pidData[curPid].len - (6+7*(index - 1));
+								//curPid = 0;
+							}
+						}
+						break;
+					case 3:
+						DEBUG_MSG(BDL,("case 3 pid %d data %d", curPid, packets[i].data.t[0]))
+						break;
+				}
+			}
+		}
+		if (curPid == TPMS_FL_REQ){
+			DEBUG_MSG(BDL,("find FL data pid %d data %d", curPid, packets[i].data.t[0]))
+//			murchik->ldwData.right = (pidData[curPid].data[2]-0x80);
+//			murchik->ldwData.left[(++murchik->ldwData.leftIndex)%LDW_LEFT_LEN] =  (pidData[curPid].data[3]-0x80);
+//			murchik->ldwData.width = 2*pidData[curPid].data[4];
+//			murchik->ldwData.isLeft = (pidData[curPid].data[5] & 0x02)?1:0;
+//			murchik->ldwData.isRight = (pidData[curPid].data[5] & 0x01)?1:0;
+		}
+//uint16_t temp;
+
+//		if ((curPid == LDW_REQ_PID) && (pidData[curPid].lenWrited == pidData[curPid].len)){
+//			temp = 256*(pidData[curPid].data[10] & 0x07) +
+//					pidData[curPid].data[11];
+//			if (temp)
+//				murchik->fcmData.numTarget = temp;
+//			temp = 256*(pidData[curPid].data[15] & 0x07) +
+//					pidData[curPid].data[16];
+//			if (temp)
+//				murchik->fcmData.relSpeed = temp;
+////			murchik->fcmData.relDist =  (256*(pidData[curPid].data[23] & 0x07) +
+////					pidData[curPid].data[24])/10;
+//			murchik->fcmData.relDist = pidData[curPid].data[20];
+//			murchik->fcmData.laterOffset = (int8_t)pidData[curPid].data[20];
+//			murchik->fcmData.curveRadius = pidData[curPid].data[10];
+//		}
+		i++;
+	}
+
+	//if (j == 0)
+//show new pid data
+	for (index = 1; index < PID_NUM; index ++){
+		if ((pidData[index].len == 0) || (pidData[index].data[0] == 0x7f))
+			continue;
+		dbg_send_bytes((uint8_t *)debugMsg,
+				snprintf((char*)debugMsg, sizeof(debugMsg),
+						"pid=0x%x len=%02d/%02d \t\t "
+						"%02x %02x %02x %02x | %02x %02x %02x %02x ||"
+						"%02x %02x %02x %02x ||| %02x %02x %02x %02x \r\n"
+						"%02x %02x %02x %02x | %02x %02x %02x %02x ||"
+						"%02x %02x %02x %02x ||| %02x %02x %02x %02x "
+						"\r\n",
+						index,
+						pidData[index].lenWrited, pidData[index].len,
+						pidData[index].data[0], pidData[index].data[1], pidData[index].data[2], pidData[index].data[3],
+						pidData[index].data[4], pidData[index].data[5], pidData[index].data[6], pidData[index].data[7],
+                        pidData[index].data[8], pidData[index].data[9], pidData[index].data[10], pidData[index].data[11],
+						pidData[index].data[12], pidData[index].data[13], pidData[index].data[14], pidData[index].data[15],
+						pidData[index].data[16], pidData[index].data[17], pidData[index].data[18], pidData[index].data[19],
+						pidData[index].data[20], pidData[index].data[21], pidData[index].data[22], pidData[index].data[23],
+						pidData[index].data[24], pidData[index].data[25], pidData[index].data[26], pidData[index].data[27],
+						pidData[index].data[28], pidData[index].data[29], pidData[index].data[30], pidData[index].data[31]
+						   )
+		);
+		curPid = 0;
+		pidData[curPid].len = 0;
+	}
+
+#elif (MODE == 1)
+	//	j++;
+	//	j%=usingPidsSize;
+	//if (j == 0){
+		dbg_send_bytes((const unsigned char*)"\033[2J:",5);
+		//up
+		dbg_send_bytes((const unsigned char*)"\033[20A",6);
+		//left
+		dbg_send_bytes((const unsigned char*)"\033[100D",6);
+	//}
+	DEBUG_MSG(BDL,("Got new %d id's",lastId));
+		for (i=0;i<lastId;i++){
+			if ((i % 4) == 0){
+				dbg_send_bytes("\r\n", 4);
+				//left
+				dbg_send_bytes("\033[500D", 6);
+			}
+//			if (idArr[i].isUpdate == 0xff)
+//				dbg_send_bytes(COL_YELLOW,7);
+			if (idArr[i].isUpdate)
+				dbg_send_bytes(COL_RED,7);
+			dbg_send_bytes(debugMsg,
+					snprintf(debugMsg, sizeof(debugMsg), "0x%03x/%x/%x=%02x-%02x-%02x-%02x-%02x-%02x-%02x-%02x \t",
+							idArr[i].id, idArr[i].len, idArr[i].isUpdate,
+								idArr[i].data[0], idArr[i].data[1], idArr[i].data[2], idArr[i].data[3],
+								idArr[i].data[4], idArr[i].data[5], idArr[i].data[6], idArr[i].data[7])
+			);
+
+
+//	writePointer +=	snprintf(writePointer, sizeof(debugMsg), "0x%03x/%x/%x=%02x-%02x-%02x-%02x-%02x-%02x-%02x-%02x | ",
+//							idArr[i].id, idArr[i].len, idArr[i].isUpdate,
+//								idArr[i].data[0], idArr[i].data[1], idArr[i].data[2], idArr[i].data[3],
+//								idArr[i].data[4], idArr[i].data[5], idArr[i].data[6], idArr[i].data[7]
+//			);
+			dbg_send_bytes(COL_END,4);
+			idArr[i].isUpdate = 0;
+		}
+		dbg_send_bytes(debugMsg,writePointer - debugMsg);
+		dbg_send_bytes("\r\n", 4);
+#elif (MODE == 2)
+#endif
+	NVIC_EnableIRQ(CEC_IRQn);
+
+//if (getKeys()){
+
+#if (MODE == 0)
+	/* (1) check mailbox 0 is empty */
+	/* (2) fill data length = 1 */
+	/* (3) fill 8-bit data */
+	/* (4) fill Id field and request a transmission */
+//	if ((CAN->TSR & CAN_TSR_TME0) == CAN_TSR_TME0){ /* (1) */
+//		CAN->sTxMailBox[0].TDTR = 8; /* (2) */
+//		//CAN->sTxMailBox[0].TDLR = 2 | 0x1A<<8 | 0x90<<16; /* (3) */
+//		CAN->sTxMailBox[0].TDLR = 2 | 0x21<<8 | LDW_REQ_PID<<16; /* (3) */
+//		//CAN->sTxMailBox[0].TDLR = 2 | 0x21<<8 | j<<16; /* (3) */
+//		//CAN->sTxMailBox[0].TDLR = 2 | 0x21<<8 | usingPids[j]<<16;
+//		CAN->sTxMailBox[0].TDHR = 0;
+//		CAN->sTxMailBox[0].TIR = (uint32_t)(LDW_REQ_ID << 21
+//							  | CAN_TI0R_TXRQ); /* (4) */
+//
+		packetNumber = 0;
+
+
+//		//make manual loopback
+//		packets[packetNumber].id = LDW_REQ_ID;
+//		packets[packetNumber].len = 8;
+//		packets[packetNumber].data.d[0] = CAN->sTxMailBox[0].TDLR;
+//		packets[packetNumber].data.d[1] = 0;
+//		packetNumber++;
+//	}
+	//STATUS_LINK_OFF_PHY;
+
+	if (savePacketNumber){
+//		for (i=0;i<savePacketNumber;i++)
+//			//if (packets[i].id == LDW_STATE_ID)
+//			  DEBUG_MSG(BDL,("%db 0x%x %x %x %x %x %x %x %x %x",
+//					  packets[i].len, packets[i].id,
+//					  packets[i].data.t[0], packets[i].data.t[1],
+//					  packets[i].data.t[2], packets[i].data.t[3],
+//					  packets[i].data.t[4], packets[i].data.t[5],
+//					  packets[i].data.t[6], packets[i].data.t[7]
+//			  ))
+
+		return 1;
+	}else
+		return 0;
+#else
+//	for (i=0;i<packetNumber;i++)
+//		  DEBUG_MSG(BDL,("%db \t 0x%x %x %x %x %x %x %x %x %x", steer_process
+//				  packets[i].len, packets[i].id,
+//				  packets[i].data.t[0], packets[i].data.t[1],
+//				  packets[i].data.t[2], packets[i].data.t[3],
+//				  packets[i].data.t[4], packets[i].data.t[5],
+//				  packets[i].data.t[6], packets[i].data.t[7]
+//		  ))
+      packetNumber = 0;
+#endif
+}
+
+
+uint16_t getPacketNumber(volatile CanPacket ** pPackets){
+	*pPackets = (CanPacket *)&packets;
+	return packetNumber;
+}
+
+void setPacketNumber(uint16_t p){
+	packetNumber= p;
 }

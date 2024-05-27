@@ -2,7 +2,7 @@
 
 #include "main.h"
 #include "normalMenu.h"
-#include "icons.h"
+//#include "icons.h"
 #include "text.h"
 #include "graph.h"
 #include "debug-uart.h"
@@ -46,30 +46,10 @@ void showHexValue(uint16_t x, uint16_t y, uint8_t* buff, int16_t value, uint16_t
 
 
 void showOPMenu(uint8_t showState){
-//show steer Position
-//static uint8_t steerPos[STR_BUF_SIZE];
-//showValue(10, 10, steerPos, murchik.steerPosition/2, GREEN, "REAL ANGLE");
-//
-////show steer target Position
-//static uint8_t steerTPos[STR_BUF_SIZE];
-//showValue(10, 50, steerTPos, murchik.steerTargetAngle/2, OLIVE, "SET ANGLE");
-
-////show steer target moment
-//static uint8_t steerMoment[STR_BUF_SIZE];
-//showValue(10, 90, steerMoment, murchik.opData & 0x01, RED, "ACTIVE");
-
-
-//	static uint8_t steerPos[STR_HEX_BUF_SIZE];
-//	showHexValue(10, 10, steerPos, murchik.ahbTest1, GREEN, "1");
-//
-//
-//	static uint8_t steerTPos[STR_HEX_BUF_SIZE];
-//	showHexValue(10, 50, steerTPos, murchik.ahbTest2, OLIVE, "2");
-
 
 //show steerActuatorDelay
 static uint8_t sadState[STR_BUF_SIZE];
-if (showState == showOPMenu2State){
+if (showState == showOPMenu1State){
 	showValue(10, 200, sadState, murchik.koefs.steerActuatorDelay*2, GREEN, "STEER ACTUATOR DELAY");
 }else{
 	showValue(10, 200, sadState, murchik.koefs.steerActuatorDelay*2, DGRAY, "STEER ACTUATOR DELAY");
@@ -77,7 +57,7 @@ if (showState == showOPMenu2State){
 
 //show steerRatio
 static uint8_t steerTestData[STR_BUF_SIZE];
-if (showState == showOPMenu1State)
+if (showState == showOPMenu2State)
 	showValue(10, 160, steerTestData, murchik.koefs.steerRatio*5, GREEN, "STEER RATIO");
 else {
 	showValue(10, 160, steerTestData, murchik.koefs.steerRatio*5, DGRAY, "STEER RATIO");
@@ -87,14 +67,5 @@ else {
 //show steer diff
 static uint8_t steerDiff[STR_BUF_SIZE];
 showValue(200, 10, steerDiff,  murchik.steerPosition/2 - murchik.steerTargetAngle/2, BLUE, "DIFF");
-
-//show eps moment
-//static uint8_t steerEpsMoment[STR_BUF_SIZE];
-//showValue(200, 160, steerEpsMoment, murchik.epsMoment, DGRAY, "1");
-//
-//static uint8_t steerEpsMoment2[STR_BUF_SIZE];
-//showValue(200, 200, steerEpsMoment, murchik.epsMoment2, DGRAY, "2");
-
-
 
 }

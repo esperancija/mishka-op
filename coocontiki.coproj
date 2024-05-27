@@ -105,8 +105,8 @@
     <File name="src/lcd/delay.h" path="src/ILI9341/delay.h" type="1"/>
     <File name="src/core/sys/cc.h" path="src/core/sys/cc.h" type="1"/>
     <File name="src/lcd/droidDigits18x32.h" path="src/ILI9341/fonts/droidDigits18x32.h" type="1"/>
-    <File name="src/core/sys/procinit.c" path="src/core/sys/procinit.c" type="1"/>
     <File name="cmsis" path="" type="2"/>
+    <File name="src/core/sys/procinit.c" path="src/core/sys/procinit.c" type="1"/>
     <File name="src/core/contiki-version.h" path="src/core/contiki-version.h" type="1"/>
     <File name="src/base/can.c" path="src/base/can.c" type="1"/>
     <File name="src/core/lib/list.h" path="src/core/lib/list.h" type="1"/>
@@ -121,11 +121,10 @@
     <File name="src/core/sys/etimer.c" path="src/core/sys/etimer.c" type="1"/>
     <File name="src/core/sys/autostart.h" path="src/core/sys/autostart.h" type="1"/>
     <File name="src/core" path="" type="2"/>
-    <File name="src/lcd/iconc.c" path="src/ILI9341/fonts/iconc.c" type="1"/>
     <File name="src/core/sys/clock.c" path="src/core/sys/clock.c" type="1"/>
     <File name="src/base/normalMenu.c" path="src/base/normalMenu.c" type="1"/>
-    <File name="src/base/opMenu.h" path="src/base/opMenu.h" type="1"/>
     <File name="cmsis_boot/system_stm32f0xx_temp.c" path="cmsis_boot/system_stm32f0xx_temp.c" type="1"/>
+    <File name="src/base/opMenu.h" path="src/base/opMenu.h" type="1"/>
     <File name="cmsis_boot" path="" type="2"/>
     <File name="src/debug/debug.c" path="src/debug/debug.c" type="1"/>
     <File name="src/core/lib" path="" type="2"/>
@@ -134,11 +133,11 @@
     <File name="src/core/lib/memb.h" path="src/core/lib/memb.h" type="1"/>
     <File name="src/core/sys/timer.h" path="src/core/sys/timer.h" type="1"/>
     <File name="cmsis_boot/stm32f0xx.h" path="cmsis_boot/stm32f0xx.h" type="1"/>
-    <File name="src/core/sys/clock.h" path="src/core/sys/clock.h" type="1"/>
     <File name="src/lcd/dma.h" path="src/ILI9341/dma.h" type="1"/>
+    <File name="src/core/sys/clock.h" path="src/core/sys/clock.h" type="1"/>
     <File name="src/base/accControl.c" path="src/base/accControl.c" type="1"/>
-    <File name="src/lcd/additionalFont.h" path="src/ILI9341/fonts/additionalFont.h" type="1"/>
     <File name="src/debug/debug.h" path="src/debug/debug.h" type="1"/>
+    <File name="src/lcd/additionalFont.h" path="src/ILI9341/fonts/additionalFont.h" type="1"/>
     <File name="src/core/sys/ctimer.c" path="src/core/sys/ctimer.c" type="1"/>
     <File name="src/core/sys/stimer.c" path="src/core/sys/stimer.c" type="1"/>
     <File name="src/lcd" path="" type="2"/>
@@ -147,11 +146,11 @@
     <File name="src/contiki-conf.h" path="src/contiki-conf.h" type="1"/>
     <File name="src/base/can.h" path="src/base/can.h" type="1"/>
     <File name="src/core/sys/lc-switch.h" path="src/core/sys/lc-switch.h" type="1"/>
-    <File name="src/lcd/text.c" path="src/ILI9341/text.c" type="1"/>
     <File name="src/core/contiki-lib.h" path="src/core/contiki-lib.h" type="1"/>
+    <File name="src/lcd/text.c" path="src/ILI9341/text.c" type="1"/>
     <File name="src/core/sys/timer.c" path="src/core/sys/timer.c" type="1"/>
-    <File name="src/core/sys/stimer.h" path="src/core/sys/stimer.h" type="1"/>
     <File name="cmsis_boot/stm32f0xx_conf.h" path="cmsis_boot/stm32f0xx_conf.h" type="1"/>
+    <File name="src/core/sys/stimer.h" path="src/core/sys/stimer.h" type="1"/>
     <File name="src/core/sys/ctimer.h" path="src/core/sys/ctimer.h" type="1"/>
     <File name="src/core/lib/memb.c" path="src/core/lib/memb.c" type="1"/>
     <File name="src/base/flash.c" path="src/base/flash.c" type="1"/>
@@ -166,8 +165,8 @@
     <File name="src/core/sys/process.c" path="src/core/sys/process.c" type="1"/>
     <File name="syscalls" path="" type="2"/>
     <File name="src/lcd/glcdfont.h" path="src/ILI9341/fonts/glcdfont.h" type="1"/>
-    <File name="src/base/steer.h" path="src/base/steer.h" type="1"/>
     <File name="cmsis_boot/system_stm32f0xx.h" path="cmsis_boot/system_stm32f0xx.h" type="1"/>
+    <File name="src/base/steer.h" path="src/base/steer.h" type="1"/>
     <File name="src/core/lib/random.c" path="src/core/lib/random.c" type="1"/>
     <File name="src/base/accControl.h" path="src/base/accControl.h" type="1"/>
     <File name="src/lcd/core.h" path="src/ILI9341/core.h" type="1"/>

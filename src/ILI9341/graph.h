@@ -37,4 +37,6 @@ void LCD_scroll(u16 v);
 
 void LCD_icon(uint16_t x, uint16_t y,const uint8_t* icon, uint16_t color);
 
+void LCD_fillScreen(u16 color);
+
 #endif //TEST1_ILI9341_H

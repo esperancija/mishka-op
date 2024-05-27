@@ -1,104 +1,101 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <history>
    <processor signature="arm-none-eabi-gcc noversion nomachine -mcpu=cortex-m0 -mthumb -Wall -ffunction-sections -g -Os -ffunction-sections -fdata-sections -c -IF:\data\soft\baleno\can\MishkaOP -IF:\data\soft\baleno\can\MishkaOP\trunk\cmsis -IF:\data\soft\baleno\can\MishkaOP\trunk\src -IF:\data\soft\baleno\can\MishkaOP\trunk\cmsis_boot -IF:\data\soft\baleno\can\MishkaOP\trunk\src\core -IF:\data\soft\baleno\can\MishkaOP\trunk -IF:\data\soft\baleno\can\MishkaOP\trunk\src\core\sys -IF:\data\soft\baleno\can\MishkaOP\trunk\src\ILI9341 -IF:\data\soft\baleno\can\MishkaOP\trunk\src\base -IF:\data\soft\baleno\can\MishkaOP\trunk\src\core\lib -IF:\data\soft\baleno\can\MishkaOP\trunk\src\debug -IF:\data\soft\baleno\can\MishkaOP\trunk\src\ILI9341\fonts">
-      <target file="timer.o" lastModified="18dfc1e74e5">
+      <target file="timer.o" lastModified="18fae82811f">
          <source file="..\..\..\src\core\sys\timer.c" lastModified="15534eba592"/>
       </target>
-      <target file="clock.o" lastModified="18dfc1e7bfb">
+      <target file="clock.o" lastModified="18fae828833">
          <source file="..\..\..\src\core\sys\clock.c" lastModified="17010474b1f"/>
       </target>
-      <target file="process.o" lastModified="18dfc1e7955">
+      <target file="process.o" lastModified="18fae8285b1">
          <source file="..\..\..\src\core\sys\process.c" lastModified="15534eba567"/>
       </target>
-      <target file="graph.o" lastModified="18dfc1e77d9">
-         <source file="..\..\..\src\ILI9341\graph.c" lastModified="18b6d892e99"/>
+      <target file="graph.o" lastModified="18fae828441">
+         <source file="..\..\..\src\ILI9341\graph.c" lastModified="18fae813550"/>
       </target>
-      <target file="debug-uart.o" lastModified="18dfc1e7a24">
+      <target file="debug-uart.o" lastModified="18fae828677">
          <source file="..\..\..\src\debug\debug-uart.c" lastModified="18cef15eadf"/>
       </target>
-      <target file="filter.o" lastModified="18dfc1e7b7d">
+      <target file="filter.o" lastModified="18fae8287bc">
          <source file="..\..\..\src\base\filter.c" lastModified="185171cd5bf"/>
       </target>
-      <target file="mini-printf.o" lastModified="18dfc1e752c">
+      <target file="mini-printf.o" lastModified="18fae828162">
          <source file="..\..\..\src\debug\mini-printf.c" lastModified="1557ca4e8aa"/>
       </target>
-      <target file="memb.o" lastModified="18dfc1e78ff">
+      <target file="memb.o" lastModified="18fae82855b">
          <source file="..\..\..\src\core\lib\memb.c" lastModified="15534eba522"/>
       </target>
-      <target file="contiki-main.o" lastModified="18dfc1e755f">
+      <target file="contiki-main.o" lastModified="18fae828193">
          <source file="..\..\..\src\core\contiki-main.c" lastModified="18b637b8b32"/>
       </target>
-      <target file="system_stm32f0xx_temp.o" lastModified="18dfc1e7841">
+      <target file="system_stm32f0xx_temp.o" lastModified="18fae8284a2">
          <source file="..\..\..\cmsis_boot\system_stm32f0xx_temp.c" lastModified="1802daba10e"/>
       </target>
-      <target file="stimer.o" lastModified="18dfc1e7b53">
+      <target file="stimer.o" lastModified="18fae828793">
          <source file="..\..\..\src\core\sys\stimer.c" lastModified="15534eba58f"/>
       </target>
-      <target file="random.o" lastModified="18dfc1e7a87">
+      <target file="random.o" lastModified="18fae8286d2">
          <source file="..\..\..\src\core\lib\random.c" lastModified="15534eba52e"/>
       </target>
-      <target file="flash.o" lastModified="18dfc1e74b8">
+      <target file="flash.o" lastModified="18fae8280f5">
          <source file="..\..\..\src\base\flash.c" lastModified="189895e9706"/>
       </target>
-      <target file="procinit.o" lastModified="18dfc1e7656">
+      <target file="procinit.o" lastModified="18fae82828e">
          <source file="..\..\..\src\core\sys\procinit.c" lastModified="15534eba573"/>
       </target>
-      <target file="accControl.o" lastModified="18dfc1e7ac0">
+      <target file="accControl.o" lastModified="18fae828708">
          <source file="..\..\..\src\base\accControl.c" lastModified="18d0e50cba2"/>
       </target>
-      <target file="steer.o" lastModified="18dfc1e75d4">
-         <source file="..\..\..\src\base\steer.c" lastModified="18dfbbfe6ed"/>
+      <target file="steer.o" lastModified="18fae828208">
+         <source file="..\..\..\src\base\steer.c" lastModified="18f921ecee1"/>
       </target>
-      <target file="debug.o" lastModified="18dfc1e7a58">
+      <target file="debug.o" lastModified="18fae8286a6">
          <source file="..\..\..\src\debug\debug.c" lastModified="17575b58035"/>
       </target>
-      <target file="list.o" lastModified="18dfc1e798f">
+      <target file="list.o" lastModified="18fae8285e4">
          <source file="..\..\..\src\core\lib\list.c" lastModified="15534eba51e"/>
       </target>
-      <target file="can.o" lastModified="18dfc1e773d">
-         <source file="..\..\..\src\base\can.c" lastModified="18cef0e644b"/>
+      <target file="can.o" lastModified="18fae8283da">
+         <source file="..\..\..\src\base\can.c" lastModified="18fae826adf"/>
       </target>
-      <target file="delay.o" lastModified="18dfc1e73de">
-         <source file="..\..\..\src\ILI9341\delay.c" lastModified="17d43837c20"/>
+      <target file="delay.o" lastModified="18fae82802a">
+         <source file="..\..\..\src\ILI9341\delay.c" lastModified="18f925b8039"/>
       </target>
-      <target file="opMenu.o" lastModified="18dfc1e7428">
-         <source file="..\..\..\src\base\opMenu.c" lastModified="18a52712170"/>
+      <target file="opMenu.o" lastModified="18fae82806c">
+         <source file="..\..\..\src\base\opMenu.c" lastModified="18fae80b94b"/>
       </target>
-      <target file="core.o" lastModified="18dfc1e7468">
-         <source file="..\..\..\src\ILI9341\core.c" lastModified="18ac8ec61b5"/>
+      <target file="core.o" lastModified="18fae8280a9">
+         <source file="..\..\..\src\ILI9341\core.c" lastModified="18f926076a3"/>
       </target>
-      <target file="syscalls.o" lastModified="18dfc1e79cb">
+      <target file="syscalls.o" lastModified="18fae828620">
          <source file="..\..\..\syscalls\syscalls.c" lastModified="14e2443a7bb"/>
       </target>
-      <target file="normalMenu.o" lastModified="18dfc1e769b">
-         <source file="..\..\..\src\base\normalMenu.c" lastModified="18b6d84dfae"/>
+      <target file="normalMenu.o" lastModified="18fae82830d">
+         <source file="..\..\..\src\base\normalMenu.c" lastModified="18fae81b27c"/>
       </target>
-      <target file="iconc.o" lastModified="18dfc1e776a">
-         <source file="..\..\..\src\ILI9341\fonts\iconc.c" lastModified="18b6d82cd82"/>
-      </target>
-      <target file="startup_stm32f0xx.o" lastModified="18dfc1e7662">
+      <target file="startup_stm32f0xx.o" lastModified="18fae828299">
          <source file="..\..\..\cmsis_boot\startup\startup_stm32f0xx.s" lastModified="167a151fa68"/>
       </target>
-      <target file="dma.o" lastModified="18dfc1e7bc7">
-         <source file="..\..\..\src\ILI9341\dma.c" lastModified="18ac6987ae1"/>
+      <target file="dma.o" lastModified="18fae828801">
+         <source file="..\..\..\src\ILI9341\dma.c" lastModified="18f925d405d"/>
       </target>
-      <target file="text.o" lastModified="18dfc1e78c3">
-         <source file="..\..\..\src\ILI9341\text.c" lastModified="17d677f4b53"/>
+      <target file="text.o" lastModified="18fae828521">
+         <source file="..\..\..\src\ILI9341\text.c" lastModified="18f92521491"/>
       </target>
-      <target file="autostart.o" lastModified="18dfc1e7b26">
+      <target file="autostart.o" lastModified="18fae82876a">
          <source file="..\..\..\src\core\sys\autostart.c" lastModified="15534eba53a"/>
       </target>
-      <target file="etimer.o" lastModified="18dfc1e76e1">
+      <target file="etimer.o" lastModified="18fae82834f">
          <source file="..\..\..\src\core\sys\etimer.c" lastModified="15534eba54d"/>
       </target>
-      <target file="ctimer.o" lastModified="18dfc1e7afb">
+      <target file="ctimer.o" lastModified="18fae828741">
          <source file="..\..\..\src\core\sys\ctimer.c" lastModified="15534eba547"/>
       </target>
-      <target file="rtimer.o" lastModified="18dfc1e7809">
+      <target file="rtimer.o" lastModified="18fae82846f">
          <source file="..\..\..\src\core\sys\rtimer.c" lastModified="15534eba588"/>
       </target>
-      <target file="main.o" lastModified="18dfc1e762a">
-         <source file="..\..\..\src\base\main.c" lastModified="18dfc1c212d"/>
+      <target file="main.o" lastModified="18fae828264">
+         <source file="..\..\..\src\base\main.c" lastModified="18fae7a732e"/>
       </target>
    </processor>
 </history>

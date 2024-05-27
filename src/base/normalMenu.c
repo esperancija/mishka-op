@@ -32,18 +32,18 @@ static uint8_t RRPres[8];
 static uint8_t steerDiff[8];
 static uint8_t steerAngle[8];
 
-static uint8_t fDiff[16];
-static uint8_t rDiff[16];
+//static uint8_t fDiff[16];
+//static uint8_t rDiff[16];
 
 static uint8_t accel[4];
-static uint8_t breaking[4];
+//static uint8_t breaking[4];
 static uint8_t steerPos[4];
 
 static uint8_t test1[4];
 static uint8_t test2[4];
-static uint8_t test3[4];
-static uint8_t test4[4];
-static uint8_t test5[4];
+//static uint8_t test3[4];
+//static uint8_t test4[4];
+//static uint8_t test5[4];
 
 static uint16_t steerPX, setSteerPX;
 static uint16_t steerPY, setSteerPY;
@@ -165,7 +165,6 @@ uint16_t lineColor = WHITE;
 					LCD_setTextColor(RED);
 				LCD_writeString(transmTemp);
 
-
 	//show OP state
 	#define CAR_ICON_X	145
 	#define CAR_ICON_Y	50
@@ -203,7 +202,6 @@ uint16_t lineColor = WHITE;
         	LCD_drawLine(CAR_ICON_X+32-5, CAR_ICON_Y-5,
         	         CAR_ICON_X+32-7-i*3, CAR_ICON_Y-30-5, lineColor);
         }
-
 
     //show steer position
         LCD_fillCircle(steerPX, steerPY, 5, BLACK);
@@ -245,11 +243,13 @@ uint16_t lineColor = WHITE;
 				LCD_writeString(gearVal);
 
 
+
 				LCD_drawCircle(GEAR_X+34/2,GEAR_Y+25, 32, gearLockColor);
 				LCD_drawCircle(GEAR_X+34/2,GEAR_Y+25, 33, gearLockColor);
 				LCD_drawCircle(GEAR_X+34/2,GEAR_Y+25, 34, gearLockColor);
 				LCD_drawCircle(GEAR_X+34/2,GEAR_Y+25, 35, gearLockColor);
 				LCD_drawCircle(GEAR_X+34/2,GEAR_Y+25, 36, gearLockColor);
+
 
 	//show LPER100
 	#define LPER100_X	120
@@ -332,8 +332,6 @@ uint16_t lineColor = WHITE;
 				LCD_setTextColor(GREENYELLOW);
 				snprintf((char*)FLPres,sizeof(FLPres),"%d.%d b", murchik.tpmsData.FL.pres/10, murchik.tpmsData.FL.pres%10);
 				LCD_writeString(FLPres);
-
-
 
 				if (frontDiff < -DIFF_LIMIT){
 					if (murchik.accel <= 1)

@@ -84,8 +84,6 @@ static void LCD_pinsInit() {
     GPIOB->OSPEEDR |= (GPIO_OSPEEDER_OSPEEDR3 | GPIO_OSPEEDER_OSPEEDR4 |
     						GPIO_OSPEEDER_OSPEEDR5);
 
-
-
 //set clock polarity and phase, set master
     GLCD_SPI->CR1 = SPI_CR1_MSTR + SPI_CR1_CPOL +
     						SPI_CR1_CPHA + SPI_CR1_SSM + SPI_CR1_SSI;
