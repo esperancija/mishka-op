@@ -75,10 +75,10 @@
     <File name="src/core/lib/random.h" path="src/core/lib/random.h" type="1"/>
     <File name="src/lcd/dma.c" path="src/ILI9341/dma.c" type="1"/>
     <File name="src" path="" type="2"/>
-    <File name="src/core/sys/rtimer.h" path="src/core/sys/rtimer.h" type="1"/>
     <File name="cmsis/core_cmFunc.h" path="cmsis/core_cmFunc.h" type="1"/>
-    <File name="src/base/steer.c" path="src/base/steer.c" type="1"/>
+    <File name="src/core/sys/rtimer.h" path="src/core/sys/rtimer.h" type="1"/>
     <File name="src/core/sys/dsc.h" path="src/core/sys/dsc.h" type="1"/>
+    <File name="src/base/steer.c" path="src/base/steer.c" type="1"/>
     <File name="src/core/contiki.h" path="src/core/contiki.h" type="1"/>
     <File name="src/base/flash.h" path="src/base/flash.h" type="1"/>
     <File name="cmsis/core_cm0.h" path="cmsis/core_cm0.h" type="1"/>
@@ -86,21 +86,21 @@
     <File name="src/debug/mini-printf.h" path="src/debug/mini-printf.h" type="1"/>
     <File name="src/lcd/commands.h" path="src/ILI9341/commands.h" type="1"/>
     <File name="src/debug/debug-uart.c" path="src/debug/debug-uart.c" type="1"/>
-    <File name="src/lcd/graph.c" path="src/ILI9341/graph.c" type="1"/>
     <File name="src/base/main.c" path="src/base/main.c" type="1"/>
+    <File name="src/lcd/graph.c" path="src/ILI9341/graph.c" type="1"/>
     <File name="src/debug" path="" type="2"/>
     <File name="src/core/sys/pt-sem.h" path="src/core/sys/pt-sem.h" type="1"/>
-    <File name="src/lcd/changeFont.h" path="src/ILI9341/fonts/changeFont.h" type="1"/>
     <File name="src/base/filter.c" path="src/base/filter.c" type="1"/>
+    <File name="src/lcd/changeFont.h" path="src/ILI9341/fonts/changeFont.h" type="1"/>
     <File name="src/base/main.h" path="src/base/main.h" type="1"/>
     <File name="src/core/lib/list.c" path="src/core/lib/list.c" type="1"/>
-    <File name="cmsis_boot/startup/startup_stm32f0xx.s" path="cmsis_boot/startup/startup_stm32f0xx.s" type="1"/>
     <File name="cmsis/core_cmInstr.h" path="cmsis/core_cmInstr.h" type="1"/>
+    <File name="cmsis_boot/startup/startup_stm32f0xx.s" path="cmsis_boot/startup/startup_stm32f0xx.s" type="1"/>
     <File name="src/lcd/icons.h" path="src/ILI9341/fonts/icons.h" type="1"/>
     <File name="src/debug/mini-printf.c" path="src/debug/mini-printf.c" type="1"/>
     <File name="src/core/sys/procinit.h" path="src/core/sys/procinit.h" type="1"/>
-    <File name="src/lcd/graph.h" path="src/ILI9341/graph.h" type="1"/>
     <File name="src/lcd/control.h" path="src/ILI9341/control.h" type="1"/>
+    <File name="src/lcd/graph.h" path="src/ILI9341/graph.h" type="1"/>
     <File name="src/core/sys/etimer.h" path="src/core/sys/etimer.h" type="1"/>
     <File name="src/lcd/delay.h" path="src/ILI9341/delay.h" type="1"/>
     <File name="src/core/sys/cc.h" path="src/core/sys/cc.h" type="1"/>
@@ -111,8 +111,8 @@
     <File name="src/base/can.c" path="src/base/can.c" type="1"/>
     <File name="src/core/lib/list.h" path="src/core/lib/list.h" type="1"/>
     <File name="src/core/contiki-main.c" path="src/core/contiki-main.c" type="1"/>
-    <File name="src/core/sys/rtimer.c" path="src/core/sys/rtimer.c" type="1"/>
     <File name="src/lcd/config.h" path="src/ILI9341/config.h" type="1"/>
+    <File name="src/core/sys/rtimer.c" path="src/core/sys/rtimer.c" type="1"/>
     <File name="src/core/sys/lc.h" path="src/core/sys/lc.h" type="1"/>
     <File name="src/core/sys/lc-addrlabels.h" path="src/core/sys/lc-addrlabels.h" type="1"/>
     <File name="src/lcd/delay.c" path="src/ILI9341/delay.c" type="1"/>
@@ -133,8 +133,8 @@
     <File name="src/core/lib/memb.h" path="src/core/lib/memb.h" type="1"/>
     <File name="src/core/sys/timer.h" path="src/core/sys/timer.h" type="1"/>
     <File name="cmsis_boot/stm32f0xx.h" path="cmsis_boot/stm32f0xx.h" type="1"/>
-    <File name="src/lcd/dma.h" path="src/ILI9341/dma.h" type="1"/>
     <File name="src/core/sys/clock.h" path="src/core/sys/clock.h" type="1"/>
+    <File name="src/lcd/dma.h" path="src/ILI9341/dma.h" type="1"/>
     <File name="src/base/accControl.c" path="src/base/accControl.c" type="1"/>
     <File name="src/debug/debug.h" path="src/debug/debug.h" type="1"/>
     <File name="src/lcd/additionalFont.h" path="src/ILI9341/fonts/additionalFont.h" type="1"/>
@@ -146,8 +146,8 @@
     <File name="src/contiki-conf.h" path="src/contiki-conf.h" type="1"/>
     <File name="src/base/can.h" path="src/base/can.h" type="1"/>
     <File name="src/core/sys/lc-switch.h" path="src/core/sys/lc-switch.h" type="1"/>
-    <File name="src/core/contiki-lib.h" path="src/core/contiki-lib.h" type="1"/>
     <File name="src/lcd/text.c" path="src/ILI9341/text.c" type="1"/>
+    <File name="src/core/contiki-lib.h" path="src/core/contiki-lib.h" type="1"/>
     <File name="src/core/sys/timer.c" path="src/core/sys/timer.c" type="1"/>
     <File name="cmsis_boot/stm32f0xx_conf.h" path="cmsis_boot/stm32f0xx_conf.h" type="1"/>
     <File name="src/core/sys/stimer.h" path="src/core/sys/stimer.h" type="1"/>

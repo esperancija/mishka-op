@@ -120,7 +120,7 @@ inline static void dmaSend16(u16 *data, u32 n) {
 
 //<editor-fold desc="DMA send receive functions">
 //5 for (SPI_CR1_BR_1 + SPI_CR1_BR_0);
-#define BASE_DELAY 1//30//16
+#define BASE_DELAY 0//1//30//16
 
 inline void dmaSendCmd(u8 cmd) {
     TFT_CS_RESET;

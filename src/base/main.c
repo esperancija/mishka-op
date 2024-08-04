@@ -94,7 +94,9 @@ static uint8_t oldShowState = 0xff;
 		DS_INIT;
 		BUT_SETUP;
 
+#ifdef USE_LCD
 		LCD_init();
+#endif
 		getKoefs(&murchik.koefs);
 
 		for (res=0;res<3;res++){
@@ -103,6 +105,12 @@ static uint8_t oldShowState = 0xff;
 			RED_OFF;
 			delay_ms(100);
 		}
+
+		IWDG->KR = 0xAAAA; //reset
+		IWDG->KR = 0x5555; //enable access
+		IWDG->RLR = 0x08ff; //set reload register to max
+		IWDG->PR = 0x00;//0x07;// set divider
+		IWDG->KR = 0xCCCC; //enable
 
 		while (1) {
 			etimer_set(&timer, CLOCK_SECOND/10);
@@ -250,7 +258,7 @@ static uint8_t oldShowState = 0xff;
 			if (murchik.koefs.steerActuatorDelay == 0)
 				murchik.koefs.steerActuatorDelay = 210;
 
-#if (1) //send TPMS Request
+#if (0) //send TPMS Request
 			px++;
 #define TPMS_REQ_DELAY	100
 			switch (px % TPMS_REQ_DELAY){

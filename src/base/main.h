@@ -173,7 +173,7 @@ extern Car murchik;
 //#define SBI_TEST
 
 #define STEER_SHAKE
-#define USE_LCD
+//#define USE_LCD
 
 Car murchik;
 

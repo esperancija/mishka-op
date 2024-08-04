@@ -22,7 +22,8 @@ if (cId == STEERING_WHEEL_POS_ID){
 	murchik.steerPosition = (((CAN->sFIFOMailBox[0].RDLR & 0xff) << 8) +
 									((CAN->sFIFOMailBox[0].RDLR >> 8) & 0xff)) - 0x1000;//0x0ffd;//0x1000;
 	murchik.steerSpeed = ((CAN->sFIFOMailBox[0].RDLR >> 16) & 0xffff)-0x1000;
-	process_post_synch(&steer_process, calc_data_event, 0);
+	//process_post_synch(&steer_process, calc_data_event, 0);
+	process_post(&steer_process, calc_data_event, 0);
 //}else if (cId == STEER_TEST_ID){
 //	murchik.testData = ((CAN->sFIFOMailBox[0].RDLR) & 0xff) - 127;
 
@@ -39,8 +40,10 @@ if (cId == STEERING_WHEEL_POS_ID){
 }else if (cId == BSW_STATE_ID){
 	murchik.bswState = ((CAN->sFIFOMailBox[0].RDLR >> 0) & 0xff);
 	murchik.rctaState = ((CAN->sFIFOMailBox[0].RDHR >> 24) & 0xff);
+#ifndef USE_LCD
 }else if (cId == SPEED_ID){
 	murchik.speed = 10*(((CAN->sFIFOMailBox[0].RDLR & 0xff) << 8) + ((CAN->sFIFOMailBox[0].RDLR >> 8) & 0xff))/12;
+#else
 }else if (cId == SPEED_1_ID){
 	//C+D
 	murchik.speedFL = ((CAN->sFIFOMailBox[0].RDLR >> 8) & 0xff00) + ((CAN->sFIFOMailBox[0].RDLR >> 24) & 0xff);
@@ -52,7 +55,7 @@ if (cId == STEERING_WHEEL_POS_ID){
 	//E+F
 	murchik.speedRR = ((CAN->sFIFOMailBox[0].RDHR & 0xff) << 8) + ((CAN->sFIFOMailBox[0].RDHR >> 8) & 0xff);
 	//G+H
-	//murchik.speed = ((CAN->sFIFOMailBox[0].RDHR >> 8) & 0xff00) + ((CAN->sFIFOMailBox[0].RDHR >> 24) & 0xff);
+	murchik.speed = ((CAN->sFIFOMailBox[0].RDHR >> 8) & 0xff00) + ((CAN->sFIFOMailBox[0].RDHR >> 24) & 0xff);
 	//murchik.speed = 10*(((CAN->sFIFOMailBox[0].RDLR & 0xff) << 8) + ((CAN->sFIFOMailBox[0].RDLR >> 8) & 0xff))/12;
 }else if (cId == ATTEMP_ID){
 	murchik.ATTemp = ((CAN->sFIFOMailBox[0].RDLR >> 16) & 0xff) - 50;
@@ -68,18 +71,6 @@ if (cId == STEERING_WHEEL_POS_ID){
 	//murchik.fuel = (((CAN->sFIFOMailBox[0].RDLR >> 16) & 0xff00) + (CAN->sFIFOMailBox[0].RDHR & 0xff))/100;
 	murchik.fuel = (256*((CAN->sFIFOMailBox[0].RDHR >> 8) & 0xff) + ((CAN->sFIFOMailBox[0].RDHR >> 16) & 0xff))/5;
 	murchik.engTemp = ((CAN->sFIFOMailBox[0].RDLR >> 0) & 0xff) - 40;
-}else if (cId == STEER_CONTROL_ID){
-	murchik.opActiveTimer = OP_ACTIVE_TIMEOUT;
-	murchik.steerTargetAngle = ((CAN->sFIFOMailBox[0].RDLR >> 16) & 0x7ff) - 1024;
-	murchik.steerMoment = ((CAN->sFIFOMailBox[0].RDLR) & 0x7ff) - 1024;
-
-	murchik.opData = ((CAN->sFIFOMailBox[0].RDLR >> 11) & 0x1f);
-	murchik.accTest1 = ((CAN->sFIFOMailBox[0].RDHR) & 0xff);
-	murchik.accTest2 = ((CAN->sFIFOMailBox[0].RDHR >> 8) & 0xff);
-#if (CONTROL_MODE == MOMENT_CONTROL)
-	murchik.steerTargetMoment = ((CAN->sFIFOMailBox[0].RDLR) & 0x7ff) - 1024;
-#endif
-
 }else if (cId == ACCEL_PEDAL_ID){
 	murchik.accel = 100*((CAN->sFIFOMailBox[0].RDLR >> 16) & 0xff)/255;
 }else if (cId == LIGHT_STATE_ID){
@@ -103,6 +94,20 @@ if (cId == STEERING_WHEEL_POS_ID){
 //	murchik.accTest3 = (CAN->sFIFOMailBox[0].RDLR >> 16) & 0xff;
 //	murchik.accTest4 = (CAN->sFIFOMailBox[0].RDLR >> 24) & 0xff;
 //	murchik.accTest5 = (CAN->sFIFOMailBox[0].RDHR >> 0) & 0xff;
+#endif
+}else if (cId == STEER_CONTROL_ID){
+	murchik.opActiveTimer = OP_ACTIVE_TIMEOUT;
+	murchik.steerTargetAngle = ((CAN->sFIFOMailBox[0].RDLR >> 16) & 0x7ff) - 1024;
+	murchik.steerMoment = ((CAN->sFIFOMailBox[0].RDLR) & 0x7ff) - 1024;
+
+	murchik.opData = ((CAN->sFIFOMailBox[0].RDLR >> 11) & 0x1f);
+	murchik.accTest1 = ((CAN->sFIFOMailBox[0].RDHR) & 0xff);
+	murchik.accTest2 = ((CAN->sFIFOMailBox[0].RDHR >> 8) & 0xff);
+#if (CONTROL_MODE == MOMENT_CONTROL)
+	murchik.steerTargetMoment = ((CAN->sFIFOMailBox[0].RDLR) & 0x7ff) - 1024;
+#endif
+
+
 }else if ((cId == TPMS_ANSWER_ID)){
 		if ((CAN->sFIFOMailBox[0].RDLR & 0x30) == 0x10){
 			sendConfirm(TPMS_REQ_ID);
@@ -171,28 +176,33 @@ void initCanBus(void){
 
 	CAN->FA1R |= CAN_FA1R_FACT0 | CAN_FA1R_FACT1 |  CAN_FA1R_FACT2
 			|  CAN_FA1R_FACT3 |  CAN_FA1R_FACT4 |  CAN_FA1R_FACT5
-			|  CAN_FA1R_FACT6 |  CAN_FA1R_FACT7 |  CAN_FA1R_FACT8
+			|  CAN_FA1R_FACT6 |  CAN_FA1R_FACT7
+#ifdef USE_LCD
+			|  CAN_FA1R_FACT8
 			| CAN_FA1R_FACT9 | CAN_FA1R_FACT10
 			| CAN_FA1R_FACT11
 			| CAN_FA1R_FACT12
 			| CAN_FA1R_FACT13
+#endif
 			; /* (8) */
 
 	CAN->sFilterRegister[0].FR1 = STEERING_WHEEL_POS_ID << 5 | 0x7ff << 21; /* (9) */
 	CAN->sFilterRegister[1].FR1 = SPEED_1_ID << 5 | 0x7ff << 21; /* (9) */
+	//CAN->sFilterRegister[2].FR1 = SPEED_2_ID << 5 | 0x7ff << 21; /* (9) */
 	CAN->sFilterRegister[2].FR1 = SPEED_ID << 5 | 0x7ff << 21; /* (9) */
 	CAN->sFilterRegister[3].FR1 = ATTEMP_ID << 5 | 0x7ff << 21; /* (9) */
 	CAN->sFilterRegister[4].FR1 = GEAR_ID << 5 | 0x7ff << 21; /* (9) */
 	CAN->sFilterRegister[5].FR1 = LDW_STATE_ID << 5 | 0x7ff << 21; /* (9) */
 	CAN->sFilterRegister[6].FR1 = FUEL_FLOW_ID << 5 | 0x7ff << 21; /* (9) */
-	CAN->sFilterRegister[7].FR1 = BSW_STATE_ID << 5 | 0x7ff << 21;
-	CAN->sFilterRegister[8].FR1 = ACCEL_PEDAL_ID << 5 | 0x7ff << 21;
-	CAN->sFilterRegister[9].FR1 = BRAKE_STATE_ID << 5 | 0x7cf << 21;
-	CAN->sFilterRegister[10].FR1 = TPMS_ANSWER_ID << 5 | 0x7ff << 21;
-	CAN->sFilterRegister[11].FR1 = STEER_CONTROL_ID << 5 | 0x7f0 << 21;
+	CAN->sFilterRegister[7].FR1 = STEER_CONTROL_ID << 5 | 0x7f0 << 21;
+#ifdef USE_LCD
+	CAN->sFilterRegister[8].FR1 = BSW_STATE_ID << 5 | 0x7ff << 21;
+	CAN->sFilterRegister[9].FR1 = ACCEL_PEDAL_ID << 5 | 0x7ff << 21;
+	CAN->sFilterRegister[10].FR1 = BRAKE_STATE_ID << 5 | 0x7cf << 21;
+	CAN->sFilterRegister[11].FR1 = TPMS_ANSWER_ID << 5 | 0x7ff << 21;
 	CAN->sFilterRegister[12].FR1 = LONG_CONTROL_ID << 5 | 0x7f0 << 21;
 	CAN->sFilterRegister[13].FR1 = LIGHT_STATE_ID << 5 | 0x7f0 << 21;
-
+#endif
 
 	CAN->FMR &=~ CAN_FMR_FINIT; /* (10) */
 	CAN->IER |= (CAN_IER_FMPIE0 | CAN_IER_FMPIE1); /* (11) */

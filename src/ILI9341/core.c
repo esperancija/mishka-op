@@ -88,7 +88,7 @@ static void LCD_pinsInit() {
     GLCD_SPI->CR1 = SPI_CR1_MSTR + SPI_CR1_CPOL +
     						SPI_CR1_CPHA + SPI_CR1_SSM + SPI_CR1_SSI;
 //set baud rate
-    GLCD_SPI->CR1 |= (SPI_CR1_BR_0); // sck/ 2-6MHz 3-3Mhz
+    //GLCD_SPI->CR1 |= (SPI_CR1_BR_0); // sck/ 2-6MHz 3-3Mhz
 //enable DMA
     GLCD_SPI->CR2 |= (SPI_CR2_TXDMAEN | SPI_CR2_RXDMAEN);// | SPI_CR2_FRXTH);// | (SPI_CR2_DS_0 + SPI_CR2_DS_1));
 //enable interface

@@ -41,8 +41,7 @@ int16_t limitMoment(int16_t moment, int16_t value){
 void DMA1_Channel1_IRQHandler(void) {
 
 uint16_t value1, value2;
-static int16_t oldVal1, oldVal2, oldState;
-static uint32_t smoothSwitchCnt;
+static int16_t oldVal1, oldVal2;
 
 	//clear pending flag of interrupt
 	DMA1->IFCR |= DMA_IFCR_CGIF1;
@@ -53,29 +52,11 @@ static uint32_t smoothSwitchCnt;
 
 	murchik.accControlAdc = KALMAN_SBI(murchik.accControlAdc, murchik.instantData.rawData[SBI_CH]);
 
-
-#define SWITCH_DURATION 25000 //in 10 uS
 /*******************************************************************************************/
-	if (murchik.currentState != oldState){
-		smoothSwitchCnt = 0;//
-	}else if (smoothSwitchCnt < SWITCH_DURATION)
-		smoothSwitchCnt ++;
-
 	if ((murchik.currentState == controlState)){
-		if (smoothSwitchCnt < SWITCH_DURATION)
-			//momentAdd = KALMAN_MOFF(momentAdd, murchik.steerTargetMoment);
-			momentAdd += smoothSwitchCnt*(murchik.steerTargetMoment - momentAdd)/SWITCH_DURATION;
-		else
-			momentAdd = murchik.steerTargetMoment;
-	}else if (murchik.currentState == offState){
-		if (smoothSwitchCnt < SWITCH_DURATION)
-			//momentAdd = KALMAN_MOFF(momentAdd, 0);
-			momentAdd -= smoothSwitchCnt*momentAdd/SWITCH_DURATION;
-		else
-			momentAdd = 0;
-	}
-
-	oldState = murchik.currentState;
+		momentAdd = murchik.steerTargetMoment;
+	}else if (murchik.currentState == offState)
+		momentAdd = 0;
 
 	limitMoment(momentAdd, MAX_MOMENT);
 
@@ -169,7 +150,6 @@ void initADC(void){
 	   //first start
 	   ADC1->CR |= ADC_CR_ADSTART;     //start conversions
 
-
 	   NVIC_SetPriority(DMA1_Channel1_IRQn, 5);
 	   NVIC_EnableIRQ(DMA1_Channel1_IRQn);
 }
@@ -206,6 +186,33 @@ void initSteerControl(void){
 #define CORRECT_POINT_NUM	5
 #define POINT_DATA_DIVIDER	10
 
+
+//multiply moment according wheel position
+//int16_t correctMoment(int16_t m, int16_t angle, uint16_t* x, uint16_t* y){
+//	uint8_t i;
+//	int16_t res, absAngle;
+//
+//	absAngle = (angle>=0)?angle:-angle;
+//
+//	if (absAngle <= x[0])
+//		res =  m*y[0]/POINT_DATA_DIVIDER;
+//	else if (absAngle >= x[CORRECT_POINT_NUM-1])
+//		res = m*y[CORRECT_POINT_NUM-1]/POINT_DATA_DIVIDER;
+//	else{ //make interpolation
+//		i=1;
+//		while ((absAngle > x[i]) && (i < CORRECT_POINT_NUM-1))
+//			i++;
+//		if (i > CORRECT_POINT_NUM-1)
+//			return m;
+//
+//		res =  m*(y[i]+(x[i] - absAngle)*(y[i-1] - y[i])/(x[i]-x[i-1]))/POINT_DATA_DIVIDER;
+//	}
+//	if (angle>=0)
+//		return res;
+//	else
+//		return -res;
+//}
+
 //multiply moment according wheel position
 int16_t correctMoment(int16_t m, int16_t angle, uint16_t* x, uint16_t* y){
 	uint8_t i;
@@ -226,7 +233,6 @@ int16_t correctMoment(int16_t m, int16_t angle, uint16_t* x, uint16_t* y){
 	}
 	return m;
 }
-
 
 
 #define PID_P 	600//700 //800//600//500//800//900//750//500//

@@ -28,6 +28,10 @@ static uint8_t RLTemp[8];
 static uint8_t RLPres[8];
 static uint8_t RRTemp[8];
 static uint8_t RRPres[8];
+static uint32_t oldWheelData = 0xfffffffff;
+
+
+	   uint8_t temp[8];
 
 static uint8_t steerDiff[8];
 static uint8_t steerAngle[8];
@@ -47,6 +51,13 @@ static uint8_t test2[4];
 
 static uint16_t steerPX, setSteerPX;
 static uint16_t steerPY, setSteerPY;
+
+uint32_t getWheelData(TPMSData * data){
+	return ((data->FL.pres ^ data->FL.temp) << 0) |
+			((data->FR.pres ^ data->FR.temp) << 8) |
+			((data->RL.pres ^ data->RL.temp) << 16) |
+			((data->RR.pres ^ data->RR.temp) << 24);
+}
 
 void showNormalMenu(void){
 
@@ -96,28 +107,31 @@ uint16_t lineColor = WHITE;
 				else
 					LCD_icon(40,1, OPIcon, DDGRAY);
 
-				//show steed diff
-				LCD_setCursor(40,40);
-				LCD_setTextColor(BLACK);
-				LCD_writeString(steerDiff);
-				LCD_SetFont(additionalFont);
-				LCD_setTextColor(lineColor);
-				snprintf((char*)steerDiff,sizeof(steerDiff),"%d.%c",
+				//show steer diff
+				snprintf((char*)temp,sizeof(temp),"%d.%c",
 						(murchik.steerPosition - murchik.steerTargetAngle)/2,
 						((murchik.steerPosition - murchik.steerTargetAngle)%2)?'5':'0');
-				LCD_setCursor(40,40);
-				LCD_writeString(steerDiff);
+				if (memcmp(temp, steerDiff, sizeof(steerDiff)) != 0){
+					LCD_setCursor(40,40);
+					LCD_setTextColor(BLACK);
+					LCD_writeString(steerDiff);
+					LCD_SetFont(additionalFont);
+					LCD_setTextColor(lineColor);
+					memcpy(steerDiff, temp, sizeof(steerDiff));
+					LCD_setCursor(40,40);
+					LCD_writeString(steerDiff);
 
-				//show steer angle
-				LCD_setCursor(80,40);
-				LCD_setTextColor(BLACK);
-				LCD_writeString(steerAngle);
-				LCD_SetFont(additionalFont);
-				LCD_setTextColor(OLIVE);
-				snprintf((char*)steerAngle,sizeof(steerAngle),"%d.%c",
-						murchik.steerPosition/2, (murchik.steerPosition%2)?'5':'0');
-				LCD_setCursor(80,40);
-				LCD_writeString(steerAngle);
+					//show steer angle
+					LCD_setCursor(80,40);
+					LCD_setTextColor(BLACK);
+					LCD_writeString(steerAngle);
+					LCD_SetFont(additionalFont);
+					LCD_setTextColor(OLIVE);
+					snprintf((char*)steerAngle,sizeof(steerAngle),"%d.%c",
+							murchik.steerPosition/2, (murchik.steerPosition%2)?'5':'0');
+					LCD_setCursor(80,40);
+					LCD_writeString(steerAngle);
+				}
 
 	//show accState
 				if (murchik.accActive & 0x01)
@@ -133,37 +147,45 @@ uint16_t lineColor = WHITE;
 	//show eng Temp
 	#define	ENG_TEMP_X	ENGINE_ICON_X+12
 	#define	ENG_TEMP_Y	35
-				LCD_SetFont(bigFont);
-				LCD_setTextColor(BLACK);
-				LCD_setCursor(engTempX,ENG_TEMP_Y);
-				LCD_writeString(engTemp);
 				if (murchik.engTemp >= 0)
-					snprintf((char*)engTemp,sizeof(engTemp),"%d", murchik.engTemp);
+					snprintf((char*)temp,sizeof(engTemp),"%d", murchik.engTemp);
 				else
-					snprintf((char*)engTemp,sizeof(engTemp),"/%d", abs(murchik.engTemp));
-				engTempX = ENG_TEMP_X-getStringLen(engTemp)/2;
-				LCD_setCursor(engTempX,ENG_TEMP_Y);
-				LCD_setTextColor(OLIVE);
-				LCD_writeString(engTemp);
+					snprintf((char*)temp,sizeof(engTemp),"/%d", abs(murchik.engTemp));
+
+				if (memcmp(temp, engTemp, sizeof(engTemp)) != 0){
+					LCD_SetFont(bigFont);
+					LCD_setTextColor(BLACK);
+					LCD_setCursor(engTempX,ENG_TEMP_Y);
+					LCD_writeString(engTemp);
+					memcpy(engTemp, temp, sizeof(engTemp));
+					engTempX = ENG_TEMP_X-getStringLen(engTemp)/2;
+					LCD_setCursor(engTempX,ENG_TEMP_Y);
+					LCD_setTextColor(OLIVE);
+					LCD_writeString(engTemp);
+				}
 
 	//show transTemp
 	#define	TRANSM_TEMP_X	TRANSM_ICON_X+12
 	#define	TRANSM_TEMP_Y	35
-				LCD_SetFont(bigFont);
-				LCD_setTextColor(BLACK);
-				LCD_setCursor(transmTempX,TRANSM_TEMP_Y);
-				LCD_writeString(transmTemp);
 				if (murchik.ATTemp >= 0)
-					snprintf((char*)transmTemp,sizeof(transmTemp),"%d", murchik.ATTemp);
+					snprintf((char*)temp, sizeof(transmTemp),"%d", murchik.ATTemp);
 				else
-					snprintf((char*)transmTemp,sizeof(transmTemp),"/%d", abs(murchik.ATTemp));
-				transmTempX = TRANSM_TEMP_X-getStringLen(transmTemp)/2;
-				LCD_setCursor(transmTempX,TRANSM_TEMP_Y);
-				if (murchik.ATTemp < 100)
-					LCD_setTextColor(OLIVE);
-				else
-					LCD_setTextColor(RED);
-				LCD_writeString(transmTemp);
+					snprintf((char*)temp, sizeof(transmTemp),"/%d", abs(murchik.ATTemp));
+
+				if (memcmp(temp, transmTemp, sizeof(transmTemp)) != 0){
+					LCD_SetFont(bigFont);
+					LCD_setTextColor(BLACK);
+					LCD_setCursor(transmTempX,TRANSM_TEMP_Y);
+					LCD_writeString(transmTemp);
+					memcpy(transmTemp, temp, sizeof(engTemp));
+					transmTempX = TRANSM_TEMP_X-getStringLen(transmTemp)/2;
+					LCD_setCursor(transmTempX,TRANSM_TEMP_Y);
+					if (murchik.ATTemp < 100)
+						LCD_setTextColor(OLIVE);
+					else
+						LCD_setTextColor(RED);
+					LCD_writeString(transmTemp);
+				}
 
 	//show OP state
 	#define CAR_ICON_X	145
@@ -203,6 +225,7 @@ uint16_t lineColor = WHITE;
         	         CAR_ICON_X+32-7-i*3, CAR_ICON_Y-30-5, lineColor);
         }
 
+
     //show steer position
         LCD_fillCircle(steerPX, steerPY, 5, BLACK);
         steerPX = 37 - murchik.steerPosition/30;
@@ -217,55 +240,66 @@ uint16_t lineColor = WHITE;
 	//showGear
 	#define GEAR_X	20
 	#define GEAR_Y	100
-	uint16_t	gearLockColor;
-				switch (murchik.isGLock){
-					case 1:
-						gearLockColor = RED;
-						break;
-					case 2:
-					case 3:
-						gearLockColor = ORANGE;
-						break;
-					default:
-						gearLockColor = GREEN;
-						break;
-				}
-				LCD_SetFont(veryBigFont);
-				LCD_setTextColor(BLACK);
-				LCD_setCursor(GEAR_X,GEAR_Y);
-				LCD_writeString(gearVal);
-				if (murchik.gear <= 6)
-					itoa(murchik.gear & 0x07, (char*)gearVal, 10);
-				else
-					*gearVal = 0;
-				LCD_setCursor(GEAR_X,GEAR_Y);
-				LCD_setTextColor(gearLockColor);
-				LCD_writeString(gearVal);
+	static 	uint16_t	gearLockColor;
+			uint16_t newGearColor;
 
+		switch (murchik.isGLock){
+			case 1:
+				newGearColor = RED;
+				break;
+			case 2:
+			case 3:
+				newGearColor = ORANGE;
+				break;
+			default:
+				newGearColor = GREEN;
+				break;
+		}
 
+		if (murchik.gear <= 6)
+			itoa(murchik.gear & 0x07, (char*)temp, 10);
+		else
+			*temp = 0;
 
-				LCD_drawCircle(GEAR_X+34/2,GEAR_Y+25, 32, gearLockColor);
-				LCD_drawCircle(GEAR_X+34/2,GEAR_Y+25, 33, gearLockColor);
-				LCD_drawCircle(GEAR_X+34/2,GEAR_Y+25, 34, gearLockColor);
-				LCD_drawCircle(GEAR_X+34/2,GEAR_Y+25, 35, gearLockColor);
-				LCD_drawCircle(GEAR_X+34/2,GEAR_Y+25, 36, gearLockColor);
+		if ((memcmp(temp, gearVal, sizeof(gearVal)) != 0) || (newGearColor != gearLockColor)){
+			LCD_SetFont(veryBigFont);
+			LCD_setTextColor(BLACK);
+			LCD_setCursor(GEAR_X,GEAR_Y);
+			LCD_writeString(gearVal);
+			memcpy(gearVal, temp, sizeof(gearVal));
+			LCD_setCursor(GEAR_X,GEAR_Y);
+			LCD_setTextColor(newGearColor);
+			LCD_writeString(gearVal);
+		}
 
+		if (newGearColor != gearLockColor){
+			gearLockColor = newGearColor;
+			LCD_drawCircle(GEAR_X+34/2,GEAR_Y+25, 32, gearLockColor);
+			LCD_drawCircle(GEAR_X+34/2,GEAR_Y+25, 33, gearLockColor);
+			LCD_drawCircle(GEAR_X+34/2,GEAR_Y+25, 34, gearLockColor);
+			LCD_drawCircle(GEAR_X+34/2,GEAR_Y+25, 35, gearLockColor);
+			LCD_drawCircle(GEAR_X+34/2,GEAR_Y+25, 36, gearLockColor);
+		}
 
 	//show LPER100
 	#define LPER100_X	120
 	#define LPER100_Y	100
-				LCD_SetFont(veryBigFont);
-				LCD_setTextColor(BLACK);
-				LCD_setCursor(LPER100_X,LPER100_Y);
-				LCD_writeString(consum);
 				if (murchik.LPer100 < 1000)
-					snprintf((char*)consum,sizeof(consum),"%d/%d", murchik.LPer100/10, murchik.LPer100%10);
+					snprintf((char*)temp,sizeof(temp),"%d/%d", murchik.LPer100/10, murchik.LPer100%10);
 				else
-					snprintf((char*)consum,sizeof(consum),"...");
-				//itoa((px/2+6)%100, consum, 10);
-				LCD_setTextColor(GREEN);
-				LCD_setCursor(LPER100_X,LPER100_Y);
-				LCD_writeString(consum);
+					snprintf((char*)temp,sizeof(temp),"...");
+
+				if ((memcmp(consum, temp, sizeof(temp))) != 0){
+					LCD_SetFont(veryBigFont);
+					LCD_setTextColor(BLACK);
+					LCD_setCursor(LPER100_X,LPER100_Y);
+					LCD_writeString(consum);
+					memcpy(consum, temp,sizeof(temp));
+					LCD_setTextColor(GREEN);
+					LCD_setCursor(LPER100_X,LPER100_Y);
+					LCD_writeString(consum);
+				}
+
 
 //	//show diffs
 	int16_t frontDiff = (murchik.speedFL - murchik.speedFR);///((murchik.speedFL + murchik.speedFR)/10);
@@ -298,6 +332,7 @@ uint16_t lineColor = WHITE;
 //				LCD_writeString(rDiff);
 
 
+
 	//wheels
 	#define DIFF_LIMIT	10//30
 
@@ -307,6 +342,9 @@ uint16_t lineColor = WHITE;
 	#define RRW_X		250
 	#define RRW_TEXT_X	283
 	#define RRW_Y		200
+			if (getWheelData(&murchik.tpmsData) != oldWheelData){
+				oldWheelData = getWheelData(&murchik.tpmsData);
+
 				if (frontDiff > DIFF_LIMIT){
 					if (murchik.accel <= 1)
 						LCD_icon(FLW_X,FLW_Y, WheelIconLeft, RED);
@@ -314,6 +352,35 @@ uint16_t lineColor = WHITE;
 						LCD_icon(FLW_X,FLW_Y, WheelIconLeft, GREEN);
 				}else
 					LCD_icon(FLW_X,FLW_Y, WheelIconLeft, DDGRAY);
+
+
+				if (frontDiff < -DIFF_LIMIT){
+					if (murchik.accel <= 1)
+						LCD_icon(RRW_X,FLW_Y, WheelIconLeft, RED);
+					else
+						LCD_icon(RRW_X,FLW_Y, WheelIconLeft, GREEN);
+				}else
+					LCD_icon(RRW_X,FLW_Y, WheelIconRight, DDGRAY);
+
+
+				if (rearDiff > DIFF_LIMIT){
+					if (murchik.accel <= 1)
+						LCD_icon(FLW_X,RRW_Y, WheelIconLeft, RED);
+					else
+						LCD_icon(FLW_X,RRW_Y, WheelIconLeft, GREEN);
+				}else
+					LCD_icon(FLW_X,RRW_Y, WheelIconLeft, DDGRAY);
+
+
+				if (frontDiff < -DIFF_LIMIT){
+					if (murchik.accel <= 1)
+						LCD_icon(RRW_X,RRW_Y, WheelIconRight, RED);
+					else
+						LCD_icon(RRW_X,RRW_Y, WheelIconRight, GREEN);
+				}else
+					LCD_icon(RRW_X,RRW_Y, WheelIconRight, DDGRAY);
+
+
 
 				LCD_SetFont(additionalFont);
 				LCD_setCursor(FLW_TEXT_X,FLW_Y);
@@ -332,14 +399,6 @@ uint16_t lineColor = WHITE;
 				LCD_setTextColor(GREENYELLOW);
 				snprintf((char*)FLPres,sizeof(FLPres),"%d.%d b", murchik.tpmsData.FL.pres/10, murchik.tpmsData.FL.pres%10);
 				LCD_writeString(FLPres);
-
-				if (frontDiff < -DIFF_LIMIT){
-					if (murchik.accel <= 1)
-						LCD_icon(RRW_X,FLW_Y, WheelIconLeft, RED);
-					else
-						LCD_icon(RRW_X,FLW_Y, WheelIconLeft, GREEN);
-				}else
-					LCD_icon(RRW_X,FLW_Y, WheelIconRight, DDGRAY);
 
 				LCD_setCursor(RRW_TEXT_X,FLW_Y);
 				LCD_setTextColor(BLACK);
@@ -361,13 +420,7 @@ uint16_t lineColor = WHITE;
 				LCD_writeString(FRPres);
 
 
-				if (rearDiff > DIFF_LIMIT){
-					if (murchik.accel <= 1)
-						LCD_icon(FLW_X,RRW_Y, WheelIconLeft, RED);
-					else
-						LCD_icon(FLW_X,RRW_Y, WheelIconLeft, GREEN);
-				}else
-					LCD_icon(FLW_X,RRW_Y, WheelIconLeft, DDGRAY);
+
 
 				LCD_setCursor(FLW_TEXT_X,RRW_Y);
 				LCD_setTextColor(BLACK);
@@ -388,13 +441,7 @@ uint16_t lineColor = WHITE;
 				LCD_writeString(RLPres);
 
 
-				if (frontDiff < -DIFF_LIMIT){
-					if (murchik.accel <= 1)
-						LCD_icon(RRW_X,RRW_Y, WheelIconRight, RED);
-					else
-						LCD_icon(RRW_X,RRW_Y, WheelIconRight, GREEN);
-				}else
-					LCD_icon(RRW_X,RRW_Y, WheelIconRight, DDGRAY);
+
 				LCD_setCursor(RRW_TEXT_X,RRW_Y);
 				LCD_setTextColor(BLACK);
 				LCD_writeString(RRTemp);
@@ -413,7 +460,7 @@ uint16_t lineColor = WHITE;
 				snprintf((char*)RRPres,sizeof(RRPres),"%d.%d b", murchik.tpmsData.RR.pres/10, murchik.tpmsData.RR.pres%10);
 				LCD_writeString(RRPres);
 
-
+			}
 
 //show pedal position
 			LCD_SetFont(bigFont);
