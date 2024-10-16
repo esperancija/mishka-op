@@ -147,9 +147,12 @@ typedef struct
 	uint8_t		key;
 	uint8_t		oldKey;
 	uint8_t 	showState;
+	uint8_t 	flags;
 	Koefs koefs;
 
 }Car;
+
+enum Flags {runMomentCalcFlag = 1};
 
 enum Key			{noKey = 0, lkasOnKey, cancelKey, accOnKey, upKey, downKey, mishkaKey};
 
@@ -164,18 +167,26 @@ enum OPState {
 	opActive = 1, opLeftLine = 2, opRightLine = 4
 };
 
-extern Car murchik;
+extern volatile Car murchik;
 
 #define DS_INIT	GPIOA->MODER |= GPIO_MODER_MODER7_0; GPIOA->BSRR = GPIO_BSRR_BR_7;
 #define DS_ON 	GPIOA->BSRR = GPIO_BSRR_BS_7
 #define DS_OFF  GPIOA->BSRR = GPIO_BSRR_BR_7
 
+#define DBG_INIT	GPIOA->MODER |= (GPIO_MODER_MODER12_0 | GPIO_MODER_MODER15_0); GPIOA->BSRR = (GPIO_BSRR_BR_12 | GPIO_BSRR_BR_15); //(TPIRQ)
+#define DBG_ON 	GPIOA->BSRR = GPIO_BSRR_BS_12
+#define DBG_OFF  GPIOA->BSRR = GPIO_BSRR_BR_12
+#define DBG_CH  GPIOA->ODR ^= GPIO_ODR_12;
+
+#define DBG2_ON 	GPIOA->BSRR = GPIO_BSRR_BS_15
+#define DBG2_OFF  GPIOA->BSRR = GPIO_BSRR_BR_15
+
 //#define SBI_TEST
 
 #define STEER_SHAKE
-//#define USE_LCD
+#define USE_LCD
 
-Car murchik;
+volatile Car murchik;
 
 #endif
 

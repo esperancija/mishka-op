@@ -4,7 +4,7 @@
 #define __STEER__
 #include "main.h"
 
-PROCESS_NAME(steer_process);
+//PROCESS_NAME(steer_process);
 
 #define DMA_CH_NUM	3
 #define TENZO1_CH	1
@@ -43,5 +43,7 @@ process_event_t calc_data_event;
 enum PidReset {normalPid, resetPid};
 
 void initLeds (void);
+void doSteerControl(void);
+void startSteerControl(void);
 
 #endif

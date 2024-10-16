@@ -7,7 +7,7 @@
 #include "can.h"
 #include <stdlib.h>     /* abs */
 
-PROCESS(steer_process, "Steer process");
+//PROCESS(steer_process, "Steer process");
 
 uint8_t debugMsg[500];
 process_event_t calc_data_event;
@@ -37,11 +37,25 @@ int16_t limitMoment(int16_t moment, int16_t value){
 	return moment;
 }
 
+
+void TIM16_IRQHandler(void){
+	if (TIM16->SR & TIM_SR_UIF){
+		if (murchik.flags & runMomentCalcFlag){
+			//process_post_synch(&steer_process, calc_data_event, 0);
+			doSteerControl();
+			murchik.flags &= ~runMomentCalcFlag;
+		}
+	    TIM16->SR &= ~TIM_SR_UIF;
+	}
+}
+
 /*------------------------------------------------------------DMA interupt handler-*/
-void DMA1_Channel1_IRQHandler(void) {
+void DMA1_Channel1_IRQHandler(void) {  //2.5 uS
 
 uint16_t value1, value2;
 static int16_t oldVal1, oldVal2;
+
+//DBG_ON;
 
 	//clear pending flag of interrupt
 	DMA1->IFCR |= DMA_IFCR_CGIF1;
@@ -78,6 +92,9 @@ static int16_t oldVal1, oldVal2;
 
 		RED_ON;
 	}
+
+//DBG_OFF;
+
 }
 
 void initLeds (void){
@@ -362,6 +379,132 @@ static uint32_t steerActionTimer = 0;
 //moment to make shake action at working LDW & RCTA
 #define MOMENT_ADD				(350 + murchik.speed/50)
 
+#if (1)
+void startSteerControl(void){
+
+	DEBUG_MSG(BDL,("Start steer process"));
+
+	//calc_data_event = process_alloc_event();
+
+	DEBUG_MSG(BDL,(COL_ORANGE"Init CAN bus ..."COL_END));
+	initCanBus();
+	DEBUG_MSG(BDL,(COL_GREEN"OK"COL_END));
+
+	DEBUG_MSG(BDL,(COL_ORANGE"Init control ..."COL_END));
+	initSteerControl();
+	initAccControl();
+	DEBUG_MSG(BDL,(COL_GREEN"OK"COL_END));
+
+	murchik.currentState = activeState;
+
+	RCC->APB2ENR |= RCC_APB2ENR_TIM16EN;
+   //use hardware timer 15 to trigger ADC 35 times per second
+	TIM16->PSC = ((MCK)/100000-1);
+	//max timer value
+	TIM16->ARR =  10-1;
+
+	//allow timer working & reset on overflowing
+	TIM16->CR1 = TIM_CR1_CEN;// | TIM_CR1_UDIS;
+	TIM16->DIER |= TIM_DIER_UIE;
+	NVIC_SetPriority(TIM16_IRQn, 11);
+	NVIC_EnableIRQ(TIM16_IRQn);
+}
+
+void doSteerControl(void){
+
+static int16_t newMoment, prevSetAngle;
+static uint32_t cnt;
+
+		//if (ev == PROCESS_EVENT_TIMER){
+		//	etimer_set(&timer, CLOCK_SECOND/50);
+
+		if ((cnt++)%2){ //to make 50 Hz
+			if (murchik.currentState == activeState){
+#ifdef STEER_SHAKE
+				if (murchik.ldwState == LDW_LEFT_ACTIVE){
+					FS_RELAY_ON;
+					if (steerActionTimer % 2)
+						momentAdd = MOMENT_ADD;
+					else
+						momentAdd = MOMENT_ADD/2;
+				}else if (murchik.ldwState == LDW_RIGHT_ACTIVE){
+					FS_RELAY_ON;
+					if (steerActionTimer % 2)
+						momentAdd = -MOMENT_ADD;
+					else
+						momentAdd = -MOMENT_ADD/2;
+				}else if (murchik.rctaState){
+					FS_RELAY_ON;
+					if ((steerActionTimer) % 2){
+						momentAdd = MOMENT_ADD/4;
+					}else{
+						momentAdd = -MOMENT_ADD/4;
+					}
+				}else{
+					FS_RELAY_OFF;
+					momentAdd = 0;
+				}
+#else
+				FS_RELAY_OFF;
+				momentAdd = 0;
+#endif
+			}
+			steerActionTimer++;
+
+			if (murchik.opActiveTimer > 0)
+				murchik.opActiveTimer--;
+			else
+				murchik.opData &= ~opActive;
+		}
+
+#ifdef SBI_TEST
+		if ((murchik.opData & opActive)){
+#else
+		if ((IS_BUT_PRESS) || (murchik.opData & opActive)){
+#endif
+			murchik.currentState = controlState;
+			FS_RELAY_ON;
+		}else{
+			murchik.currentState = activeState;
+		}
+
+//#if (CONTROL_MODE == ANGLE_CONTROL)
+//		else if (ev == calc_data_event){ //got new steer position value ~100Hz
+
+
+			//if (etimer_expired(&timer))
+			//	etimer_set(&timer, CLOCK_SECOND/50);
+
+			if ((murchik.currentState == controlState) &&
+					((murchik.speed > 700) || (IS_BUT_PRESS)) ){
+
+DBG_ON;
+				newMoment = makePID((murchik.steerPosition - ((murchik.steerTargetAngle+prevSetAngle)/2)), normalPid);
+DBG_OFF;
+				if (PID_NF){
+					int16_t tempMom = correctMoment(PID_NF, murchik.steerPosition/2, pidNFAngle, pidNFData)*
+							(murchik.steerSensor1 - murchik.steerSensor2)/100;
+					newMoment += (tempMom > LIMIT_NFB)?LIMIT_NFB:tempMom;
+				}
+
+			//to make moment at wheel more smoothly
+				murchik.steerTargetMoment = ((KALMAN_S_KOEF*murchik.steerTargetMoment+
+													(MAX_K_KF-KALMAN_S_KOEF)*newMoment)/MAX_K_KF);
+
+				prevSetAngle = murchik.steerTargetAngle;
+
+				//limit value
+				if (mDiffLimit > MOMENT_DIFF_LIMIT)
+					mDiffLimit = MOMENT_DIFF_LIMIT;
+
+			}else{
+				makePID(0, resetPid);//reset internal variables
+				murchik.steerTargetMoment = 0;
+			}
+//DBG_OFF;
+}
+
+#else
 PROCESS_THREAD(steer_process, ev, data) {
 
 static struct etimer timer;
@@ -448,6 +591,8 @@ static int16_t newMoment, prevSetAngle;
 
 #if (CONTROL_MODE == ANGLE_CONTROL)
 		else if (ev == calc_data_event){ //got new steer position value ~100Hz
+
+DBG_ON;
 			if (etimer_expired(&timer))
 				etimer_set(&timer, CLOCK_SECOND/50);
 
@@ -476,8 +621,10 @@ static int16_t newMoment, prevSetAngle;
 				makePID(0, resetPid);//reset internal variables
 				murchik.steerTargetMoment = 0;
 			}
+DBG_OFF;
 		}
 #endif
 	}
 	PROCESS_END();
 }
+#endif

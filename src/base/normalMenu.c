@@ -28,7 +28,7 @@ static uint8_t RLTemp[8];
 static uint8_t RLPres[8];
 static uint8_t RRTemp[8];
 static uint8_t RRPres[8];
-static uint32_t oldWheelData = 0xfffffffff;
+static uint32_t oldWheelData = 0xffffffff;
 
 
 	   uint8_t temp[8];
@@ -52,7 +52,7 @@ static uint8_t test2[4];
 static uint16_t steerPX, setSteerPX;
 static uint16_t steerPY, setSteerPY;
 
-uint32_t getWheelData(TPMSData * data){
+uint32_t getWheelData(volatile TPMSData * data){
 	return ((data->FL.pres ^ data->FL.temp) << 0) |
 			((data->FR.pres ^ data->FR.temp) << 8) |
 			((data->RL.pres ^ data->RL.temp) << 16) |

@@ -12,17 +12,42 @@
 <presentation id="org.eclipse.ui.presentations.WorkbenchPresentationFactory">
 <part id="0"/>
 <part id="1"/>
+<part id="2"/>
+<part id="3"/>
+<part id="4"/>
+<part id="5"/>
+<part id="6"/>
 </presentation>
 </folder>
 </info>
 </editorArea>
 <editor id="org.eclipse.cdt.ui.editor.CEditor" name="can.c" partName="can.c" path="E:/data/soft/baleno/can/MishkaOP/trunk/src/base/can.c" title="can.c" tooltip="E:/data/soft/baleno/can/MishkaOP/trunk/src/base/can.c" workbook="DefaultEditorWorkbook">
 <input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/stwifitiki/src/base/can.c"/>
-<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="1485" selectionTopPixel="630"/>
+<editorState selectionHorizontalPixel="0" selectionLength="16" selectionOffset="4359" selectionTopPixel="1428"/>
 </editor>
-<editor activePart="true" focus="true" id="org.eclipse.cdt.ui.editor.CEditor" name="normalMenu.c" partName="normalMenu.c" path="E:/data/soft/baleno/can/MishkaOP/trunk/src/base/normalMenu.c" title="normalMenu.c" tooltip="E:/data/soft/baleno/can/MishkaOP/trunk/src/base/normalMenu.c" workbook="DefaultEditorWorkbook">
+<editor id="org.eclipse.cdt.ui.editor.CEditor" name="normalMenu.c" partName="normalMenu.c" path="E:/data/soft/baleno/can/MishkaOP/trunk/src/base/normalMenu.c" title="normalMenu.c" tooltip="E:/data/soft/baleno/can/MishkaOP/trunk/src/base/normalMenu.c" workbook="DefaultEditorWorkbook">
 <input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/stwifitiki/src/base/normalMenu.c"/>
 <editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="0" selectionTopPixel="0"/>
+</editor>
+<editor activePart="true" focus="true" id="org.eclipse.cdt.ui.editor.CEditor" name="main.c" partName="main.c" path="E:/data/soft/baleno/can/MishkaOP/trunk/src/base/main.c" title="main.c" tooltip="E:/data/soft/baleno/can/MishkaOP/trunk/src/base/main.c" workbook="DefaultEditorWorkbook">
+<input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/stwifitiki/src/base/main.c"/>
+<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="2078" selectionTopPixel="1671"/>
+</editor>
+<editor id="org.eclipse.cdt.ui.editor.CEditor" name="contiki-main.c" partName="contiki-main.c" path="E:/data/soft/baleno/can/MishkaOP/trunk/src/core/contiki-main.c" title="contiki-main.c" tooltip="E:/data/soft/baleno/can/MishkaOP/trunk/src/core/contiki-main.c" workbook="DefaultEditorWorkbook">
+<input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/stwifitiki/src/core/contiki-main.c"/>
+<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="778" selectionTopPixel="583"/>
+</editor>
+<editor id="org.eclipse.cdt.ui.editor.CEditor" name="main.h" partName="main.h" path="E:/data/soft/baleno/can/MishkaOP/trunk/src/base/main.h" title="main.h" tooltip="E:/data/soft/baleno/can/MishkaOP/trunk/src/base/main.h" workbook="DefaultEditorWorkbook">
+<input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/stwifitiki/src/base/main.h"/>
+<editorState selectionHorizontalPixel="0" selectionLength="0" selectionOffset="4038" selectionTopPixel="2716"/>
+</editor>
+<editor id="org.eclipse.cdt.ui.editor.CEditor" name="steer.c" partName="steer.c" path="E:/data/soft/baleno/can/MishkaOP/trunk/src/base/steer.c" title="steer.c" tooltip="E:/data/soft/baleno/can/MishkaOP/trunk/src/base/steer.c" workbook="DefaultEditorWorkbook">
+<input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/stwifitiki/src/base/steer.c"/>
+<editorState selectionHorizontalPixel="0" selectionLength="11" selectionOffset="15294" selectionTopPixel="6711"/>
+</editor>
+<editor id="org.eclipse.cdt.ui.editor.CEditor" name="can.h" partName="can.h" path="E:/data/soft/baleno/can/MishkaOP/trunk/src/base/can.h" title="can.h" tooltip="E:/data/soft/baleno/can/MishkaOP/trunk/src/base/can.h" workbook="DefaultEditorWorkbook">
+<input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/stwifitiki/src/base/can.h"/>
+<editorState selectionHorizontalPixel="0" selectionLength="16" selectionOffset="1158" selectionTopPixel="595"/>
 </editor>
 </editors>
 <views>
@@ -40,11 +65,10 @@
 <element path="/stwifitiki"/>
 <element path="/stwifitiki/src"/>
 <element path="/stwifitiki/src/base"/>
-<element path="/stwifitiki/src/core"/>
 <element path="/stwifitiki/syscalls"/>
 </expanded>
 <selection>
-<element path="/stwifitiki/src/base/main.c"/>
+<element path="/stwifitiki/src/base/main.h"/>
 </selection>
 </viewState>
 </view>
@@ -134,7 +158,7 @@
 </folder>
 </info>
 <info folder="true" part="org.eclipse.ui.internal.ViewStack@16e5aed" ratio="0.66995615" ratioLeft="611" ratioRight="301" relationship="4" relative="org.eclipse.ui.internal.ViewStack@443122">
-<folder activePageID="org.eclipse.search.ui.views.SearchView" appearance="2" expanded="2">
+<folder activePageID="org.eclipse.ui.console.ConsoleView" appearance="2" expanded="2">
 <page content="org.eclipse.ui.console.ConsoleView" label="Console"/>
 <page content="org.eclipse.search.ui.views.SearchView" label="Search"/>
 <presentation id="org.eclipse.ui.presentations.WorkbenchPresentationFactory">
@@ -202,8 +226,8 @@
 <hide_toolbar_item_id id="org.eclipse.ui.edit.text.toggleShowSelectedElementOnly"/>
 <hide_toolbar_item_id id="org.coocox.builder.ui.build"/>
 <hide_toolbar_item_id id="org.coocox.welcome.ui.action.welcome"/>
-<hide_toolbar_item_id id="org.coocox.component.ui.ShowRepositoryAction"/>
 <hide_toolbar_item_id id="org.coocox.codebugger.configuration.coideProgramDownloadAction"/>
+<hide_toolbar_item_id id="org.coocox.component.ui.ShowRepositoryAction"/>
 <view id="org.coocox.builder.ui.views.ProjectView"/>
 <view id="org.eclipse.ui.console.ConsoleView"/>
 <view id="org.eclipse.debug.ui.DebugView"/>
@@ -225,7 +249,7 @@
 <page content="org.eclipse.ui.internal.introview" label="LabelNotFound"/>
 </folder>
 </info>
-<info folder="true" part="org.eclipse.ui.internal.ViewStack@485e7" ratio="0.75672644" ratioLeft="675" ratioRight="217" relationship="4" relative="org.eclipse.ui.internal.ViewStack@aa4749">&#x0A;<folder activePageID="org.eclipse.debug.ui.DebugView" appearance="2" expanded="2">&#x0A;<page content="org.eclipse.ui.console.ConsoleView" label="Console"/>
+<info folder="true" part="org.eclipse.ui.internal.ViewStack@485e7" ratio="0.75672644" ratioLeft="675" ratioRight="217" relationship="4" relative="org.eclipse.ui.internal.ViewStack@aa4749">&#x0A;<folder activePageID="org.eclipse.ui.console.ConsoleView" appearance="2" expanded="2">&#x0A;<page content="org.eclipse.ui.console.ConsoleView" label="Console"/>
 <page content="org.eclipse.debug.ui.DebugView" label="Debug"/>
 <page content="org.eclipse.debug.ui.BreakpointView" label="LabelNotFound"/>
 <presentation id="org.eclipse.ui.presentations.WorkbenchPresentationFactory">&#x0A;<part id="0"/>
@@ -264,19 +288,8 @@
 <workingSets/>
 <navigationHistory>
 <editors>
-<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.cdt.ui.editor.CEditor" path="/stwifitiki/src/base/can.c"/>
-<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.cdt.ui.editor.CEditor" path="/stwifitiki/src/base/accControl.c"/>
-<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.cdt.ui.editor.CEditor" path="/stwifitiki/src/base/steer.c"/>
-<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.cdt.ui.editor.CEditor" path="/stwifitiki/src/base/main.c"/>
-<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.cdt.ui.editor.CEditor" path="/stwifitiki/src/base/main.h"/>
-<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.cdt.ui.editor.CEditor" path="/stwifitiki/src/lcd/core.c"/>
-<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.cdt.ui.editor.CEditor" path="/stwifitiki/src/base/normalMenu.c"/>
-<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.cdt.ui.editor.CEditor" path="/stwifitiki/src/lcd/icons.h"/>
 <editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.cdt.ui.editor.CEditor" path="/stwifitiki/src/base/main.c"/>
 <editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.cdt.ui.editor.CEditor" path="/stwifitiki/src/debug/debug-uart.c"/>
-<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.cdt.ui.editor.CEditor" path="/stwifitiki/src/base/can.c"/>
-<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.cdt.ui.editor.CEditor" path="/stwifitiki/src/base/steer.c"/>
-<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.cdt.ui.editor.CEditor" path="/stwifitiki/src/core/sys/clock.c"/>
 <editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.cdt.ui.editor.CEditor" path="/stwifitiki/src/lcd/dma.c"/>
 <editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.cdt.ui.editor.CEditor" path="/stwifitiki/src/lcd/core.c"/>
 <editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.cdt.ui.editor.CEditor" path="/stwifitiki/src/base/can.c"/>
@@ -285,156 +298,169 @@
 <editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.cdt.ui.editor.CEditor" path="/stwifitiki/src/base/normalMenu.c"/>
 <editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.cdt.ui.editor.CEditor" path="/stwifitiki/src/base/flash.h"/>
 <editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.cdt.ui.editor.CEditor" path="/stwifitiki/src/base/main.c"/>
+<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.cdt.ui.editor.CEditor" path="/stwifitiki/src/base/can.c"/>
+<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.cdt.ui.editor.CEditor" path="/stwifitiki/src/base/main.c"/>
+<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.cdt.ui.editor.CEditor" path="/stwifitiki/src/core/contiki-main.c"/>
+<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.cdt.ui.editor.CEditor" path="/stwifitiki/src/base/main.h"/>
+<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.cdt.ui.editor.CEditor" path="/stwifitiki/src/base/steer.c"/>
+<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.cdt.ui.editor.CEditor" path="/stwifitiki/src/base/can.c"/>
+<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.cdt.ui.editor.CEditor" path="/stwifitiki/src/base/steer.c"/>
+<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.cdt.ui.editor.CEditor" path="/stwifitiki/src/base/can.c"/>
+<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.cdt.ui.editor.CEditor" path="/stwifitiki/src/base/main.h"/>
+<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.cdt.ui.editor.CEditor" path="/stwifitiki/src/base/can.c"/>
+<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.cdt.ui.editor.CEditor" path="/stwifitiki/src/base/main.c"/>
+<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.cdt.ui.editor.CEditor" path="/stwifitiki/src/base/can.h"/>
+<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.cdt.ui.editor.CEditor" path="/stwifitiki/src/base/main.c"/>
 </editors>
-<item historyLabel="can.c" index="0">
-<position info="not_deleted" x="1419" y="0"/>
-</item>
-<item historyLabel="can.c" index="0">
-<position info="not_deleted" x="290" y="14"/>
-</item>
-<item historyLabel="accControl.c" index="1">
-<position info="not_deleted" x="1887" y="28"/>
-</item>
-<item historyLabel="accControl.c" index="1">
-<position info="not_deleted" x="4936" y="14"/>
-</item>
-<item historyLabel="accControl.c" index="1">
-<position info="not_deleted" x="1124" y="14"/>
-</item>
-<item historyLabel="accControl.c" index="1">
-<position info="not_deleted" x="964" y="18"/>
-</item>
-<item historyLabel="accControl.c" index="1">
-<position info="not_deleted" x="127" y="9"/>
-</item>
-<item historyLabel="steer.c" index="2">
-<position info="not_deleted" x="5328" y="14"/>
-</item>
-<item historyLabel="steer.c" index="2">
-<position info="not_deleted" x="3346" y="7"/>
-</item>
-<item historyLabel="main.c" index="3">
-<position info="not_deleted" x="2757" y="11"/>
-</item>
-<item historyLabel="main.h" index="4">
-<position info="not_deleted" x="3621" y="7"/>
-</item>
-<item historyLabel="main.c" index="3">
-<position info="not_deleted" x="1764" y="0"/>
-</item>
-<item historyLabel="core.c" index="5">
-<position info="not_deleted" x="3969" y="8"/>
-</item>
-<item historyLabel="main.c" index="3">
-<position info="not_deleted" x="1764" y="0"/>
-</item>
-<item historyLabel="main.c" index="3">
-<position info="not_deleted" x="1751" y="7"/>
-</item>
-<item historyLabel="main.c" index="3">
-<position info="not_deleted" x="1359" y="7"/>
-</item>
-<item historyLabel="main.c" index="3">
-<position info="not_deleted" x="5579" y="7"/>
-</item>
-<item historyLabel="normalMenu.c" index="6">
-<position info="not_deleted" x="1991" y="5"/>
-</item>
-<item historyLabel="normalMenu.c" index="6">
-<position info="not_deleted" x="160" y="7"/>
-</item>
-<item historyLabel="icons.h" index="7">
-<position info="not_deleted" x="44" y="0"/>
-</item>
-<item historyLabel="icons.h" index="7">
-<position info="not_deleted" x="114" y="0"/>
-</item>
-<item historyLabel="main.h" index="4">
-<position info="not_deleted" x="3621" y="7"/>
-</item>
-<item historyLabel="main.c" index="8">
-<position info="not_deleted" x="1720" y="0"/>
-</item>
-<item historyLabel="main.h" index="4">
-<position info="not_deleted" x="3399" y="7"/>
-</item>
-<item historyLabel="main.c" index="8">
-<position info="not_deleted" x="1463" y="0"/>
-</item>
-<item historyLabel="debug-uart.c" index="9">
-<position info="not_deleted" x="1332" y="9"/>
-</item>
-<item historyLabel="can.c" index="10">
-<position info="not_deleted" x="290" y="14"/>
-</item>
-<item historyLabel="can.c" index="10">
-<position info="not_deleted" x="8950" y="16"/>
-</item>
-<item historyLabel="steer.c" index="11">
-<position info="not_deleted" x="5282" y="16"/>
-</item>
-<item historyLabel="steer.c" index="11">
-<position info="not_deleted" x="4645" y="16"/>
-</item>
-<item historyLabel="clock.c" index="12">
-<position info="not_deleted" x="871" y="16"/>
-</item>
-<item historyLabel="dma.c" index="13">
-<position info="not_deleted" x="231" y="14"/>
-</item>
-<item historyLabel="dma.c" index="13">
-<position info="not_deleted" x="187" y="16"/>
-</item>
-<item historyLabel="debug-uart.c" index="9">
+<item historyLabel="debug-uart.c" index="1">
 <position info="not_deleted" x="2007" y="16"/>
 </item>
-<item historyLabel="dma.c" index="13">
+<item historyLabel="dma.c" index="2">
 <position info="not_deleted" x="187" y="16"/>
 </item>
-<item historyLabel="core.c" index="14">
+<item historyLabel="core.c" index="3">
 <position info="not_deleted" x="3969" y="8"/>
 </item>
-<item historyLabel="core.c" index="14">
+<item historyLabel="core.c" index="3">
 <position info="not_deleted" x="3969" y="8"/>
 </item>
-<item historyLabel="main.c" index="8">
+<item historyLabel="main.c" index="0">
 <position info="not_deleted" x="1762" y="8"/>
 </item>
-<item historyLabel="can.c" index="15">
+<item historyLabel="can.c" index="4">
 <position info="not_deleted" x="8950" y="16"/>
 </item>
-<item historyLabel="can.c" index="15">
+<item historyLabel="can.c" index="4">
 <position info="not_deleted" x="1070" y="0"/>
 </item>
-<item historyLabel="can.c" index="16">
+<item historyLabel="can.c" index="5">
 <position info="not_deleted" x="0" y="0"/>
 </item>
-<item historyLabel="main.h" index="17">
+<item historyLabel="main.h" index="6">
 <position/>
 </item>
-<item historyLabel="can.c" index="16">
+<item historyLabel="can.c" index="5">
 <position/>
 </item>
-<item historyLabel="normalMenu.c" index="18">
+<item historyLabel="normalMenu.c" index="7">
 <position info="not_deleted" x="0" y="0"/>
 </item>
-<item historyLabel="main.h" index="17">
+<item historyLabel="main.h" index="6">
 <position info="not_deleted" x="0" y="0"/>
 </item>
-<item historyLabel="flash.h" index="19">
+<item historyLabel="flash.h" index="8">
 <position info="not_deleted" x="0" y="0"/>
 </item>
-<item historyLabel="main.h" index="17">
+<item historyLabel="main.h" index="6">
 <position info="not_deleted" x="0" y="0"/>
 </item>
-<item historyLabel="normalMenu.c" index="18">
+<item historyLabel="normalMenu.c" index="7">
 <position info="not_deleted" x="0" y="0"/>
+</item>
+<item historyLabel="main.c" index="9">
+<position info="not_deleted" x="0" y="0"/>
+</item>
+<item historyLabel="normalMenu.c" index="7">
+<position info="not_deleted" x="0" y="0"/>
+</item>
+<item historyLabel="can.c" index="10">
+<position info="not_deleted" x="1485" y="0"/>
+</item>
+<item historyLabel="main.c" index="11">
+<position info="not_deleted" x="3337" y="0"/>
+</item>
+<item historyLabel="contiki-main.c" index="12">
+<position info="not_deleted" x="778" y="0"/>
+</item>
+<item historyLabel="main.c" index="11">
+<position info="not_deleted" x="3337" y="0"/>
+</item>
+<item historyLabel="main.h" index="13">
+<position info="not_deleted" x="3399" y="7"/>
+</item>
+<item historyLabel="main.h" index="13">
+<position info="not_deleted" x="3576" y="8"/>
+</item>
+<item historyLabel="main.c" index="11">
+<position info="not_deleted" x="1694" y="0"/>
+</item>
+<item historyLabel="steer.c" index="14">
+<position info="not_deleted" x="0" y="0"/>
+</item>
+<item historyLabel="steer.c" index="14">
+<position info="not_deleted" x="2466" y="0"/>
+</item>
+<item historyLabel="main.h" index="13">
+<position info="not_deleted" x="3807" y="0"/>
+</item>
+<item historyLabel="steer.c" index="14">
+<position info="not_deleted" x="2466" y="0"/>
+</item>
+<item historyLabel="can.c" index="15">
+<position info="not_deleted" x="9670" y="10"/>
+</item>
+<item historyLabel="can.c" index="15">
+<position info="not_deleted" x="290" y="14"/>
+</item>
+<item historyLabel="steer.c" index="14">
+<position info="not_deleted" x="1183" y="7"/>
+</item>
+<item historyLabel="steer.c" index="14">
+<position info="not_deleted" x="10590" y="39"/>
+</item>
+<item historyLabel="steer.c" index="14">
+<position info="not_deleted" x="13675" y="0"/>
+</item>
+<item historyLabel="steer.c" index="14">
+<position info="not_deleted" x="1115" y="0"/>
+</item>
+<item historyLabel="main.h" index="13">
+<position info="not_deleted" x="3807" y="0"/>
+</item>
+<item historyLabel="steer.c" index="16">
+<position info="not_deleted" x="1115" y="0"/>
+</item>
+<item historyLabel="can.c" index="17">
+<position info="not_deleted" x="747" y="6"/>
+</item>
+<item historyLabel="steer.c" index="16">
+<position info="not_deleted" x="12694" y="6"/>
+</item>
+<item historyLabel="main.h" index="18">
+<position info="not_deleted" x="4046" y="11"/>
+</item>
+<item historyLabel="steer.c" index="16">
+<position info="not_deleted" x="11937" y="11"/>
+</item>
+<item historyLabel="steer.c" index="16">
+<position info="not_deleted" x="15294" y="11"/>
+</item>
+<item historyLabel="main.h" index="18">
+<position info="not_deleted" x="4046" y="11"/>
+</item>
+<item historyLabel="can.c" index="19">
+<position info="not_deleted" x="747" y="6"/>
+</item>
+<item historyLabel="can.c" index="19">
+<position info="not_deleted" x="9787" y="10"/>
 </item>
 <item historyLabel="main.c" index="20">
-<position info="not_deleted" x="0" y="0"/>
+<position info="not_deleted" x="1694" y="0"/>
 </item>
-<item active="true" historyLabel="normalMenu.c" index="18">
-<position info="not_deleted" x="0" y="0"/>
+<item historyLabel="main.c" index="20">
+<position info="not_deleted" x="3605" y="0"/>
+</item>
+<item historyLabel="can.h" index="21">
+<position info="not_deleted" x="1158" y="16"/>
+</item>
+<item historyLabel="can.c" index="19">
+<position info="not_deleted" x="8403" y="16"/>
+</item>
+<item historyLabel="can.c" index="19">
+<position info="not_deleted" x="4359" y="16"/>
+</item>
+<item active="true" historyLabel="main.c" index="22">
+<position info="not_deleted" x="3605" y="0"/>
 </item>
 </navigationHistory>
 <input factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/" type="8"/>
@@ -443,50 +469,50 @@
 <actionBarAdvisor/>
 </window>
 <mruList>
-<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.cdt.ui.editor.CEditor" name="main.c" tooltip="stwifitiki/src/base/main.c">
-<persistable path="/stwifitiki/src/base/main.c"/>
+<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.cdt.ui.editor.CEditor" name="can.h" tooltip="stwifitiki/src/base/can.h">
+<persistable path="/stwifitiki/src/base/can.h"/>
 </file>
-<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.cdt.ui.editor.CEditor" name="flash.h" tooltip="stwifitiki/src/base/flash.h">
-<persistable path="/stwifitiki/src/base/flash.h"/>
-</file>
-<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.cdt.ui.editor.CEditor" name="main.h" tooltip="stwifitiki/src/base/main.h">
-<persistable path="/stwifitiki/src/base/main.h"/>
-</file>
-<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.cdt.ui.editor.CEditor" name="normalMenu.c" tooltip="stwifitiki/src/base/normalMenu.c">
-<persistable path="/stwifitiki/src/base/normalMenu.c"/>
+<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.cdt.ui.editor.CEditor" name="accControl.c" tooltip="stwifitiki/src/base/accControl.c">
+<persistable path="/stwifitiki/src/base/accControl.c"/>
 </file>
 <file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.cdt.ui.editor.CEditor" name="can.c" tooltip="stwifitiki/src/base/can.c">
 <persistable path="/stwifitiki/src/base/can.c"/>
 </file>
-<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.cdt.ui.editor.CEditor" name="core.c" tooltip="stwifitiki/src/lcd/core.c">
-<persistable path="/stwifitiki/src/lcd/core.c"/>
+<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.cdt.ui.editor.CEditor" name="config.h" tooltip="stwifitiki/src/ili9341/config.h">
+<persistable path="/stwifitiki/src/ili9341/config.h"/>
 </file>
-<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.cdt.ui.editor.CEditor" name="opMenu.c" tooltip="stwifitiki/src/base/opMenu.c">
-<persistable path="/stwifitiki/src/base/opMenu.c"/>
+<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.cdt.ui.editor.CEditor" name="additionalFont.h" tooltip="stwifitiki/src/ili9341/fonts/additionalFont.h">
+<persistable path="/stwifitiki/src/ili9341/fonts/additionalFont.h"/>
 </file>
-<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.cdt.ui.editor.CEditor" name="iconc.c" tooltip="stwifitiki/src/lcd/iconc.c">
-<persistable path="/stwifitiki/src/lcd/iconc.c"/>
+<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.cdt.ui.editor.CEditor" name="bigFont.h" tooltip="stwifitiki/src/ili9341/fonts/bigFont.h">
+<persistable path="/stwifitiki/src/ili9341/fonts/bigFont.h"/>
 </file>
-<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.cdt.ui.editor.CEditor" name="icons.h" tooltip="stwifitiki/src/lcd/icons.h">
-<persistable path="/stwifitiki/src/lcd/icons.h"/>
+<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.cdt.ui.editor.CEditor" name="normalMenu.c" tooltip="stwifitiki/src/base/normalMenu.c">
+<persistable path="/stwifitiki/src/base/normalMenu.c"/>
 </file>
-<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.cdt.ui.editor.CEditor" name="graph.h" tooltip="stwifitiki/src/lcd/graph.h">
-<persistable path="/stwifitiki/src/lcd/graph.h"/>
+<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.cdt.ui.editor.CEditor" name="main.h" tooltip="stwifitiki/src/base/main.h">
+<persistable path="/stwifitiki/src/base/main.h"/>
 </file>
-<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.cdt.ui.editor.CEditor" name="graph.c" tooltip="stwifitiki/src/lcd/graph.c">
-<persistable path="/stwifitiki/src/lcd/graph.c"/>
+<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.cdt.ui.editor.CEditor" name="contiki-main.c" tooltip="stwifitiki/src/core/contiki-main.c">
+<persistable path="/stwifitiki/src/core/contiki-main.c"/>
 </file>
-<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.cdt.ui.editor.CEditor" name="can.h" tooltip="stwifitiki/src/base/can.h">
-<persistable path="/stwifitiki/src/base/can.h"/>
+<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.cdt.ui.editor.asm.AsmEditor" name="startup_stm32f0xx.s" tooltip="stwifitiki/cmsis_boot/startup/startup_stm32f0xx.s">
+<persistable path="/stwifitiki/cmsis_boot/startup/startup_stm32f0xx.s"/>
 </file>
-<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.cdt.ui.editor.CEditor" name="contiki-conf.h" tooltip="stwifitiki/src/contiki-conf.h">
-<persistable path="/stwifitiki/src/contiki-conf.h"/>
+<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.cdt.ui.editor.CEditor" name="debug-uart.h" tooltip="stwifitiki/src/debug/debug-uart.h">
+<persistable path="/stwifitiki/src/debug/debug-uart.h"/>
 </file>
-<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.cdt.ui.editor.CEditor" name="dma.c" tooltip="stwifitiki/src/lcd/dma.c">
-<persistable path="/stwifitiki/src/lcd/dma.c"/>
+<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.cdt.ui.editor.CEditor" name="bme280.h" tooltip="stwifitiki/src/bme280/bme280.h">
+<persistable path="/stwifitiki/src/bme280/bme280.h"/>
 </file>
-<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.cdt.ui.editor.CEditor" name="delay.h" tooltip="stwifitiki/src/lcd/delay.h">
-<persistable path="/stwifitiki/src/lcd/delay.h"/>
+<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.cdt.ui.editor.CEditor" name="main.c" tooltip="stwifitiki/src/base/main.c">
+<persistable path="/stwifitiki/src/base/main.c"/>
+</file>
+<file factoryID="org.eclipse.ui.ide.FileStoreEditorInputFactory" id="org.eclipse.cdt.ui.editor.CEditor" name="i2c.c" tooltip="E:\data\soft\baleno\can\sx based\examples\stm32-master\bme280\i2c.c">
+<persistable uri="file:/E:/data/soft/baleno/can/sx%20based/examples/stm32-master/bme280/i2c.c"/>
+</file>
+<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="org.eclipse.cdt.ui.editor.CEditor" name="flash.c" tooltip="stwifitiki/src/base/flash.c">
+<persistable path="/stwifitiki/src/base/flash.c"/>
 </file>
 </mruList>
 </workbench>

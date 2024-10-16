@@ -15,113 +15,111 @@ uint16_t packetNumber = 0;
 volatile CanPacket packets[MAX_PACKET];
 
 void CEC_IRQHandler(void){
-	//uint8_t debugMsg[500];
-uint16_t cId = CAN->sFIFOMailBox[0].RIR >> 21;
+uint16_t cId;
+while ((CAN->RF0R & CAN_RF0R_FMP0) != 0) {
 
-if (cId == STEERING_WHEEL_POS_ID){
-	murchik.steerPosition = (((CAN->sFIFOMailBox[0].RDLR & 0xff) << 8) +
-									((CAN->sFIFOMailBox[0].RDLR >> 8) & 0xff)) - 0x1000;//0x0ffd;//0x1000;
-	murchik.steerSpeed = ((CAN->sFIFOMailBox[0].RDLR >> 16) & 0xffff)-0x1000;
-	//process_post_synch(&steer_process, calc_data_event, 0);
-	process_post(&steer_process, calc_data_event, 0);
-//}else if (cId == STEER_TEST_ID){
-//	murchik.testData = ((CAN->sFIFOMailBox[0].RDLR) & 0xff) - 127;
+	cId = CAN->sFIFOMailBox[0].RIR >> 21;
 
-//	dbg_send_bytes(debugMsg,
-//					snprintf((char*)debugMsg, sizeof(debugMsg), "id=0x%x test=%d, from 0x%x \r\n",
-//							CAN->sFIFOMailBox[0].RIR >> 21,
-//							murchik.testData,
-//							CAN->sFIFOMailBox[0].RDLR
-//							));
-}else if (cId == LDW_STATE_ID){
-	murchik.ldwState = (((((CAN->sFIFOMailBox[0].RDHR) >> 0) & 0xff)));
-}else if (cId == ECO_BUT_ID){
-	murchik.isEcoMode = (((CAN->sFIFOMailBox[0].RDHR >> 8) & 0xff));
-}else if (cId == BSW_STATE_ID){
-	murchik.bswState = ((CAN->sFIFOMailBox[0].RDLR >> 0) & 0xff);
-	murchik.rctaState = ((CAN->sFIFOMailBox[0].RDHR >> 24) & 0xff);
-#ifndef USE_LCD
-}else if (cId == SPEED_ID){
-	murchik.speed = 10*(((CAN->sFIFOMailBox[0].RDLR & 0xff) << 8) + ((CAN->sFIFOMailBox[0].RDLR >> 8) & 0xff))/12;
-#else
-}else if (cId == SPEED_1_ID){
-	//C+D
-	murchik.speedFL = ((CAN->sFIFOMailBox[0].RDLR >> 8) & 0xff00) + ((CAN->sFIFOMailBox[0].RDLR >> 24) & 0xff);
-	//E+F
-	murchik.speedFR = ((CAN->sFIFOMailBox[0].RDHR & 0xff) << 8) + ((CAN->sFIFOMailBox[0].RDHR >> 8) & 0xff);
-	//G+H
-	murchik.speedRL = ((CAN->sFIFOMailBox[0].RDHR >> 8) & 0xff00) + ((CAN->sFIFOMailBox[0].RDHR >> 24) & 0xff);
-}else if (cId == SPEED_2_ID){
-	//E+F
-	murchik.speedRR = ((CAN->sFIFOMailBox[0].RDHR & 0xff) << 8) + ((CAN->sFIFOMailBox[0].RDHR >> 8) & 0xff);
-	//G+H
-	murchik.speed = ((CAN->sFIFOMailBox[0].RDHR >> 8) & 0xff00) + ((CAN->sFIFOMailBox[0].RDHR >> 24) & 0xff);
-	//murchik.speed = 10*(((CAN->sFIFOMailBox[0].RDLR & 0xff) << 8) + ((CAN->sFIFOMailBox[0].RDLR >> 8) & 0xff))/12;
-}else if (cId == ATTEMP_ID){
-	murchik.ATTemp = ((CAN->sFIFOMailBox[0].RDLR >> 16) & 0xff) - 50;
-}else if (cId == GEAR_ID){
-	murchik.gear = ((CAN->sFIFOMailBox[0].RDLR >> 16) & 0x0f);
-	murchik.isGLock = ((CAN->sFIFOMailBox[0].RDLR >> 30) & 0xff);
-}else if (cId == BRAKE_STATE_ID){
-	murchik.breaking = ((CAN->sFIFOMailBox[0].RDHR) & 0xff);
-	murchik.isBrake = ((CAN->sFIFOMailBox[0].RDHR) & 0xff);
-}else if (cId == BUTTON_STATE_ID){
-	murchik.steerButton = ((CAN->sFIFOMailBox[0].RDHR >> 16) & 0x40?1:0);
-}else if (cId == FUEL_FLOW_ID){
-	//murchik.fuel = (((CAN->sFIFOMailBox[0].RDLR >> 16) & 0xff00) + (CAN->sFIFOMailBox[0].RDHR & 0xff))/100;
-	murchik.fuel = (256*((CAN->sFIFOMailBox[0].RDHR >> 8) & 0xff) + ((CAN->sFIFOMailBox[0].RDHR >> 16) & 0xff))/5;
-	murchik.engTemp = ((CAN->sFIFOMailBox[0].RDLR >> 0) & 0xff) - 40;
-}else if (cId == ACCEL_PEDAL_ID){
-	murchik.accel = 100*((CAN->sFIFOMailBox[0].RDLR >> 16) & 0xff)/255;
-}else if (cId == LIGHT_STATE_ID){
-	murchik.lightState = ((CAN->sFIFOMailBox[0].RDHR >> 16) & 0x07);
-}else if (cId == TEST_AHB2_ID){
-	murchik.ahbTest1 = ((CAN->sFIFOMailBox[0].RDLR));
-	murchik.ahbTest2 = ((CAN->sFIFOMailBox[0].RDHR));
-}else if (cId == LONG_CONTROL_ID){
-	murchik.accAccel2 = (((CAN->sFIFOMailBox[0].RDHR & 0x0f) << 8) + ((CAN->sFIFOMailBox[0].RDHR >> 8) & 0xff));
-	murchik.accAccel = (((CAN->sFIFOMailBox[0].RDLR & 0x0f) >> 8) + ((CAN->sFIFOMailBox[0].RDLR >> 24) & 0xff));
-	murchik.accActive = CAN->sFIFOMailBox[0].RDLR & 0x03;
-}else if (cId == ACC_STATE_ID){
-	murchik.accDistance =	(CAN->sFIFOMailBox[0].RDLR>>2) & 0x03;
-	//SG_ SET_SPEED : 8|7@1+ (1,20) [0|200] "kph" XXX
-	murchik.accSpeed = ((CAN->sFIFOMailBox[0].RDLR >> 8) & 0x7f) + 20;
+	if (cId == STEERING_WHEEL_POS_ID){
+		murchik.steerPosition = (((CAN->sFIFOMailBox[0].RDLR & 0xff) << 8) +
+										((CAN->sFIFOMailBox[0].RDLR >> 8) & 0xff)) - 0x1000;//0x0ffd;//0x1000;
+		murchik.steerSpeed = ((CAN->sFIFOMailBox[0].RDLR >> 16) & 0xffff)-0x1000;
+		//process_post_synch(&steer_process, calc_data_event, 0);
+		DBG2_ON;
+		//process_post(&steer_process, calc_data_event, 0);
+		murchik.flags |= runMomentCalcFlag;
+		//TIM16->CNT = 0;
+		DBG2_OFF;
+	}else if (cId == LDW_STATE_ID){
+		murchik.ldwState = (((((CAN->sFIFOMailBox[0].RDHR) >> 0) & 0xff)));
+	}else if (cId == ECO_BUT_ID){
+		murchik.isEcoMode = (((CAN->sFIFOMailBox[0].RDHR >> 8) & 0xff));
+	}else if (cId == BSW_STATE_ID){
+		murchik.bswState = ((CAN->sFIFOMailBox[0].RDLR >> 0) & 0xff);
+		murchik.rctaState = ((CAN->sFIFOMailBox[0].RDHR >> 24) & 0xff);
+//#ifndef USE_LCD
+	}else if (cId == SPEED_ID){
+		murchik.speed = 10*(((CAN->sFIFOMailBox[0].RDLR & 0xff) << 8) + ((CAN->sFIFOMailBox[0].RDLR >> 8) & 0xff))/12;
+//#else
+	}else if (cId == SPEED_1_ID){
+		//C+D
+		murchik.speedFL = ((CAN->sFIFOMailBox[0].RDLR >> 8) & 0xff00) + ((CAN->sFIFOMailBox[0].RDLR >> 24) & 0xff);
+		//E+F
+		murchik.speedFR = ((CAN->sFIFOMailBox[0].RDHR & 0xff) << 8) + ((CAN->sFIFOMailBox[0].RDHR >> 8) & 0xff);
+		//G+H
+		murchik.speedRL = ((CAN->sFIFOMailBox[0].RDHR >> 8) & 0xff00) + ((CAN->sFIFOMailBox[0].RDHR >> 24) & 0xff);
+	}else if (cId == SPEED_2_ID){
+		//E+F
+		murchik.speedRR = ((CAN->sFIFOMailBox[0].RDHR & 0xff) << 8) + ((CAN->sFIFOMailBox[0].RDHR >> 8) & 0xff);
+		//G+H
+//		murchik.speed = ((CAN->sFIFOMailBox[0].RDHR >> 8) & 0xff00) + ((CAN->sFIFOMailBox[0].RDHR >> 24) & 0xff);
+		//murchik.speed = 10*(((CAN->sFIFOMailBox[0].RDLR & 0xff) << 8) + ((CAN->sFIFOMailBox[0].RDLR >> 8) & 0xff))/12;
+	}else if (cId == ATTEMP_ID){
+		murchik.ATTemp = ((CAN->sFIFOMailBox[0].RDLR >> 16) & 0xff) - 50;
+	}else if (cId == GEAR_ID){
+		murchik.gear = ((CAN->sFIFOMailBox[0].RDLR >> 16) & 0x0f);
+		murchik.isGLock = ((CAN->sFIFOMailBox[0].RDLR >> 30) & 0xff);
+	}else if (cId == BRAKE_STATE_ID){
+		murchik.breaking = ((CAN->sFIFOMailBox[0].RDHR) & 0xff);
+		murchik.isBrake = ((CAN->sFIFOMailBox[0].RDHR) & 0xff);
+	}else if (cId == BUTTON_STATE_ID){
+		murchik.steerButton = ((CAN->sFIFOMailBox[0].RDHR >> 16) & 0x40?1:0);
+	}else if (cId == FUEL_FLOW_ID){
+		//murchik.fuel = (((CAN->sFIFOMailBox[0].RDLR >> 16) & 0xff00) + (CAN->sFIFOMailBox[0].RDHR & 0xff))/100;
+		murchik.fuel = (256*((CAN->sFIFOMailBox[0].RDHR >> 8) & 0xff) + ((CAN->sFIFOMailBox[0].RDHR >> 16) & 0xff))/5;
+		murchik.engTemp = ((CAN->sFIFOMailBox[0].RDLR >> 0) & 0xff) - 40;
+	}else if (cId == ACCEL_PEDAL_ID){
+		murchik.accel = 100*((CAN->sFIFOMailBox[0].RDLR >> 16) & 0xff)/255;
+	}else if (cId == LIGHT_STATE_ID){
+		murchik.lightState = ((CAN->sFIFOMailBox[0].RDHR >> 16) & 0x07);
+	}else if (cId == TEST_AHB2_ID){
+		murchik.ahbTest1 = ((CAN->sFIFOMailBox[0].RDLR));
+		murchik.ahbTest2 = ((CAN->sFIFOMailBox[0].RDHR));
+	}else if (cId == LONG_CONTROL_ID){
+		murchik.accAccel2 = (((CAN->sFIFOMailBox[0].RDHR & 0x0f) << 8) + ((CAN->sFIFOMailBox[0].RDHR >> 8) & 0xff));
+		murchik.accAccel = (((CAN->sFIFOMailBox[0].RDLR & 0x0f) >> 8) + ((CAN->sFIFOMailBox[0].RDLR >> 24) & 0xff));
+		murchik.accActive = CAN->sFIFOMailBox[0].RDLR & 0x03;
+	}else if (cId == ACC_STATE_ID){
+		murchik.accDistance =	(CAN->sFIFOMailBox[0].RDLR>>2) & 0x03;
+		//SG_ SET_SPEED : 8|7@1+ (1,20) [0|200] "kph" XXX
+		murchik.accSpeed = ((CAN->sFIFOMailBox[0].RDLR >> 8) & 0x7f) + 20;
 
-	//murchik.accActive = (CAN->sFIFOMailBox[0].RDLR >> 4) & 0x01;
+		//murchik.accActive = (CAN->sFIFOMailBox[0].RDLR >> 4) & 0x01;
 
-//	murchik.accTest1 = (CAN->sFIFOMailBox[0].RDLR) & 0xff;
-//	murchik.accTest2 = (CAN->sFIFOMailBox[0].RDLR >> 8) & 0xff;
-//	murchik.accTest3 = (CAN->sFIFOMailBox[0].RDLR >> 16) & 0xff;
-//	murchik.accTest4 = (CAN->sFIFOMailBox[0].RDLR >> 24) & 0xff;
-//	murchik.accTest5 = (CAN->sFIFOMailBox[0].RDHR >> 0) & 0xff;
-#endif
-}else if (cId == STEER_CONTROL_ID){
-	murchik.opActiveTimer = OP_ACTIVE_TIMEOUT;
-	murchik.steerTargetAngle = ((CAN->sFIFOMailBox[0].RDLR >> 16) & 0x7ff) - 1024;
-	murchik.steerMoment = ((CAN->sFIFOMailBox[0].RDLR) & 0x7ff) - 1024;
+	//	murchik.accTest1 = (CAN->sFIFOMailBox[0].RDLR) & 0xff;
+	//	murchik.accTest2 = (CAN->sFIFOMailBox[0].RDLR >> 8) & 0xff;
+	//	murchik.accTest3 = (CAN->sFIFOMailBox[0].RDLR >> 16) & 0xff;
+	//	murchik.accTest4 = (CAN->sFIFOMailBox[0].RDLR >> 24) & 0xff;
+	//	murchik.accTest5 = (CAN->sFIFOMailBox[0].RDHR >> 0) & 0xff;
+//#endif
+	}else if (cId == STEER_CONTROL_ID){
+		murchik.opActiveTimer = OP_ACTIVE_TIMEOUT;
+		murchik.steerTargetAngle = ((CAN->sFIFOMailBox[0].RDLR >> 16) & 0x7ff) - 1024;
+		murchik.steerMoment = ((CAN->sFIFOMailBox[0].RDLR) & 0x7ff) - 1024;
 
-	murchik.opData = ((CAN->sFIFOMailBox[0].RDLR >> 11) & 0x1f);
-	murchik.accTest1 = ((CAN->sFIFOMailBox[0].RDHR) & 0xff);
-	murchik.accTest2 = ((CAN->sFIFOMailBox[0].RDHR >> 8) & 0xff);
-#if (CONTROL_MODE == MOMENT_CONTROL)
-	murchik.steerTargetMoment = ((CAN->sFIFOMailBox[0].RDLR) & 0x7ff) - 1024;
-#endif
+		murchik.opData = ((CAN->sFIFOMailBox[0].RDLR >> 11) & 0x1f);
+		murchik.accTest1 = ((CAN->sFIFOMailBox[0].RDHR) & 0xff);
+		murchik.accTest2 = ((CAN->sFIFOMailBox[0].RDHR >> 8) & 0xff);
+	#if (CONTROL_MODE == MOMENT_CONTROL)
+		murchik.steerTargetMoment = ((CAN->sFIFOMailBox[0].RDLR) & 0x7ff) - 1024;
+	#endif
 
 
-}else if ((cId == TPMS_ANSWER_ID)){
-		if ((CAN->sFIFOMailBox[0].RDLR & 0x30) == 0x10){
-			sendConfirm(TPMS_REQ_ID);
-		}
+	}else if ((cId == TPMS_ANSWER_ID)){
+			if ((CAN->sFIFOMailBox[0].RDLR & 0x30) == 0x10){
+				sendConfirm(TPMS_REQ_ID);
+			}
 
-		packets[packetNumber].id = cId;
-		packets[packetNumber].len = CAN->sFIFOMailBox[0].RDTR;
-		packets[packetNumber].data.d[0] = CAN->sFIFOMailBox[0].RDLR;
-		packets[packetNumber].data.d[1] = CAN->sFIFOMailBox[0].RDHR;
-		packetNumber++;
-		packetNumber %= MAX_PACKET;
+			packets[packetNumber].id = cId;
+			packets[packetNumber].len = CAN->sFIFOMailBox[0].RDTR;
+			packets[packetNumber].data.d[0] = CAN->sFIFOMailBox[0].RDLR;
+			packets[packetNumber].data.d[1] = CAN->sFIFOMailBox[0].RDHR;
+			packetNumber++;
+			packetNumber %= MAX_PACKET;
+	}
+
+	CAN->RF0R |= CAN_RF0R_RFOM0; /* release FIFO */
 }
-
-CAN->RF0R |= CAN_RF0R_RFOM0; /* release FIFO */
 }
 
 void initCanBus(void){
@@ -188,10 +186,10 @@ void initCanBus(void){
 
 	CAN->sFilterRegister[0].FR1 = STEERING_WHEEL_POS_ID << 5 | 0x7ff << 21; /* (9) */
 	CAN->sFilterRegister[1].FR1 = SPEED_1_ID << 5 | 0x7ff << 21; /* (9) */
-	//CAN->sFilterRegister[2].FR1 = SPEED_2_ID << 5 | 0x7ff << 21; /* (9) */
-	CAN->sFilterRegister[2].FR1 = SPEED_ID << 5 | 0x7ff << 21; /* (9) */
+	CAN->sFilterRegister[2].FR1 = SPEED_2_ID << 5 | 0x7ff << 21; /* (9) */
+	//CAN->sFilterRegister[2].FR1 = SPEED_ID << 5 | 0x7ff << 21; /* (9) */
 	CAN->sFilterRegister[3].FR1 = ATTEMP_ID << 5 | 0x7ff << 21; /* (9) */
-	CAN->sFilterRegister[4].FR1 = GEAR_ID << 5 | 0x7ff << 21; /* (9) */
+	CAN->sFilterRegister[4].FR1 = GEAR_ID << 5 | 0x7f0 << 21; /* (9) */  //0x7f0 for SPEED_ID
 	CAN->sFilterRegister[5].FR1 = LDW_STATE_ID << 5 | 0x7ff << 21; /* (9) */
 	CAN->sFilterRegister[6].FR1 = FUEL_FLOW_ID << 5 | 0x7ff << 21; /* (9) */
 	CAN->sFilterRegister[7].FR1 = STEER_CONTROL_ID << 5 | 0x7f0 << 21;
@@ -244,11 +242,9 @@ uint8_t sendPacket(uint16_t pid, uint32_t data0, uint32_t data1){
 							  | CAN_TI0R_TXRQ); /* (4) */
 
 		//DEBUG_MSG(2,("send OK CAN status 0x%x", CAN->ESR))
-		//CAN->TSR |= CAN_TSR_TME0;
 		return 1;
 	}else{
-		//DEBUG_MSG(2,(COL_BLUE"CAN status 0x%x"COL_END, CAN->ESR))
-		//CAN->TSR |= CAN_TSR_TME0;
+		DEBUG_MSG(2,(COL_BLUE"CAN status 0x%x"COL_END, CAN->ESR))
 	}
 	return 0;
 }
@@ -392,281 +388,6 @@ for (i=0;i<4;i++){
 		curPid = 0;
 	}
 }
-
-
-uint8_t processCanPackets(Car * murchik){
-
-static uint16_t i;
-//static uint8_t j;
-char debugMsg[1000];
-//char* writePointer = debugMsg;
-
-	NVIC_DisableIRQ(CEC_IRQn);
-
-#if (MODE == 0)
-
-		dbg_send_bytes((const unsigned char*)"\033[2J:",5);
-		//up
-		dbg_send_bytes((const unsigned char*)"\033[20A",6);
-		//left
-		dbg_send_bytes((const unsigned char*)"\033[100D",6);
-
-
-#define PID_NUM 256
-PidData pidData[PID_NUM];
-uint16_t curPid = 0, index;//, pidNumder;
-uint16_t savePacketNumber = packetNumber;
-
-
-//process new pid data
-	memset(pidData, 0, sizeof(pidData));
-	//memset(&murchik->ldwData, 0, sizeof(LDWData));
-
-//	if (packetNumber)
-//		STATUS_LOAD_ON_PHY;
-
-	DEBUG_MSG(BDL,("Got new %d packets",packetNumber))
-	//STATUS_LOAD_OFF_PHY;
-	i=0;
-	while (i<packetNumber){
-		DEBUG_MSG(BDL,( "id=0x%x %x-%x-%x-%x-%x-%x-%x-%x \r\n",
-									packets[i].id,
-									(packets[i].data.t[0]) & 0xff,
-									(packets[i].data.t[1]) & 0xff,
-									(packets[i].data.t[2]) & 0xff,
-									(packets[i].data.t[3]) & 0xff,
-									(packets[i].data.t[4]) & 0xff,
-									(packets[i].data.t[5]) & 0xff,
-									(packets[i].data.t[6]) & 0xff,
-									(packets[i].data.t[7]) & 0xff))
-
-//		DEBUG_MSG(BDL,("Start %d %d len %d/%d pid %d",
-//				i, packets[i].data.t[0], packets[i].data.t[0], packets[i].data.t[1], packets[i].id ))
-
-			if ((packets[i].id == TPMS_REQ_ID) &&
-				(packets[i].data.t[0] == 2) && //len ==2
-				(packets[i].data.t[1] == 0x21)){ //first byte of PID
-
-			curPid = packets[i].data.t[2];
-
-//			DEBUG_MSG(BDL,("Set new PID %d", curPid))
-					if (pidData[curPid].len > 0)
-						curPid = 0;
-
-			if (pidData[curPid].len != pidData[curPid].lenWrited)
-				pidData[curPid].len = 0;
-			i++;
-			continue;
-		}
-
-		if (packets[i].id == TPMS_ANSWER_ID){
-//					DEBUG_MSG(BDL,("Start switch  %d len %d/%d pid %d",
-//							packets[i].data.t[0] >> 4, pidData[curPid].len, pidData[curPid].lenWrited, curPid))
-			if ((pidData[curPid].len != pidData[curPid].lenWrited) || (pidData[curPid].len == 0)){
-				switch (packets[i].data.t[0] >> 4){
-					case 0:
-						DEBUG_MSG(BDL,("case 0 pid %d data %d", curPid, packets[i].data.t[0]))
-						pidData[curPid].len = packets[i].data.t[0] & 0x3f;
-						memcpy(pidData[curPid].data, (char*)&packets[i].data.t[1], pidData[curPid].len);
-						pidData[curPid].lenWrited = pidData[curPid].len;
-						//curPid = 0;
-						break;
-					case 1:
-						DEBUG_MSG(BDL,("case 1 pid %d, data %d, len %d", curPid,
-								packets[i].data.t[0],
-								packets[i].data.t[1]))
-						pidData[curPid].len = packets[i].data.t[1];
-						pidData[curPid].lenWrited = 0;
-						if (pidData[curPid].len >= 6+7){
-							memcpy(pidData[curPid].data, (char*)&packets[i].data.t[2], 6);
-							pidData[curPid].lenWrited += 6;
-							//sendConfirm();
-						}else{
-							memcpy(pidData[curPid].data, (char*)&packets[i].data.t[2], pidData[curPid].len);
-							pidData[curPid].lenWrited += pidData[curPid].len;
-							//curPid = 0;
-						}
-						break;
-					case 2:
-//						DEBUG_MSG(BDL,("case 2 pid %d data %x len %d",
-//								curPid, packets[i].data.t[0], pidData[curPid].len))
-						index = packets[i].data.t[0] & 0x0f;
-						if ((index == 0) || (index > (MAX_PID_DATA_LEN - 6)/7))
-							break;
-						if (pidData[curPid].len > 0){
-							if ((pidData[curPid].len > 6+7*index)){
-								memcpy(&pidData[curPid].data[6+7*(index-1)], (char*)&packets[i].data.t[1], 7);
-								pidData[curPid].lenWrited += 7;
-							}else{
-								memcpy(&pidData[curPid].data[6+7*(index-1)], (char*)&packets[i].data.t[1],
-											pidData[curPid].len - (6+7*(index - 1)));
-								pidData[curPid].lenWrited += pidData[curPid].len - (6+7*(index - 1));
-								//curPid = 0;
-							}
-						}
-						break;
-					case 3:
-						DEBUG_MSG(BDL,("case 3 pid %d data %d", curPid, packets[i].data.t[0]))
-						break;
-				}
-			}
-		}
-		if (curPid == TPMS_FL_REQ){
-			DEBUG_MSG(BDL,("find FL data pid %d data %d", curPid, packets[i].data.t[0]))
-//			murchik->ldwData.right = (pidData[curPid].data[2]-0x80);
-//			murchik->ldwData.left[(++murchik->ldwData.leftIndex)%LDW_LEFT_LEN] =  (pidData[curPid].data[3]-0x80);
-//			murchik->ldwData.width = 2*pidData[curPid].data[4];
-//			murchik->ldwData.isLeft = (pidData[curPid].data[5] & 0x02)?1:0;
-//			murchik->ldwData.isRight = (pidData[curPid].data[5] & 0x01)?1:0;
-		}
-//uint16_t temp;
-
-//		if ((curPid == LDW_REQ_PID) && (pidData[curPid].lenWrited == pidData[curPid].len)){
-//			temp = 256*(pidData[curPid].data[10] & 0x07) +
-//					pidData[curPid].data[11];
-//			if (temp)
-//				murchik->fcmData.numTarget = temp;
-//			temp = 256*(pidData[curPid].data[15] & 0x07) +
-//					pidData[curPid].data[16];
-//			if (temp)
-//				murchik->fcmData.relSpeed = temp;
-////			murchik->fcmData.relDist =  (256*(pidData[curPid].data[23] & 0x07) +
-////					pidData[curPid].data[24])/10;
-//			murchik->fcmData.relDist = pidData[curPid].data[20];
-//			murchik->fcmData.laterOffset = (int8_t)pidData[curPid].data[20];
-//			murchik->fcmData.curveRadius = pidData[curPid].data[10];
-//		}
-		i++;
-	}
-
-	//if (j == 0)
-//show new pid data
-	for (index = 1; index < PID_NUM; index ++){
-		if ((pidData[index].len == 0) || (pidData[index].data[0] == 0x7f))
-			continue;
-		dbg_send_bytes((uint8_t *)debugMsg,
-				snprintf((char*)debugMsg, sizeof(debugMsg),
-						"pid=0x%x len=%02d/%02d \t\t "
-						"%02x %02x %02x %02x | %02x %02x %02x %02x ||"
-						"%02x %02x %02x %02x ||| %02x %02x %02x %02x \r\n"
-						"%02x %02x %02x %02x | %02x %02x %02x %02x ||"
-						"%02x %02x %02x %02x ||| %02x %02x %02x %02x "
-						"\r\n",
-						index,
-						pidData[index].lenWrited, pidData[index].len,
-						pidData[index].data[0], pidData[index].data[1], pidData[index].data[2], pidData[index].data[3],
-						pidData[index].data[4], pidData[index].data[5], pidData[index].data[6], pidData[index].data[7],
-                        pidData[index].data[8], pidData[index].data[9], pidData[index].data[10], pidData[index].data[11],
-						pidData[index].data[12], pidData[index].data[13], pidData[index].data[14], pidData[index].data[15],
-						pidData[index].data[16], pidData[index].data[17], pidData[index].data[18], pidData[index].data[19],
-						pidData[index].data[20], pidData[index].data[21], pidData[index].data[22], pidData[index].data[23],
-						pidData[index].data[24], pidData[index].data[25], pidData[index].data[26], pidData[index].data[27],
-						pidData[index].data[28], pidData[index].data[29], pidData[index].data[30], pidData[index].data[31]
-						   )
-		);
-		curPid = 0;
-		pidData[curPid].len = 0;
-	}
-
-#elif (MODE == 1)
-	//	j++;
-	//	j%=usingPidsSize;
-	//if (j == 0){
-		dbg_send_bytes((const unsigned char*)"\033[2J:",5);
-		//up
-		dbg_send_bytes((const unsigned char*)"\033[20A",6);
-		//left
-		dbg_send_bytes((const unsigned char*)"\033[100D",6);
-	//}
-	DEBUG_MSG(BDL,("Got new %d id's",lastId));
-		for (i=0;i<lastId;i++){
-			if ((i % 4) == 0){
-				dbg_send_bytes("\r\n", 4);
-				//left
-				dbg_send_bytes("\033[500D", 6);
-			}
-//			if (idArr[i].isUpdate == 0xff)
-//				dbg_send_bytes(COL_YELLOW,7);
-			if (idArr[i].isUpdate)
-				dbg_send_bytes(COL_RED,7);
-			dbg_send_bytes(debugMsg,
-					snprintf(debugMsg, sizeof(debugMsg), "0x%03x/%x/%x=%02x-%02x-%02x-%02x-%02x-%02x-%02x-%02x \t",
-							idArr[i].id, idArr[i].len, idArr[i].isUpdate,
-								idArr[i].data[0], idArr[i].data[1], idArr[i].data[2], idArr[i].data[3],
-								idArr[i].data[4], idArr[i].data[5], idArr[i].data[6], idArr[i].data[7])
-			);
-
-
-//	writePointer +=	snprintf(writePointer, sizeof(debugMsg), "0x%03x/%x/%x=%02x-%02x-%02x-%02x-%02x-%02x-%02x-%02x | ",
-//							idArr[i].id, idArr[i].len, idArr[i].isUpdate,
-//								idArr[i].data[0], idArr[i].data[1], idArr[i].data[2], idArr[i].data[3],
-//								idArr[i].data[4], idArr[i].data[5], idArr[i].data[6], idArr[i].data[7]
-//			);
-			dbg_send_bytes(COL_END,4);
-			idArr[i].isUpdate = 0;
-		}
-		dbg_send_bytes(debugMsg,writePointer - debugMsg);
-		dbg_send_bytes("\r\n", 4);
-#elif (MODE == 2)
-#endif
-	NVIC_EnableIRQ(CEC_IRQn);
-
-//if (getKeys()){
-
-#if (MODE == 0)
-	/* (1) check mailbox 0 is empty */
-	/* (2) fill data length = 1 */
-	/* (3) fill 8-bit data */
-	/* (4) fill Id field and request a transmission */
-//	if ((CAN->TSR & CAN_TSR_TME0) == CAN_TSR_TME0){ /* (1) */
-//		CAN->sTxMailBox[0].TDTR = 8; /* (2) */
-//		//CAN->sTxMailBox[0].TDLR = 2 | 0x1A<<8 | 0x90<<16; /* (3) */
-//		CAN->sTxMailBox[0].TDLR = 2 | 0x21<<8 | LDW_REQ_PID<<16; /* (3) */
-//		//CAN->sTxMailBox[0].TDLR = 2 | 0x21<<8 | j<<16; /* (3) */
-//		//CAN->sTxMailBox[0].TDLR = 2 | 0x21<<8 | usingPids[j]<<16;
-//		CAN->sTxMailBox[0].TDHR = 0;
-//		CAN->sTxMailBox[0].TIR = (uint32_t)(LDW_REQ_ID << 21
-//							  | CAN_TI0R_TXRQ); /* (4) */
-//
-		packetNumber = 0;
-
-
-//		//make manual loopback
-//		packets[packetNumber].id = LDW_REQ_ID;
-//		packets[packetNumber].len = 8;
-//		packets[packetNumber].data.d[0] = CAN->sTxMailBox[0].TDLR;
-//		packets[packetNumber].data.d[1] = 0;
-//		packetNumber++;
-//	}
-	//STATUS_LINK_OFF_PHY;
-
-	if (savePacketNumber){
-//		for (i=0;i<savePacketNumber;i++)
-//			//if (packets[i].id == LDW_STATE_ID)
-//			  DEBUG_MSG(BDL,("%db 0x%x %x %x %x %x %x %x %x %x",
-//					  packets[i].len, packets[i].id,
-//					  packets[i].data.t[0], packets[i].data.t[1],
-//					  packets[i].data.t[2], packets[i].data.t[3],
-//					  packets[i].data.t[4], packets[i].data.t[5],
-//					  packets[i].data.t[6], packets[i].data.t[7]
-//			  ))
-
-		return 1;
-	}else
-		return 0;
-#else
-//	for (i=0;i<packetNumber;i++)
-//		  DEBUG_MSG(BDL,("%db \t 0x%x %x %x %x %x %x %x %x %x", steer_process
-//				  packets[i].len, packets[i].id,
-//				  packets[i].data.t[0], packets[i].data.t[1],
-//				  packets[i].data.t[2], packets[i].data.t[3],
-//				  packets[i].data.t[4], packets[i].data.t[5],
-//				  packets[i].data.t[6], packets[i].data.t[7]
-//		  ))
-      packetNumber = 0;
-#endif
-}
-
 
 uint16_t getPacketNumber(volatile CanPacket ** pPackets){
 	*pPackets = (CanPacket *)&packets;

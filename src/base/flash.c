@@ -20,7 +20,7 @@ const Koefs* flashKoefsCopy =	(Koefs*)(FLASH_BASE+PAGE_SIZE*(MAX_PAGE_NUMBER-1))
 
 int16_t correctKoefsCopy=PAGE_SIZE/sizeof(Koefs)-1; //start from end
 
-uint32_t getKoefsCRC(Koefs* src){
+uint32_t getKoefsCRC(volatile Koefs* src){
 uint8_t length = sizeof(Koefs)/4 - 1; //excluding crc
 uint32_t* srcDW = (uint32_t*) src;
 
@@ -40,7 +40,7 @@ RCC->AHBENR |= RCC_AHBENR_CRCEN;
 		return CRC->DR;
 }
 
-void setKoefsDefault(Koefs * koefs){
+void setKoefsDefault(volatile Koefs * koefs){
 	koefs->steerRatio = 43;
 	koefs->steerActuatorDelay = 210;
 }
@@ -115,7 +115,7 @@ void erasePage(void* addr)
 
 
 //save koefs in eeprom
-void setKoefs(Koefs * koefs){
+void setKoefs(volatile Koefs * koefs){
 
 koefs->crc = getKoefsCRC(koefs);
 
@@ -133,7 +133,7 @@ koefs->crc = getKoefsCRC(koefs);
 }
 
 //get koefs from eeprom
-uint8_t getKoefs(Koefs * koefs){
+uint8_t getKoefs(volatile Koefs * koefs){
 
 uint16_t i;
 uint16_t* SrcW = (uint16_t*)flashKoefs;

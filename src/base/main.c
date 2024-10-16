@@ -27,41 +27,41 @@
 /*---------------------------------------------------------------------------*/
 PROCESS(menu_process, "Menu process");
 
-Car murchik = {};
+volatile Car murchik = {};
 
 static uint8_t isNeedSetKoefs;
 
 /* We require the processes to be started automatically */
 AUTOSTART_PROCESSES(
 		&menu_process
-		,&steer_process
+		//,&steer_process
 );
 
-uint8_t* getKeyName(uint8_t key){
-	static uint8_t name[16];
+char* getKeyName(uint8_t key){
 	switch(key){
-	case noKey:
-		return "noKey";
-	case lkasOnKey:
-		return "lkasKey";
-	case cancelKey:
-		return "cancelKey";
-	case accOnKey:
-		return "accOnKey";
-	case upKey:
-		return "upKey";
-	case downKey:
-		return "downKey";
-	case mishkaKey:
-		return "mishkaKey";
-
+		default:
+		case noKey:
+			return "noKey";
+		case lkasOnKey:
+			return "lkasKey";
+		case cancelKey:
+			return "cancelKey";
+		case accOnKey:
+			return "accOnKey";
+		case upKey:
+			return "upKey";
+		case downKey:
+			return "downKey";
+		case mishkaKey:
+			return "mishkaKey";
 	}
+	return 0;
 }
 
 /* Implementation of the display process */
 PROCESS_THREAD(menu_process, ev, data) {
 
-static struct etimer timer;
+//static struct etimer timer;
 
 static uint32_t statusCnt;
 static uint8_t onState, res;
@@ -69,11 +69,11 @@ static uint8_t oldSteerKey;
 	   uint8_t steerKey;
 static uint16_t bntPressCnt;
 
+static uint32_t px;
+#ifdef USE_LCD
 static uint16_t i;
 //uint8_t debugMsg[500];
-static uint32_t px;
 
-#ifdef USE_LCD
 static uint8_t oldShowState = 0xff;
 //uint8_t buf[200];
 #endif
@@ -89,10 +89,15 @@ static uint8_t oldShowState = 0xff;
 
 		DEBUG_MSG(BDL,("Start menu process"));
 
+		//init debug pin
+		DBG_INIT;
+
 		//init Ds control
 		RCC->AHBENR |= RCC_AHBENR_GPIOAEN;
 		DS_INIT;
 		BUT_SETUP;
+
+		startSteerControl();
 
 #ifdef USE_LCD
 		LCD_init();
@@ -108,12 +113,12 @@ static uint8_t oldShowState = 0xff;
 
 		IWDG->KR = 0xAAAA; //reset
 		IWDG->KR = 0x5555; //enable access
-		IWDG->RLR = 0x08ff; //set reload register to max
+		IWDG->RLR = 0x0fff; //set reload register to max
 		IWDG->PR = 0x00;//0x07;// set divider
 		IWDG->KR = 0xCCCC; //enable
 
 		while (1) {
-			etimer_set(&timer, CLOCK_SECOND/10);
+			//etimer_set(&timer, CLOCK_SECOND/10);
 
 			//reset IWDG
 			IWDG->KR = 0xAAAA;
@@ -130,7 +135,7 @@ static uint8_t oldShowState = 0xff;
 						murchik.accControlAdc, getKeyName(getAccKey()), murchik.steerSensor1, murchik.steerSensor2,
 						FS_RELAY_STATE, IS_BUT_PRESS, murchik.steerPosition,
 						DAC->DHR12R1, DAC->DHR12R2, murchik.steerTargetMoment, murchik.currentState,
-						murchik.koefs.steerRatio, murchik.koefs.steerActuatorDelay, murchik.speedFL, murchik.opData & opActive,
+						murchik.koefs.steerRatio*5, murchik.koefs.steerActuatorDelay, murchik.speedFL, murchik.opData & opActive,
 						bntPressCnt, murchik.showState));
 			}
 			setAccCtlLevel(9999);
@@ -160,7 +165,7 @@ static uint8_t oldShowState = 0xff;
 			else
 				res = sendPacket(STEER_TEST_ID, 0x0000, (murchik.koefs.steerRatio*5) | ((murchik.koefs.steerActuatorDelay) << 8));
 
-			if (res > 3)
+			if (res == 0)
 				RED_TOGLE;
 			else{
 				if ((FS_RELAY_STATE) && (murchik.currentState != controlState))
@@ -245,6 +250,9 @@ static uint8_t oldShowState = 0xff;
 					showOPMenu(murchik.showState);
 					break;
 			}
+
+//			if ((px % 1000) == 999)
+//				LCD_init();
 #endif
 
 			if (isNeedSetKoefs){
@@ -258,8 +266,9 @@ static uint8_t oldShowState = 0xff;
 			if (murchik.koefs.steerActuatorDelay == 0)
 				murchik.koefs.steerActuatorDelay = 210;
 
-#if (0) //send TPMS Request
 			px++;
+#if (1) //send TPMS Request
+
 #define TPMS_REQ_DELAY	100
 			switch (px % TPMS_REQ_DELAY){
 				case 1:
@@ -340,7 +349,7 @@ static uint8_t oldShowState = 0xff;
 			}
 #endif
 			// and wait until the vent we receive is the one we're waiting for
-			PROCESS_YIELD();
+			//PROCESS_YIELD();
 		}
 		PROCESS_END();
 }

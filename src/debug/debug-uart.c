@@ -73,7 +73,7 @@ void initDebug(void){
 		GPIOB->AFR[1] 	|= 0x400;
 
 	NVIC_EnableIRQ(DMA1_Channel4_5_IRQn);
-	NVIC_SetPriority(DMA1_Channel4_5_IRQn, 11);
+	NVIC_SetPriority(DMA1_Channel4_5_IRQn, 12);
 }
 
 int

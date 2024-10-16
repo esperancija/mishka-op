@@ -21,9 +21,9 @@ void erasePage(void* addr);
 void writeFlash(void* Src, void* Dst, int Len);
 
 //write koefs structure into flash memory with time stamp
-void setKoefs(Koefs * koefs);
+void setKoefs(volatile Koefs * koefs);
 //read koefs structure from flash memory
-uint8_t getKoefs(Koefs * koefs);
+uint8_t getKoefs(volatile Koefs * koefs);
 
 
 #endif /* FLASH_H_ */

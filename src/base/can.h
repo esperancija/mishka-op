@@ -72,7 +72,6 @@ typedef struct{
 }PidData;
 
 void initCanBus(void);
-uint8_t processCanPackets(Car * murchik);
 uint8_t sendPacket(uint16_t pid, uint32_t data0, uint32_t data1);
 uint16_t getPacketNumber(volatile CanPacket ** pPackets);
 void setPacketNumber(uint16_t p);
